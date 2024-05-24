@@ -36,7 +36,7 @@ message: "If you use this software, please cite it using these metadata."
 repository-code: "https://github.com/Imageomics/kabr-tools"
 title: "KABR Tools"
 version: 1.0.0
-doi: # Add DOI from Zenodo on release
+doi: 10.5281/zenodo.11288084
 type: software
 preferred-citation:
   type: conference-paper
