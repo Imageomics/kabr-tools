@@ -1,0 +1,88 @@
+abstract: "Tools for working with data for annotating animal behavior. These were specifically designed during construction of the KABR dataset."
+authors:
+- family-names: Kholiavchenko 
+  given-names: Maksim
+  orcid: "https://orcid.org/0000-0001-6757-1957"
+cff-version: 1.2.0
+date-released: "2024-05-24"
+identifiers:
+  - description: "The GitHub release URL of tag v1.0.0."
+    type: url
+    value: "https://github.com/Imageomics/kabr-tools/releases/tag/v1.0.0"
+  - description: "The GitHub URL of the commit tagged with <tag-name>." # update on release
+    type: url
+    value: "https://github.com/Imageomics/kabr-tools/tree/<commit-hash>"
+keywords:
+  - imageomics
+  - zebra
+  - giraffe
+  - "plains zebra"
+  - "Grevy's zebra"
+  - video
+  - "animal behavior"
+  - "behavior recognition"
+  - annotation
+  - "annotated video"
+  - conservation
+  - drone
+  - UAV
+  - imbalanced
+  - Kenya
+  - "Mpala Research Centre"
+  - CVAT
+  - SlowFast
+license: MIT
+message: "If you use this software, please cite it using these metadata."
+repository-code: "https://github.com/Imageomics/kabr-tools"
+title: "KABR Tools"
+version: 1.0.0
+doi: # Add DOI from Zenodo on release
+type: software
+preferred-citation:
+  type: conference-paper
+  authors:
+    - family-names: Kholiavchenko 
+      given-names: Maksim
+      orcid: "https://orcid.org/0000-0001-6757-1957"
+    - family-names: Kline
+      given-names: Jenna
+    - family-names: Ramirez
+      given-names: Michelle
+    - family-names: Stevens
+      given-names: Sam
+    - family-names: Sheets
+      given-names: Alec
+      orcid: "https://orcid.org/0000-0002-3737-1484"
+    - family-names: Ramesh Babu
+      given-names: Reshma
+      orcid: "https://orcid.org/0000-0002-2517-5347"
+    - family-names: Banerji
+      given-names: Namrata
+      orcid: "https://orcid.org/0000-0001-6813-0010"
+    - family-names: "Campolongo"
+      given-names: "Elizabeth G."
+      orcid: "https://orcid.org/0000-0003-0846-2413"
+    - family-names: "Thompson"
+      given-names: "Matthew J."
+      orcid: "https://orcid.org/0000-0003-0583-8585"
+    - family-names: Van Tiel
+      given-names: Nina
+      orcid: "https://orcid.org/0000-0001-6393-5629"
+    - family-names: Miliko
+      given-names: Jackson
+    - family-names: Bessa
+      given-names: Eduardo
+      orcid: "https://orcid.org/0000-0003-0606-5860"
+    - family-names: "Berger-Wolf"
+      given-names: Tanya
+      orcid: "https://orcid.org/0000-0001-7610-1412"
+    - family-names: Rubenstein
+      given-names: Daniel
+      orcid: "https://orcid.org/0000-0001-9049-5219"
+    - family-names: Stewart
+      given-names: Charles
+  title: "KABR: In-Situ Dataset for Kenyan Animal Behavior Recognition from Drone Videos"
+  year: 2024
+  collection-title: "Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision"
+  pages: "31-40"
+  doi: 10.1109/WACVW60836.2024.00011
