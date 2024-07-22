@@ -15,40 +15,14 @@ if __name__ == "__main__":
         path_to_mini_scenes = sys.argv[1]
         path_to_new_dataset = sys.argv[2]
 
-    label2number = {"Walk": 0,
-                    "Graze": 1,
-                    "Browse": 2,
-                    "Head Up": 3,
-                    "Auto-Groom": 4,
-                    "Trot": 5,
-                    "Run": 6,
-                    "Occluded": 7}
+    with open('ethogram/classes.json', mode='r', encoding='utf-8') as file:
+        label2number = json.load(file)
 
     number2label = {value: key for key, value in label2number.items()}
 
-    old2new = {"Walk": "Walk",
-               "Walking": "Walk",
-               "Graze": "Graze",
-               "Browsing": "Browse",
-               "Head Up": "Head Up",
-               "Auto-Groom": "Auto-Groom",
-               "Mutual Grooming": "Mutual Grooming",
-               "Trotting": "Trot",
-               "Running": "Run",
-               "Drinking": "Drinking",
-               "Herding": "Herding",
-               "Lying Down": "Lying Down",
-               "Mounting-Mating": "Mounting-Mating",
-               "Sniff": "Sniff",
-               "Urinating": "Urinating",
-               "Defecating": "Defecating",
-               "Dusting": "Dusting",
-               "Fighting": "Fighting",
-               "Chasing": "Chasing",
-               "Occluded": "Occluded",
-               "Out of Focus": "Out of Focus",
-               "Out of Frame": "Out of Frame",
-               None: None}
+    with open('ethogram/old2new.json', mode='r', encoding='utf-8') as file:
+        old2new = json.load(file)
+        old2new[None] = None
 
     if not os.path.exists(path_to_new_dataset):
         os.makedirs(path_to_new_dataset)
