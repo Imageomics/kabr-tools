@@ -53,6 +53,7 @@ def extract(video_path, annotation_path, tracking):
 
     for track in root.iterfind("track"):
         track_id = int(track.attrib["id"])
+        # print('print 1')
 
         for box in track.iter("box"):
             frame_id = int(box.attrib["frame"])
@@ -67,10 +68,13 @@ def extract(video_path, annotation_path, tracking):
 
     name = os.path.splitext(video_path.split("/")[-1])[0]
     folder = os.path.splitext("|".join(video_path.split("/")[-3:]))[0]
-    annotated_size = int("".join(root.find("meta").find("task").find("size").itertext()))
+    # annotated_size = int("".join(root.find("meta").find("task").find("size").itertext())) # number of frames, replace w/ opencv frame count from video
     scene_width, scene_height = 400, 300
     vc = cv2.VideoCapture(video_path)
+    annotated_size = int(vc.get(cv2.CAP_PROP_FRAME_COUNT))
     original_width, original_height = int(vc.get(cv2.CAP_PROP_FRAME_WIDTH)), int(vc.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    print('original_width:', original_width, 'original_height:', original_height)
+    print(vc.isOpened())
 
     print(f"{video_path} | {annotation_path} -> mini-scenes/{folder}")
 
@@ -95,15 +99,19 @@ def extract(video_path, annotation_path, tracking):
 
     while vc.isOpened():
         returned, frame = vc.read()
+        # print('print 2')
 
         if returned:
             visualization = frame.copy()
+            # print('print 3')
 
             if annotated.get(index) is not None:
                 centroids = []
                 attributes = []
                 objects = OrderedDict()
                 colors = OrderedDict()
+                
+                # print('print 4')
 
                 for object_id, box in annotated[index].items():
                     attribute = {}
@@ -111,12 +119,16 @@ def extract(video_path, annotation_path, tracking):
                     centroids.append(centroid)
                     attribute["box"] = box
                     attributes.append(attribute)
+                    
+                    # print('print 5')
 
                     if not tracking:
                         objects[object_id] = centroid
                         colors_values = list(tracker.colors_table.values())
                         colors[object_id] = colors_values[object_id % len(colors_values)]
                         timeline["colors"][object_id] = colors[object_id]
+                        
+                       #  print('print 6')
 
                 if tracking:
                     objects, colors = tracker.update(centroids)
@@ -125,8 +137,11 @@ def extract(video_path, annotation_path, tracking):
                 tracks.update(objects, index)
 
                 for object in objects:
+                    # print('print 7')
                     if tracks_vw.get(object.object_id) is None:
+                        # print('print 8')
                         if not os.path.exists(f"mini-scenes/{folder}"):
+                           #  print('print 9')
                             os.makedirs(f"mini-scenes/{folder}")
 
                         tracks_vw[object.object_id] = cv2.VideoWriter(f"mini-scenes/{folder}/{object.object_id}.mp4",
@@ -136,6 +151,7 @@ def extract(video_path, annotation_path, tracking):
                         timeline["tracks"][object.object_id] = [-1] * annotated_size
 
                 for object in objects:
+                    #print('print 10')
                     Draw.track(visualization, tracks[object.object_id].centroids, object.color, 20)
                     Draw.scene(visualization, object, scene_width, scene_height)
                     Draw.object_id(visualization, object)
@@ -145,8 +161,8 @@ def extract(video_path, annotation_path, tracking):
                     timeline["tracks"][object.object_id][index] = tracked_indices[object.object_id]
                     tracked_indices[object.object_id] += 1
 
-            cv2.imshow("tracks_extractor", cv2.resize(visualization,
-                                                      (int(original_width // 2.5), int(original_height // 2.5))))
+            # cv2.imshow("tracks_extractor", cv2.resize(visualization,
+            #                                           (int(original_width // 2.5), int(original_height // 2.5)))) # comment out if running remote
             vw.write(visualization)
             key = cv2.waitKey(1)
             timeline["tracks"]["main"][index] = index
