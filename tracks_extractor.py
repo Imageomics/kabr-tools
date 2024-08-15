@@ -178,22 +178,7 @@ def extract(video_path, annotation_path, tracking):
     vw.release()
     cv2.destroyAllWindows()
 
-
-if __name__ == "__main__":
-    if len(sys.argv) != 3 and len(sys.argv) != 4:
-        print("python tracks_extractor.py path_to_videos path_to_annotations [tracking]")
-        exit(0)
-    elif len(sys.argv) == 3:
-        video = sys.argv[1]
-        annotation = sys.argv[2]
-        tracking = False
-    # tracking=True: use external tracker instead of CVAT tracks.
-    # tracking=False: use CVAT tracks.
-    elif len(sys.argv) == 4:
-        video = sys.argv[1]
-        annotation = sys.argv[2]
-        tracking = bool(sys.argv[3])
-
+def tracks_extractor(video, annotation, tracking):
     if os.path.isdir(annotation):
         videos = []
         annotations = []
@@ -219,3 +204,20 @@ if __name__ == "__main__":
             extract(video, annotation, tracking)
     else:
         extract(video, annotation, tracking)
+
+if __name__ == "__main__":
+    if len(sys.argv) != 3 and len(sys.argv) != 4:
+        print("python tracks_extractor.py path_to_videos path_to_annotations [tracking]")
+        exit(0)
+    elif len(sys.argv) == 3:
+        video = sys.argv[1]
+        annotation = sys.argv[2]
+        tracking = False
+    # tracking=True: use external tracker instead of CVAT tracks.
+    # tracking=False: use CVAT tracks.
+    elif len(sys.argv) == 4:
+        video = sys.argv[1]
+        annotation = sys.argv[2]
+        tracking = bool(sys.argv[3])
+
+    tracks_extractor(video, annotation, tracking)

@@ -130,18 +130,7 @@ def hotkey(key):
 
                     vc.set(cv2.CAP_PROP_POS_FRAMES, metadata["tracks"][current][index])
 
-
-if __name__ == "__main__":
-    if len(sys.argv) != 2 and len(sys.argv) != 3:
-        print("python player.py path_to_folder [save]")
-        exit(0)
-    elif len(sys.argv) == 2:
-        folder = sys.argv[1]
-        save = True#False
-    elif len(sys.argv) == 3:
-        folder = sys.argv[1]
-        save = bool(sys.argv[2])
-
+def player(folder, save):
     name = folder.split("/")[-1].split('|')[-1]
 
     metadata_path = f"{folder}/metadata/{name}_metadata.json"
@@ -278,3 +267,16 @@ if __name__ == "__main__":
         v.release()
 
     cv2.destroyAllWindows()
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2 and len(sys.argv) != 3:
+        print("python player.py path_to_folder [save]")
+        exit(0)
+    elif len(sys.argv) == 2:
+        folder = sys.argv[1]
+        save = True#False
+    elif len(sys.argv) == 3:
+        folder = sys.argv[1]
+        save = bool(sys.argv[2])
+
+    player(folder, save)

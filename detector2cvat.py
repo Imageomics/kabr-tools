@@ -7,14 +7,7 @@ from src.tracker import Tracker, Tracks
 from src.object import Object
 from src.draw import Draw
 
-if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("python detector2cvat path_to_videos path_to_save")
-        exit(0)
-    else:
-        path_to_videos = sys.argv[1]
-        path_to_save = sys.argv[2]
-
+def detector2cvat(path_to_videos, path_to_save):
     videos = []
 
     for root, dirs, files in os.walk(path_to_videos):
@@ -100,3 +93,13 @@ if __name__ == "__main__":
             tracks.save(output_path, "cvat")
         except:
             print("Something went wrong...")
+
+if __name__ == "__main__":
+    if len(sys.argv) != 3:
+        print("python detector2cvat path_to_videos path_to_save")
+        exit(0)
+    else:
+        path_to_videos = sys.argv[1]
+        path_to_save = sys.argv[2]
+
+    detector2cvat(path_to_videos, path_to_save)
