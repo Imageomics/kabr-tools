@@ -78,13 +78,17 @@ python tracks_extractor.py path_to_videos path_to_annotations [tracking]
 ```
 
 ## Step 3: Label mini-scenes with behavior 
-You can use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics) to label the mini-scenes with behavior. See the [ethogram](ethogram) folder for the list of behaviors used to label the zebra videos. 
+You can use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics) to label the mini-scenes with behavior. See the [ethogram](ethogram) folder for the list of behaviors used to label the zebra videos.
 
-<!--
-Alison - can you add details here?
--->
+To use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics), download `checkpoint_epoch_00075.pyth.zip`, unzip `checkpoint_epoch_00075.pyth`, and install [SlowFast](https://github.com/facebookresearch/SlowFast/blob/bac7b672f40d44166a84e8c51d1a5ba367ace816/INSTALL.md). Then run [miniscene2behavior.py](miniscene2behavior.py).
 
-See [these cvs files](data/mini_scene_behavior_annotations) for examples of annotated mini-scene outputs.
+```
+python miniscene2behavior.py --config [config path] --checkpoint [checkpoint path] --gpu_num [number of gpus available] --miniscene [miniscene path] --output [output path]
+```
+
+`checkpoint` should be the path to `checkpoint_epoch_00075.pyth`. If the config hasn't been extracted yet, the script will write it to `config`. If `gpu_num` is 0, the model will use CPU. Using at least 1 GPU greatly increases inference speed. If you're using OSC, you can request a node with one GPU by running `sbatch -N 1 --gpus-per-node 1 -A [account] --time=[minutes] [bash script]`.
+
+See [these csv files](data/mini_scene_behavior_annotations) for examples of annotated mini-scene outputs.
 
 
 ## Step 4: Calculate time budgets
