@@ -8,19 +8,14 @@
 ![](images/pipeline.jpg)
 **Figure 1:** Overview of the pipeline for KABR dataset preparation.
 
+
 Please refer to our [KABR Project Page](https://kabrdata.xyz/) for additional details.
 
 
 ## Step 1: Video Data Collection with Drones
 
-<!-- Add two photos side by side -->
-<div style="display: flex; justify-content: space-between;">
-  <img src="images/01_18_session_7_flightpath.png" alt="drone_telemetry" style="width: 48%;">
-  <img src="images/grevys.png" alt="grevys" style="width: 48%;">
-</div>
-<br>
-
-**Figure 2:** Example flight path and video clip from KABR dataset.
+![](zebraimpalareduced.gif)
+**Figure 2:** Clip of drone video containing Plains and Grevy's zebras, plus some impalas.
 
 The drone videos collected for the [KABR dataset]() was collected at the Mpala Research Centre in January 2023. The missions were flown manually, using a DJI 2S Air drone. 
 
@@ -93,7 +88,29 @@ See [these cvs files](data/mini_scene_behavior_annotations) for examples of anno
 
 
 ## Step 4: Calculate time budgets
-See [time budgets example](/examples/time_budget.ipynb). 
+
+See [time budgets example](/examples/time_budget.ipynb) to code to create these visualizations.
+
+
+<!-- Add two photos side by side -->
+<div style="display: flex; justify-content: space-between;">
+  <img src="images/01_18_session_7_flightpath.png" alt="drone_telemetry" style="width: 48%;">
+  <img src="images/grevys.png" alt="grevys" style="width: 48%;">
+</div>
+<br>
+
+**Figure 5:** Example flight path and video clip from KABR datasetL, 2 male Grevy's zebras observed for 10 minutes on 01/18/23.
+
+![](images/timebudget.png)
+<br>
+
+**Figure 6:** Overall time budget for duration of 10 minute observation
+
+<br>
+
+![](images/timeline0.png)
+![](images/timeline1.png)
+**Figure 7:** Gantt chart for each zebra (3 minute duration)
 
 
 ## Optional Steps: 
@@ -112,7 +129,7 @@ python cvat2ultralytics.py path_to_videos path_to_annotations dataset_name [skip
 Not sure what these scripts are for, Maksim you can provide info here?
 -->
 
-###  ???
+###  Extras
 
 [player.py](player.py): Player for track and behavior observation.
 
@@ -120,8 +137,12 @@ Not sure what these scripts are for, Maksim you can provide info here?
 python player.py path_to_folder [save]
 ```
 
+![](images/zebras_boxes.gif)
+**Figure 7:** Example player.py output.
+
 [cvat2slowfast.py](cvat2slowfast.py): Convert CVAT annotations to the dataset in Charades format.
 
 ```
 python cvat2slowfast.py path_to_mini_scenes dataset_name [zebra, giraffe]
 ```
+
