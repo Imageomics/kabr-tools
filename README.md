@@ -14,7 +14,7 @@ Please refer to our [KABR Project Page](https://kabrdata.xyz/) for additional de
 
 ## Step 1: Video Data Collection with Drones
 
-![](zebraimpalareduced.gif)
+![](images/mixed_herd.png)
 **Figure 2:** Clip of drone video containing Plains and Grevy's zebras, plus some impalas.
 
 The drone videos collected for the [KABR dataset]() was collected at the Mpala Research Centre in January 2023. The missions were flown manually, using a DJI 2S Air drone. 
@@ -137,7 +137,7 @@ Not sure what these scripts are for, Maksim you can provide info here?
 python player.py path_to_folder [save]
 ```
 
-![](images/zebras_boxes.gif)
+![](images/playeroutput.png)
 **Figure 7:** Example player.py output.
 
 [cvat2slowfast.py](cvat2slowfast.py): Convert CVAT annotations to the dataset in Charades format.
