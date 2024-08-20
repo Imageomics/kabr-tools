@@ -80,8 +80,24 @@ python tracks_extractor.py path_to_videos path_to_annotations [tracking]
 ## Step 3: Label mini-scenes with behavior 
 You can use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics) to label the mini-scenes with behavior. See the [ethogram](ethogram) folder for the list of behaviors used to label the zebra videos.
 
-To use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics), download `checkpoint_epoch_00075.pyth.zip`, unzip `checkpoint_epoch_00075.pyth`, and install [SlowFast](https://github.com/facebookresearch/SlowFast/blob/bac7b672f40d44166a84e8c51d1a5ba367ace816/INSTALL.md). Then run [miniscene2behavior.py](miniscene2behavior.py).
+To use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics), download `checkpoint_epoch_00075.pyth.zip`, unzip `checkpoint_epoch_00075.pyth`, and install [SlowFast](https://github.com/facebookresearch/SlowFast). Then run [miniscene2behavior.py](miniscene2behavior.py).
 
+Installing detectron2 and pytorchvideo can be tricky. This should work:
+```
+python -m pip install git+https://github.com/facebookresearch/detectron2.git@2a420edb307c9bdf640f036d3b196bed474b8593#egg=detectron2
+python -m pip install git+https://github.com/facebookresearch/pytorchvideo.git@1fadaef40dd393ca09680f55582399f4679fc9b7#egg=pytorchvideo
+```
+
+[SlowFast](https://github.com/facebookresearch/SlowFast)'s `setup.py` is outdated, so a workaround is:
+```
+git clone https://github.com/facebookresearch/SlowFast.git
+sed -i 's/PIL/Pillow/' SlowFast/setup.py
+sed -i 's/sklearn/scikit-learn/' SlowFast/setup.py
+cd SlowFast
+python setup.py build develop
+```
+
+After [SlowFast](https://github.com/facebookresearch/SlowFast) is installed, you are ready to label the mini-scenes:
 ```
 python miniscene2behavior.py --config [config path] --checkpoint [checkpoint path] --gpu_num [number of gpus available] --miniscene [miniscene path] --output [output path]
 ```
