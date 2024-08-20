@@ -85,10 +85,11 @@ def create_model(config_path, checkpoint_path, gpu_num):
             file.write(checkpoint['cfg'])
         cfg = parser.load_config(parser.parse_args(), config_path)
     cfg.NUM_GPUS = gpu_num
+    cfg.OUTPUT_DIR = ''
     model = build.build_model(cfg)
 
     # load model checkpoint
-    cu.load_checkpoint(checkpoint_path, model)
+    cu.load_checkpoint(checkpoint_path, model, data_parallel=False)
 
     # set model to eval mode
     model.eval()
