@@ -1,9 +1,10 @@
-import torch
 import sys
+import torch
 from lxml import etree
 import pandas as pd
 import cv2
 import argparse
+from tqdm import tqdm
 import slowfast.utils.checkpoint as cu
 import slowfast.models.build as build
 import slowfast.utils.parser as parser
@@ -116,7 +117,7 @@ def annotate_miniscene(cfg, model, miniscene_path, video, output_path):
     for track in tracks:
         video_file = f"{miniscene_path}/{track}.mp4"
         cap = cv2.VideoCapture(video_file)
-        for frame in frames:
+        for frame in tqdm(frames, desc=f'{track} frames'):
             inputs = get_input_clip(cap, cfg, frame)
 
             if cfg.NUM_GPUS:
