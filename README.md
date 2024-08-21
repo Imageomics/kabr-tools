@@ -102,7 +102,10 @@ After [SlowFast](https://github.com/facebookresearch/SlowFast) is installed, you
 python miniscene2behavior.py --config [config path] --checkpoint [checkpoint path] --gpu_num [number of gpus available] --miniscene [miniscene path] --output [output path]
 ```
 
-`checkpoint` should be the path to `checkpoint_epoch_00075.pyth`. If the config hasn't been extracted yet, the script will write it to `config`. If `gpu_num` is 0, the model will use CPU. Using at least 1 GPU greatly increases inference speed. If you're using OSC, you can request a node with one GPU by running `sbatch -N 1 --gpus-per-node 1 -A [account] --time=[minutes] [bash script]`.
+**Notes:**
+ - If the config hasn't been extracted yet, the script will write it to `config`. 
+ - `checkpoint` should be the path to `checkpoint_epoch_00075.pyth`. 
+ - If `gpu_num` is 0, the model will use CPU. Using at least 1 GPU greatly increases inference speed. If you're using OSC, you can request a node with one GPU by running `sbatch -N 1 --gpus-per-node 1 -A [account] --time=[minutes] [bash script]`.
 
 See [these csv files](data/mini_scene_behavior_annotations) for examples of annotated mini-scene outputs.
 
