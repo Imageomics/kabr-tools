@@ -3,7 +3,7 @@
 <!-- TO DO: add new DOI -->
 
 
-#### This repository contains tools to calculate time budget analysis  from drone videos of zebras and giraffes, using the [KABR model](imageomics/x3d-kabr-kinetics) to automatically label behavior.
+#### This repository contains tools to calculate time budget analysis  from drone videos of zebras and giraffes, using the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics) to automatically label behavior.
 
 ![](images/pipeline.jpg)
 **Figure 1:** Overview of the pipeline for KABR dataset preparation.
