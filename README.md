@@ -1,4 +1,4 @@
-# kabr-tools 
+# kabr-tools  [![DOI](https://zenodo.org/badge/805519058.svg)](https://zenodo.org/doi/10.5281/zenodo.11288083)
 
 <!-- TO DO: add new DOI -->
 
