@@ -17,7 +17,7 @@ Please refer to our [KABR Project Page](https://kabrdata.xyz/) for additional de
 ![](images/mixed_herd.png)
 **Figure 2:** Clip of drone video containing Plains and Grevy's zebras, plus some impalas.
 
-The drone videos collected for the [KABR dataset]() was collected at the Mpala Research Centre in January 2023. The missions were flown manually, using a DJI 2S Air drone. 
+The drone videos for the [KABR dataset](https://huggingface.co/datasets/imageomics/KABR) were collected at the Mpala Research Centre in January 2023. The missions were flown manually, using a DJI 2S Air drone. 
 
 We collaborated with expert ecologists to ensure the disturbance to the animals was minimal. We launched the drone approximately 200 meters horizontal distance from the animals and an altitude of 30 meters. We gradually approached the herd from the side by reducing the altitude and horizontal distance, monitoring the animals for signs of vigilance.
 
