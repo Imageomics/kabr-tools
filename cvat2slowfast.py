@@ -1,11 +1,13 @@
 import os
 import sys
+import argparse
 import json
 from lxml import etree
 from collections import OrderedDict
 import pandas as pd
 from natsort import natsorted
 import cv2
+
 
 def cvat2slowfast(path_to_mini_scenes, path_to_new_dataset):
     with open('ethogram/classes.json', mode='r', encoding='utf-8') as file:
@@ -136,16 +138,30 @@ def cvat2slowfast(path_to_mini_scenes, path_to_new_dataset):
                     video_id += 1
 
                     if video_id % 10 == 0:
-                        charades_df.to_csv(f"{path_to_new_dataset}/annotation/data.csv", sep=" ", index=False)
+                        charades_df.to_csv(
+                            f"{path_to_new_dataset}/annotation/data.csv", sep=" ", index=False)
 
-    charades_df.to_csv(f"{path_to_new_dataset}/annotation/data.csv", sep=" ", index=False)
+    charades_df.to_csv(
+        f"{path_to_new_dataset}/annotation/data.csv", sep=" ", index=False)
+
+
+def parse_args():
+    local_parser = argparse.ArgumentParser()
+    local_parser.add_argument(
+        '--miniscene',
+        type=str,
+        help='path to folder containing mini-scene files',
+        required=True
+    )
+    local_parser.add_argument(
+        '--dataset',
+        type=str,
+        help='path to output dataset files',
+        required=True
+    )
+    return local_parser.parse_args()
+
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("python cvat2slowfast.py path_to_mini_scenes")
-        exit(0)
-    elif len(sys.argv) == 3:
-        path_to_mini_scenes = sys.argv[1]
-        path_to_new_dataset = sys.argv[2]
-    
-    cvat2slowfast(path_to_mini_scenes, path_to_new_dataset)
+    args = parse_args()
+    cvat2slowfast(args.miniscene, args.dataset)
