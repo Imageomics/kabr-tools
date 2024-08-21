@@ -7,14 +7,7 @@ import pandas as pd
 from natsort import natsorted
 import cv2
 
-if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("python cvat2slowfast.py path_to_mini_scenes")
-        exit(0)
-    elif len(sys.argv) == 3:
-        path_to_mini_scenes = sys.argv[1]
-        path_to_new_dataset = sys.argv[2]
-
+def cvat2slowfast(path_to_mini_scenes, path_to_new_dataset):
     with open('ethogram/classes.json', mode='r', encoding='utf-8') as file:
         label2number = json.load(file)
 
@@ -146,3 +139,13 @@ if __name__ == "__main__":
                         charades_df.to_csv(f"{path_to_new_dataset}/annotation/data.csv", sep=" ", index=False)
 
     charades_df.to_csv(f"{path_to_new_dataset}/annotation/data.csv", sep=" ", index=False)
+
+if __name__ == "__main__":
+    if len(sys.argv) != 3:
+        print("python cvat2slowfast.py path_to_mini_scenes")
+        exit(0)
+    elif len(sys.argv) == 3:
+        path_to_mini_scenes = sys.argv[1]
+        path_to_new_dataset = sys.argv[2]
+    
+    cvat2slowfast(path_to_mini_scenes, path_to_new_dataset)

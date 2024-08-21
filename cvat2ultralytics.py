@@ -8,21 +8,7 @@ from tqdm import tqdm
 import shutil
 from natsort import natsorted
 
-if __name__ == "__main__":
-    if len(sys.argv) != 4 and len(sys.argv) != 5:
-        print("python cvat2ultralytics.py path_to_videos path_to_annotations dataset_name [skip_frames]")
-        exit(0)
-    elif len(sys.argv) == 4:
-        video_path = sys.argv[1]
-        annotation_path = sys.argv[2]
-        dataset = sys.argv[3]
-        skip = 10
-    elif len(sys.argv) == 5:
-        video_path = sys.argv[1]
-        annotation_path = sys.argv[2]
-        dataset = sys.argv[3]
-        skip = int(sys.argv[4])
-
+def cvat2ultralytics(video_path, annotation_path, dataset, skip):
     # Create a YOLO dataset structure.
     dataset_file = f"""
     path: {dataset}
@@ -178,3 +164,20 @@ if __name__ == "__main__":
 
     for file in tqdm(labels[int(len(labels) * 0.87):]):
         shutil.move(f"{dataset}/labels/train/{file}", f"{dataset}/labels/test/{file}")
+
+if __name__ == "__main__":
+    if len(sys.argv) != 4 and len(sys.argv) != 5:
+        print("python cvat2ultralytics.py path_to_videos path_to_annotations dataset_name [skip_frames]")
+        exit(0)
+    elif len(sys.argv) == 4:
+        video_path = sys.argv[1]
+        annotation_path = sys.argv[2]
+        dataset = sys.argv[3]
+        skip = 10
+    elif len(sys.argv) == 5:
+        video_path = sys.argv[1]
+        annotation_path = sys.argv[2]
+        dataset = sys.argv[3]
+        skip = int(sys.argv[4])
+
+    cvat2ultralytics(video_path, annotation_path, dataset, skip)
