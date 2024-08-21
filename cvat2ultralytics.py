@@ -190,7 +190,7 @@ def parse_args():
     local_parser.add_argument(
         '--skip',
         type=int,
-        help='process a frame and skip this many frames',
+        help='process one out of skip number of frames',
         default=10
     )
     return local_parser.parse_args()
