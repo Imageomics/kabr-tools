@@ -207,8 +207,8 @@ def tracks_extractor(video, annotation, tracking):
         extract(video, annotation, tracking)
 
 
-def parse_args():
-    local_parser = argparse.ArgumentParser()
+def get_parser():
+    local_parser = argparse.ArgumentParser(add_help=False)
     local_parser.add_argument(
         '--video',
         type=str,
@@ -226,9 +226,4 @@ def parse_args():
         action='store_true',
         help='Flag to use external tracker instead of CVAT tracks'
     )
-    return local_parser.parse_args()
-
-
-if __name__ == "__main__":
-    args = parse_args()
-    tracks_extractor(args.video, args.annotation, args.tracking)
+    return local_parser

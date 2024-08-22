@@ -145,8 +145,8 @@ def cvat2slowfast(path_to_mini_scenes, path_to_new_dataset, classes_json, old2ne
         f"{path_to_new_dataset}/annotation/data.csv", sep=" ", index=False)
 
 
-def parse_args():
-    local_parser = argparse.ArgumentParser()
+def get_parser():
+    local_parser = argparse.ArgumentParser(add_help=False)
     local_parser.add_argument(
         '--miniscene',
         type=str,
@@ -171,9 +171,4 @@ def parse_args():
         help='path to old to new ethogram labels json',
         required=True
     )
-    return local_parser.parse_args()
-
-
-if __name__ == "__main__":
-    args = parse_args()
-    cvat2slowfast(args.miniscene, args.dataset, args.classes, args.old2new)
+    return local_parser

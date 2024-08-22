@@ -269,8 +269,8 @@ def player(folder, save):
     cv2.destroyAllWindows()
 
 
-def parse_args():
-    local_parser = argparse.ArgumentParser()
+def get_parser():
+    local_parser = argparse.ArgumentParser(add_help=False)
     local_parser.add_argument(
         '--folder',
         type=str,
@@ -282,9 +282,4 @@ def parse_args():
         action='store_true',
         help='Flag to save video'
     )
-    return local_parser.parse_args()
-
-
-if __name__ == "__main__":
-    args = parse_args()
-    player(args.folder, args.save)
+    return local_parser

@@ -96,8 +96,8 @@ def detector2cvat(path_to_videos, path_to_save):
             print("Something went wrong...")
 
 
-def parse_args():
-    local_parser = argparse.ArgumentParser()
+def get_parser():
+    local_parser = argparse.ArgumentParser(add_help=False)
     local_parser.add_argument(
         '--video',
         type=str,
@@ -110,9 +110,4 @@ def parse_args():
         help='path to save output xml & mp4 files',
         required=True
     )
-    return local_parser.parse_args()
-
-
-if __name__ == "__main__":
-    args = parse_args()
-    detector2cvat(args.video, args.save)
+    return local_parser

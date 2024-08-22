@@ -167,8 +167,8 @@ def cvat2ultralytics(video_path, annotation_path, dataset, skip):
         shutil.move(f"{dataset}/labels/train/{file}", f"{dataset}/labels/test/{file}")
 
 
-def parse_args():
-    local_parser = argparse.ArgumentParser()
+def get_parser():
+    local_parser = argparse.ArgumentParser(add_help=False)
     local_parser.add_argument(
         '--video',
         type=str,
@@ -193,9 +193,4 @@ def parse_args():
         help='process one out of skip number of frames',
         default=10
     )
-    return local_parser.parse_args()
-
-
-if __name__ == "__main__":
-    args = parse_args()
-    cvat2ultralytics(args.video, args.annotation, args.dataset, args.skip)
+    return local_parser
