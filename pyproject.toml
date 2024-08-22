@@ -12,7 +12,10 @@ allow-direct-references = true
 name = "kabr_tools"
 dynamic = ["version"]
 authors = [
-  { name="Elizabeth G. Campolongo", email="e.campolongo479@gmail.com" },
+  { name="Maksim Kholiavchenko", email="m.kholyavchenko@innopolis.ru" },
+  { name="Alison Zhong", email="zhong.568@osu.edu" },
+  { name="Elizabeth Campolongo", email="e.campolongo479@gmail.com" },
+  { name="Jenna Kline", email="kline.377@osu.edu" },
 ]
 description = "Tools for working with data for annotating animal behavior. These were specifically designed during construction of the KABR dataset."
 readme = "README.md"
