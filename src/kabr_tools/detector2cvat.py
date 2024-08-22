@@ -2,10 +2,10 @@ import os
 import argparse
 import cv2
 from tqdm import tqdm
-from .utils.yolo import YOLOv8
-from .utils.tracker import Tracker, Tracks
-from .utils.object import Object
-from .utils.draw import Draw
+from kabr_tools.utils.yolo import YOLOv8
+from kabr_tools.utils.tracker import Tracker, Tracks
+from kabr_tools.utils.object import Object
+from kabr_tools.utils.draw import Draw
 
 
 def detector2cvat(path_to_videos, path_to_save):

@@ -7,11 +7,11 @@ from lxml import etree
 import shutil
 import cv2
 from collections import OrderedDict
-from .utils.utils import get_scene
-from .utils.detector import Detector
-from .utils.tracker import Tracker, Tracks
-from .utils.object import Object
-from .utils.draw import Draw
+from kabr_tools.utils.utils import get_scene
+from kabr_tools.utils.detector import Detector
+from kabr_tools.utils.tracker import Tracker, Tracks
+from kabr_tools.utils.object import Object
+from kabr_tools.utils.draw import Draw
 from tqdm import tqdm
 
 

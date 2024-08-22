@@ -1,9 +1,9 @@
 import argparse
-from . import cvat2slowfast
-from . import cvat2ultralytics
-from . import detector2cvat
-from . import player
-from . import tracks_extractor
+from kabr_tools import cvat2slowfast
+from kabr_tools import cvat2ultralytics
+from kabr_tools import detector2cvat
+from kabr_tools import player
+from kabr_tools import tracks_extractor
 
 
 def parse_args():
