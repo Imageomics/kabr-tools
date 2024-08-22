@@ -6,12 +6,12 @@ import json
 from lxml import etree
 import shutil
 import cv2
-from src.utils import get_scene
 from collections import OrderedDict
-from src.detector import Detector
-from src.tracker import Tracker, Tracks
-from src.object import Object
-from src.draw import Draw
+from .utils.utils import get_scene
+from .utils.detector import Detector
+from .utils.tracker import Tracker, Tracks
+from .utils.object import Object
+from .utils.draw import Draw
 from tqdm import tqdm
 
 

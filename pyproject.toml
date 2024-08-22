@@ -1,0 +1,46 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/kabr_tools"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[project]
+name = "kabr_tools"
+dynamic = ["version"]
+authors = [
+  { name="Elizabeth G. Campolongo", email="e.campolongo479@gmail.com" },
+]
+description = "Tools for working with data for annotating animal behavior. These were specifically designed during construction of the KABR dataset."
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+]
+dependencies = [
+    "numpy",
+    "opencv-python",
+    "scipy",
+    "lxml",
+    "tqdm",
+    "torch",
+    "natsort",
+    "ruamel.yaml",
+    "ultralytics",
+    "pandas",
+]
+
+[project.urls]
+Documentation = "https://github.com/Imageomics/kabr-tools/blob/master/README.md"
+Issues = "https://github.com/Imageomics/kabr-tools/issues"
+Source = "https://github.com/Imageomics/kabr-tools"
+
+[project.scripts]
+kabr_tools = "kabr_tools.__main__:main"
+
+[tool.hatch.version]
+path = "src/kabr_tools/__about__.py"

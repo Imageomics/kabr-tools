@@ -2,10 +2,10 @@ import os
 import argparse
 import cv2
 from tqdm import tqdm
-from src.yolo import YOLOv8
-from src.tracker import Tracker, Tracks
-from src.object import Object
-from src.draw import Draw
+from .utils.yolo import YOLOv8
+from .utils.tracker import Tracker, Tracks
+from .utils.object import Object
+from .utils.draw import Draw
 
 
 def detector2cvat(path_to_videos, path_to_save):
