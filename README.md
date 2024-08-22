@@ -37,5 +37,5 @@ cvat2slowfast.py:\
 Convert CVAT annotations to the dataset in Charades format.
 
 ```
-python cvat2slowfast.py --miniscene path_to_mini_scenes --dataset dataset_name
+python cvat2slowfast.py --miniscene path_to_mini_scenes --dataset dataset_name --classes path_to_classes_json --old2new path_to_old2new_json
 ```

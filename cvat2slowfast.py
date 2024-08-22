@@ -9,13 +9,13 @@ from natsort import natsorted
 import cv2
 
 
-def cvat2slowfast(path_to_mini_scenes, path_to_new_dataset):
-    with open('ethogram/classes.json', mode='r', encoding='utf-8') as file:
+def cvat2slowfast(path_to_mini_scenes, path_to_new_dataset, classes_json, old2new_json):
+    with open(classes_json, mode='r', encoding='utf-8') as file:
         label2number = json.load(file)
 
     number2label = {value: key for key, value in label2number.items()}
 
-    with open('ethogram/old2new.json', mode='r', encoding='utf-8') as file:
+    with open(old2new_json, mode='r', encoding='utf-8') as file:
         old2new = json.load(file)
         old2new[None] = None
 
@@ -159,9 +159,21 @@ def parse_args():
         help='path to output dataset files',
         required=True
     )
+    local_parser.add_argument(
+        '--classes',
+        type=str,
+        help='path to ethogram class labels json',
+        required=True
+    )
+    local_parser.add_argument(
+        '--old2new',
+        type=str,
+        help='path to old to new ethogram labels json',
+        required=True
+    )
     return local_parser.parse_args()
 
 
 if __name__ == "__main__":
     args = parse_args()
-    cvat2slowfast(args.miniscene, args.dataset)
+    cvat2slowfast(args.miniscene, args.dataset, args.classes, args.old2new)
