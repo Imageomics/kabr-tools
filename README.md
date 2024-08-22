@@ -38,7 +38,6 @@ In order to automatically label the animal videos with behavior, we must first c
 
 ![](images/im_mini-scenes.jpg)
 **Figure 3:** A mini-scene is a sub-image cropped from the drone video footage centered on and surrounding a single animal. Mini-scenes simulate the camera as well-aligned with each individual animal in
-ing a single animal. Mini-scenes simulate the camera as well-aligned with each individual animal in
 the frame, compensating for the movement of the drone and ignoring everything in the large field of
 view but the animal’s immediate surroundings. The KABR dataset consists of mini-scenes and their
 frame-by-frame behavior annotation.
