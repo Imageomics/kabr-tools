@@ -12,7 +12,7 @@ allow-direct-references = true
 name = "kabr_tools"
 dynamic = ["version"]
 authors = [
-  { name="Maksim Kholiavchenko", email="m.kholyavchenko@innopolis.ru" },
+  { name="Maksim Kholiavchenko", email="kholim@rpi.edu" },
   { name="Alison Zhong", email="zhong.568@osu.edu" },
   { name="Elizabeth Campolongo", email="e.campolongo479@gmail.com" },
   { name="Jenna Kline", email="kline.377@osu.edu" },
