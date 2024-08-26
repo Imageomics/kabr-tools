@@ -196,6 +196,10 @@ def parse_args():
     return local_parser.parse_args()
 
 
-if __name__ == "__main__":
+def main():
     args = parse_args()
     cvat2ultralytics(args.video, args.annotation, args.dataset, args.skip)
+
+
+if __name__ == "__main__":
+    main()

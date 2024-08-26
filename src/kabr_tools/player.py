@@ -285,6 +285,10 @@ def parse_args():
     return local_parser.parse_args()
 
 
-if __name__ == "__main__":
+def main():
     args = parse_args()
     player(args.folder, args.save)
+
+
+if __name__ == "__main__":
+    main()
