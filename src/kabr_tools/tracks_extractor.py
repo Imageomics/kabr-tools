@@ -6,12 +6,12 @@ import json
 from lxml import etree
 import shutil
 import cv2
-from src.utils import get_scene
 from collections import OrderedDict
-from src.detector import Detector
-from src.tracker import Tracker, Tracks
-from src.object import Object
-from src.draw import Draw
+from kabr_tools.utils.utils import get_scene
+from kabr_tools.utils.detector import Detector
+from kabr_tools.utils.tracker import Tracker, Tracks
+from kabr_tools.utils.object import Object
+from kabr_tools.utils.draw import Draw
 from tqdm import tqdm
 
 
@@ -229,6 +229,9 @@ def parse_args():
     return local_parser.parse_args()
 
 
-if __name__ == "__main__":
+def main():
     args = parse_args()
     tracks_extractor(args.video, args.annotation, args.tracking)
+
+if __name__ == "__main__":
+    main()

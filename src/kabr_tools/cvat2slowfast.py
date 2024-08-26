@@ -174,6 +174,10 @@ def parse_args():
     return local_parser.parse_args()
 
 
-if __name__ == "__main__":
+def main():
     args = parse_args()
     cvat2slowfast(args.miniscene, args.dataset, args.classes, args.old2new)
+
+
+if __name__ == "__main__":
+    main()
