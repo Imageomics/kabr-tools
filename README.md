@@ -8,6 +8,11 @@
 ![](images/pipeline.jpg)
 **Figure 1:** Overview of the pipeline for KABR dataset preparation.
 
+The KABR tools used in this process can be installed with:
+```
+pip install git+https://github.com/Imageomics/kabr-tools
+```
+Each KABR tool can be run through the command line (as described below) or imported as a python module. They each have help information which can be accessed on the command line through `<tool-name> -h`.
 
 Please refer to our [KABR Project Page](https://kabrdata.xyz/) for additional details.
 
