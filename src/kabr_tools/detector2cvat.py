@@ -1,20 +1,15 @@
 import os
-import sys
+import argparse
 import cv2
 from tqdm import tqdm
-from src.yolo import YOLOv8
-from src.tracker import Tracker, Tracks
-from src.object import Object
-from src.draw import Draw
+from kabr_tools.utils.yolo import YOLOv8
+from kabr_tools.utils.tracker import Tracker, Tracks
+from kabr_tools.utils.object import Object
+from kabr_tools.utils.draw import Draw
 
-if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("python detector2cvat path_to_videos path_to_save")
-        exit(0)
-    else:
-        path_to_videos = sys.argv[1]
-        path_to_save = sys.argv[2]
 
+
+def detector2cvat(path_to_videos, path_to_save):
     videos = []
 
     for root, dirs, files in os.walk(path_to_videos):
@@ -100,3 +95,29 @@ if __name__ == "__main__":
             tracks.save(output_path, "cvat")
         except:
             print("Something went wrong...")
+
+
+def parse_args():
+    local_parser = argparse.ArgumentParser()
+    local_parser.add_argument(
+        '--video',
+        type=str,
+        help='path to folder containing videos',
+        required=True
+    )
+    local_parser.add_argument(
+        '--save',
+        type=str,
+        help='path to save output xml & mp4 files',
+        required=True
+    )
+    return local_parser.parse_args()
+
+
+def main():
+    args = parse_args()
+    detector2cvat(args.video, args.save)
+
+
+if __name__ == "__main__":
+    main()

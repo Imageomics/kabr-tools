@@ -1,0 +1,66 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/kabr_tools"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[project]
+name = "kabr_tools"
+dynamic = ["version"]
+authors = [
+  { name="Maksim Kholiavchenko", email="kholim@rpi.edu" },
+  { name="Alison Zhong", email="zhong.568@osu.edu" },
+  { name="Elizabeth Campolongo", email="e.campolongo479@gmail.com" },
+  { name="Jenna Kline", email="kline.377@osu.edu" },
+]
+description = "Tools for working with data for annotating animal behavior. These were specifically designed during construction of the KABR dataset."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+]
+dependencies = [
+    "numpy",
+    "opencv-python",
+    "scipy",
+    "lxml",
+    "tqdm",
+    "torch",
+    "natsort",
+    "ruamel.yaml",
+    "ultralytics",
+    "pandas",
+]
+keywords = [
+    "annotation",
+    "cv",
+    "cvat",
+    "videos",
+    "drone videos",
+    "video classification",
+    "behavior recognition",
+    "animal behavior recognition",
+    "animal behavior",
+    "mini-scenes",
+]
+
+[project.urls]
+Documentation = "https://github.com/Imageomics/kabr-tools/blob/master/README.md"
+Issues = "https://github.com/Imageomics/kabr-tools/issues"
+Source = "https://github.com/Imageomics/kabr-tools"
+
+[project.scripts]
+cvat2slowfast = "kabr_tools.cvat2slowfast:main"
+cvat2ultralytics = "kabr_tools.cvat2ultralytics:main"
+detector2cvat = "kabr_tools.detector2cvat:main"
+player = "kabr_tools.player:main"
+tracks_extractor = "kabr_tools.tracks_extractor:main"
+
+
+[tool.hatch.version]
+path = "src/kabr_tools/__about__.py"
