@@ -163,7 +163,7 @@ Not sure what these scripts are for, Maksim you can provide info here?
 
 ###  Extras
 
-[player.py](player.py): Player for tracking and behavior observation.
+**player:** Player for tracking and behavior observation.
 
 ```
 player --folder path_to_folder [--save]
