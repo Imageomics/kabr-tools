@@ -172,7 +172,7 @@ player --folder path_to_folder [--save]
 ![](images/playeroutput.png)
 **Figure 7:** Example player.py output.
 
-[cvat2slowfast.py](cvat2slowfast.py): Convert CVAT annotations to the dataset in Charades format.
+**cvat2slowfast:** Convert CVAT annotations to the dataset in Charades format.
 
 
 ```
