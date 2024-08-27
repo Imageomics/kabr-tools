@@ -89,19 +89,16 @@ You can use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics
 To use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics), download `checkpoint_epoch_00075.pyth.zip`, unzip `checkpoint_epoch_00075.pyth`, and install [SlowFast](https://github.com/facebookresearch/SlowFast). Then run [miniscene2behavior.py](miniscene2behavior.py).
 
 Installing detectron2 and pytorchvideo can be tricky. This should work:
-```
 
-python -m pip install git+https://github.com/facebookresearch/detectron2.git@2a420edb307c9bdf640f036d3b196bed474b8593#egg=detectron2
-python -m pip install git+https://github.com/facebookresearch/pytorchvideo.git@1fadaef40dd393ca09680f55582399f4679fc9b7#egg=pytorchvideo
+```
+python -m pip install git+https://github.com/facebookresearch/detectron2.git@2a420edb307c9bdf640f036d3b196bed474b8593
+python -m pip install git+https://github.com/facebookresearch/pytorchvideo.git@1fadaef40dd393ca09680f55582399f4679fc9b7
 ```
 
 [SlowFast](https://github.com/facebookresearch/SlowFast)'s `setup.py` is outdated, so a workaround is:
+
 ```
-git clone https://github.com/facebookresearch/SlowFast.git
-sed -i 's/PIL/Pillow/' SlowFast/setup.py
-sed -i 's/sklearn/scikit-learn/' SlowFast/setup.py
-cd SlowFast
-python setup.py build develop
+python -m pip install git+https://github.com/zhong-al/SlowFast@797a6f3ae81c49019d006296f1e0f84f431dc356
 ```
 
 After [SlowFast](https://github.com/facebookresearch/SlowFast) is installed, you are ready to label the mini-scenes:
@@ -111,6 +108,7 @@ python miniscene2behavior.py --config [config path] --checkpoint [checkpoint pat
 ```
 
 **Notes:**
+ - If building detectron2's wheel fails, loading a different gnu module may help (`module load gnu/11.2.0`)
  - If the config hasn't been extracted yet, the script will write it to `config`. 
  - `checkpoint` should be the path to `checkpoint_epoch_00075.pyth`. 
  - If `gpu_num` is 0, the model will use CPU. Using at least 1 GPU greatly increases inference speed. If you're using OSC, you can request a node with one GPU by running `sbatch -N 1 --gpus-per-node 1 -A [account] --time=[minutes] [bash script]`.
