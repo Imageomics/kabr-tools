@@ -154,7 +154,7 @@ If you wish to use YOLO to automatically generate detections, you may want to fi
 [cvat2ultralytics.py](cvat2ultralytics.py): Convert CVAT annotations to Ultralytics YOLO dataset.
 
 ```
-python cvat2ultralytics.py path_to_videos path_to_annotations dataset_name [skip_frames]
+cvat2ultralytics --video path_to_videos --annotation path_to_annotations --dataset dataset_name [--skip skip_frames]
 ```
 
 <!-- 
