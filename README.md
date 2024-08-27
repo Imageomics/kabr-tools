@@ -64,7 +64,7 @@ Depending on the resolution of your raw video, you may encounter out of space is
 You may use [YOLO](https://docs.ultralytics.com/) to automatically perform detection on your videos. Use the script below to convert YOLO detections to CVAT format.
 
 
-[detector2cvat.py](detector2cvat.py):
+**detector2cvat:**
 Detect objects with Ultralytics YOLO detections, apply SORT tracking and convert tracks to CVAT format.
 
 ```
