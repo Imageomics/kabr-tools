@@ -1,5 +1,5 @@
 import os
-import sys
+import argparse
 import json
 from lxml import etree
 from collections import OrderedDict
@@ -130,18 +130,7 @@ def hotkey(key):
 
                     vc.set(cv2.CAP_PROP_POS_FRAMES, metadata["tracks"][current][index])
 
-
-if __name__ == "__main__":
-    if len(sys.argv) != 2 and len(sys.argv) != 3:
-        print("python player.py path_to_folder [save]")
-        exit(0)
-    elif len(sys.argv) == 2:
-        folder = sys.argv[1]
-        save = True#False
-    elif len(sys.argv) == 3:
-        folder = sys.argv[1]
-        save = bool(sys.argv[2])
-
+def player(folder, save):
     name = folder.split("/")[-1].split('|')[-1]
 
     metadata_path = f"{folder}/metadata/{name}_metadata.json"
@@ -278,3 +267,28 @@ if __name__ == "__main__":
         v.release()
 
     cv2.destroyAllWindows()
+
+
+def parse_args():
+    local_parser = argparse.ArgumentParser()
+    local_parser.add_argument(
+        '--folder',
+        type=str,
+        help='path to folder with metadata and actions',
+        required=True
+    )
+    local_parser.add_argument(
+        '--save',
+        action='store_true',
+        help='Flag to save video'
+    )
+    return local_parser.parse_args()
+
+
+def main():
+    args = parse_args()
+    player(args.folder, args.save)
+
+
+if __name__ == "__main__":
+    main()

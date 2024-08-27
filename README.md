@@ -63,8 +63,9 @@ You may use [YOLO](https://docs.ultralytics.com/) to automatically perform detec
 Detect objects with Ultralytics YOLO detections, apply SORT tracking and convert tracks to CVAT format.
 
 ```
-python detector2cvat.py path_to_videos path_to_save
+detector2cvat --video path_to_videos --save path_to_save
 ```
+
 
 ### Step 2B: Create mini-scenes from tracks
 
@@ -79,10 +80,12 @@ python tracks_extractor.py path_to_videos path_to_annotations [tracking]
 ## Step 3: Label mini-scenes with behavior 
 You can use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics) to label the mini-scenes with behavior. See the [ethogram](ethogram) folder for the list of behaviors used to label the zebra videos.
 
+
 To use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics), download `checkpoint_epoch_00075.pyth.zip`, unzip `checkpoint_epoch_00075.pyth`, and install [SlowFast](https://github.com/facebookresearch/SlowFast). Then run [miniscene2behavior.py](miniscene2behavior.py).
 
 Installing detectron2 and pytorchvideo can be tricky. This should work:
 ```
+
 python -m pip install git+https://github.com/facebookresearch/detectron2.git@2a420edb307c9bdf640f036d3b196bed474b8593#egg=detectron2
 python -m pip install git+https://github.com/facebookresearch/pytorchvideo.git@1fadaef40dd393ca09680f55582399f4679fc9b7#egg=pytorchvideo
 ```
@@ -97,6 +100,7 @@ python setup.py build develop
 ```
 
 After [SlowFast](https://github.com/facebookresearch/SlowFast) is installed, you are ready to label the mini-scenes:
+
 ```
 python miniscene2behavior.py --config [config path] --checkpoint [checkpoint path] --gpu_num [number of gpus available] --miniscene [miniscene path] --output [output path]
 ```
@@ -128,6 +132,7 @@ See [time budgets example](/examples/time_budget.ipynb) to code to create these 
 
 **Figure 6:** Overall time budget for duration of 10 minute observation
 
+
 <br>
 
 ![](images/timeline0.png)
@@ -156,7 +161,7 @@ Not sure what these scripts are for, Maksim you can provide info here?
 [player.py](player.py): Player for tracking and behavior observation.
 
 ```
-python player.py path_to_folder [save]
+player --folder path_to_folder [--save]
 ```
 
 ![](images/playeroutput.png)
@@ -164,7 +169,8 @@ python player.py path_to_folder [save]
 
 [cvat2slowfast.py](cvat2slowfast.py): Convert CVAT annotations to the dataset in Charades format.
 
+
 ```
-python cvat2slowfast.py path_to_mini_scenes dataset_name [zebra, giraffe]
+cvat2slowfast --miniscene path_to_mini_scenes --dataset dataset_name --classes path_to_classes_json --old2new path_to_old2new_json
 ```
 

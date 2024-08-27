@@ -1,5 +1,5 @@
 import os
-import sys
+import argparse
 import cv2
 import ruamel.yaml as yaml
 from lxml import etree
@@ -8,21 +8,8 @@ from tqdm import tqdm
 import shutil
 from natsort import natsorted
 
-if __name__ == "__main__":
-    if len(sys.argv) != 4 and len(sys.argv) != 5:
-        print("python cvat2ultralytics.py path_to_videos path_to_annotations dataset_name [skip_frames]")
-        exit(0)
-    elif len(sys.argv) == 4:
-        video_path = sys.argv[1]
-        annotation_path = sys.argv[2]
-        dataset = sys.argv[3]
-        skip = 10
-    elif len(sys.argv) == 5:
-        video_path = sys.argv[1]
-        annotation_path = sys.argv[2]
-        dataset = sys.argv[3]
-        skip = int(sys.argv[4])
 
+def cvat2ultralytics(video_path, annotation_path, dataset, skip):
     # Create a YOLO dataset structure.
     dataset_file = f"""
     path: {dataset}
@@ -178,3 +165,41 @@ if __name__ == "__main__":
 
     for file in tqdm(labels[int(len(labels) * 0.87):]):
         shutil.move(f"{dataset}/labels/train/{file}", f"{dataset}/labels/test/{file}")
+
+
+def parse_args():
+    local_parser = argparse.ArgumentParser()
+    local_parser.add_argument(
+        '--video',
+        type=str,
+        help='path to folder containing video mp4 files',
+        required=True
+    )
+    local_parser.add_argument(
+        '--annotation',
+        type=str,
+        help='path to folder containing annotation xml files',
+        required=True
+    )
+    local_parser.add_argument(
+        '--dataset',
+        type=str,
+        help='path to output dataset files',
+        required=True
+    )
+    local_parser.add_argument(
+        '--skip',
+        type=int,
+        help='process one out of skip number of frames',
+        default=10
+    )
+    return local_parser.parse_args()
+
+
+def main():
+    args = parse_args()
+    cvat2ultralytics(args.video, args.annotation, args.dataset, args.skip)
+
+
+if __name__ == "__main__":
+    main()

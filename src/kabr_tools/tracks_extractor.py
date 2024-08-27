@@ -1,16 +1,17 @@
 import numpy as np
 import os
 import sys
+import argparse
 import json
 from lxml import etree
 import shutil
 import cv2
-from src.utils import get_scene
 from collections import OrderedDict
-from src.detector import Detector
-from src.tracker import Tracker, Tracks
-from src.object import Object
-from src.draw import Draw
+from kabr_tools.utils.utils import get_scene
+from kabr_tools.utils.detector import Detector
+from kabr_tools.utils.tracker import Tracker, Tracks
+from kabr_tools.utils.object import Object
+from kabr_tools.utils.draw import Draw
 from tqdm import tqdm
 
 
@@ -178,22 +179,7 @@ def extract(video_path, annotation_path, tracking):
     vw.release()
     cv2.destroyAllWindows()
 
-
-if __name__ == "__main__":
-    if len(sys.argv) != 3 and len(sys.argv) != 4:
-        print("python tracks_extractor.py path_to_videos path_to_annotations [tracking]")
-        exit(0)
-    elif len(sys.argv) == 3:
-        video = sys.argv[1]
-        annotation = sys.argv[2]
-        tracking = False
-    # tracking=True: use external tracker instead of CVAT tracks.
-    # tracking=False: use CVAT tracks.
-    elif len(sys.argv) == 4:
-        video = sys.argv[1]
-        annotation = sys.argv[2]
-        tracking = bool(sys.argv[3])
-
+def tracks_extractor(video, annotation, tracking):
     if os.path.isdir(annotation):
         videos = []
         annotations = []
@@ -219,3 +205,33 @@ if __name__ == "__main__":
             extract(video, annotation, tracking)
     else:
         extract(video, annotation, tracking)
+
+
+def parse_args():
+    local_parser = argparse.ArgumentParser()
+    local_parser.add_argument(
+        '--video',
+        type=str,
+        help='path to folder containing videos',
+        required=True
+    )
+    local_parser.add_argument(
+        '--annotation',
+        type=str,
+        help='path to folder containing annotations',
+        required=True
+    )
+    local_parser.add_argument(
+        '--tracking',
+        action='store_true',
+        help='Flag to use external tracker instead of CVAT tracks'
+    )
+    return local_parser.parse_args()
+
+
+def main():
+    args = parse_args()
+    tracks_extractor(args.video, args.annotation, args.tracking)
+
+if __name__ == "__main__":
+    main()
