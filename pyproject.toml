@@ -63,6 +63,7 @@ cvat2ultralytics = "kabr_tools.cvat2ultralytics:main"
 detector2cvat = "kabr_tools.detector2cvat:main"
 player = "kabr_tools.player:main"
 tracks_extractor = "kabr_tools.tracks_extractor:main"
+miniscene2behavior = "kabr_tools.miniscene2behavior:main"
 
 
 [tool.hatch.version]
