@@ -9,6 +9,7 @@ statistics_zg.png
 statistics_zp.png
 yolov8x.pt
 
+
 *.mp4
 
 # Standard python ignore files
@@ -175,4 +176,3 @@ cython_debug/
 
 # Mac System
 .DS_Store
-
