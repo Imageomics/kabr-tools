@@ -76,7 +76,7 @@ detector2cvat --video path_to_videos --save path_to_save
 
 Once you have your tracks generated, use them to create mini-scenes from your raw footage.
 
-[tracks_extractor.py](tracks_extractor.py): Extract mini-scenes from CVAT tracks.
+**tracks_extractor:** Extract mini-scenes from CVAT tracks.
 
 ```
 tracks_extractor --video path_to_videos --annotation path_to_annotations [--tracking]
