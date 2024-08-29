@@ -89,7 +89,6 @@ You can use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics
 To use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics), download `checkpoint_epoch_00075.pyth.zip`, unzip `checkpoint_epoch_00075.pyth`, and install [SlowFast](https://github.com/facebookresearch/SlowFast). Then run [miniscene2behavior.py](miniscene2behavior.py).
 
 Installing detectron2 and pytorchvideo can be tricky. This should work:
-
 ```
 python -m pip install git+https://github.com/facebookresearch/detectron2.git@2a420edb307c9bdf640f036d3b196bed474b8593
 python -m pip install git+https://github.com/facebookresearch/pytorchvideo.git@1fadaef40dd393ca09680f55582399f4679fc9b7
@@ -149,7 +148,7 @@ See [time budgets example](/examples/time_budget.ipynb) to code to create these 
 If you wish to use YOLO to automatically generate detections, you may want to fine-tune your YOLO model for your dataset using the [train_yolo notebook](examples/train_yolo.ipynb).
 
 
-[cvat2ultralytics.py](cvat2ultralytics.py): Convert CVAT annotations to Ultralytics YOLO dataset.
+**cvat2ultralytics:** Convert CVAT annotations to Ultralytics YOLO dataset.
 
 ```
 cvat2ultralytics --video path_to_videos --annotation path_to_annotations --dataset dataset_name [--skip skip_frames]
