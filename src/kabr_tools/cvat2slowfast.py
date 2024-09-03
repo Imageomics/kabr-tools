@@ -9,15 +9,8 @@ from natsort import natsorted
 import cv2
 
 
-def cvat2slowfast(path_to_mini_scenes, path_to_new_dataset, classes_json, old2new_json):
-    with open(classes_json, mode='r', encoding='utf-8') as file:
-        label2number = json.load(file)
-
+def cvat2slowfast(path_to_mini_scenes, path_to_new_dataset, label2number, old2new):
     number2label = {value: key for key, value in label2number.items()}
-
-    with open(old2new_json, mode='r', encoding='utf-8') as file:
-        old2new = json.load(file)
-        old2new[None] = None
 
     if not os.path.exists(path_to_new_dataset):
         os.makedirs(path_to_new_dataset)
@@ -77,7 +70,10 @@ def cvat2slowfast(path_to_mini_scenes, path_to_new_dataset, classes_json, old2ne
                     counter = 0
 
                     for value in annotated.values():
-                        if old2new[value] in label2number.keys():
+                        if old2new:
+                            if old2new[value] in label2number:
+                                counter += 1
+                        elif (value in label2number):
                             counter += 1
 
                     if counter < 90:
@@ -114,7 +110,9 @@ def cvat2slowfast(path_to_mini_scenes, path_to_new_dataset, classes_json, old2ne
                                 os.makedirs(output_folder)
 
                             behavior = annotated.get(str(index))
-                            behavior = old2new[behavior]
+
+                            if old2new:
+                                behavior = old2new[behavior]
 
                             if behavior in label2number.keys():
                                 if flag:
@@ -169,14 +167,25 @@ def parse_args():
         '--old2new',
         type=str,
         help='path to old to new ethogram labels json',
-        required=True
+        required=False
     )
     return local_parser.parse_args()
 
 
 def main():
     args = parse_args()
-    cvat2slowfast(args.miniscene, args.dataset, args.classes, args.old2new)
+
+    with open(args.classes, mode='r', encoding='utf-8') as file:
+        label2number = json.load(file)
+
+    if args.old2new:
+        with open(args.old2new, mode='r', encoding='utf-8') as file:
+            old2new = json.load(file)
+            old2new[None] = None
+    else:
+        old2new = None
+
+    cvat2slowfast(args.miniscene, args.dataset, label2number, old2new)
 
 
 if __name__ == "__main__":
