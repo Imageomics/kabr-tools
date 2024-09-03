@@ -66,6 +66,12 @@ def parse_args():
         required=True
     )
     local_parser.add_argument(
+        '--video',
+        type=str,
+        help='name of video (expect video_tracks.xml from tracks_extractor)',
+        required=True
+    )
+    local_parser.add_argument(
         '--output',
         type=str,
         help='filepath for output csv',
@@ -150,7 +156,7 @@ def main():
     sys.argv = [sys.argv[0]]
     cfg, model = create_model(args.config, args.checkpoint, args.gpu_num)
     annotate_miniscene(cfg, model, args.miniscene,
-                       args.miniscene.split('|')[-1], args.output)
+                       args.video, args.output)
 
 
 if __name__ == '__main__':
