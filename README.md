@@ -173,6 +173,6 @@ player --folder path_to_folder [--save]
 
 
 ```
-cvat2slowfast --miniscene path_to_mini_scenes --dataset dataset_name --classes path_to_classes_json --old2new path_to_old2new_json
+cvat2slowfast --miniscene path_to_mini_scenes --dataset dataset_name --classes path_to_classes_json [--old2new path_to_old2new_json]
 ```
 
