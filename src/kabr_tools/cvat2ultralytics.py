@@ -1,5 +1,6 @@
 import os
 import argparse
+import json
 import cv2
 import ruamel.yaml as yaml
 from lxml import etree
@@ -9,7 +10,7 @@ import shutil
 from natsort import natsorted
 
 
-def cvat2ultralytics(video_path, annotation_path, dataset, skip):
+def cvat2ultralytics(video_path, annotation_path, dataset, skip, label2index=None):
     # Create a YOLO dataset structure.
     dataset_file = f"""
     path: {dataset}
@@ -41,11 +42,12 @@ def cvat2ultralytics(video_path, annotation_path, dataset, skip):
     if not os.path.exists(f"{dataset}/labels/test"):
         os.makedirs(f"{dataset}/labels/test")
 
-    label2index = {
-        "Zebra": 0,
-        "Baboon": 1,
-        "Giraffe": 2
-    }
+    if label2index is None:
+        label2index = {
+            "Zebra": 0,
+            "Baboon": 1,
+            "Giraffe": 2
+        }
 
     print("Process CVAT annotations...")
     videos = []
@@ -193,12 +195,25 @@ def parse_args():
         help='process one out of skip number of frames',
         default=10
     )
+    local_parser.add_argument(
+        '--label2index',
+        type=str,
+        help='path to label to index json',
+        required=False
+    )
     return local_parser.parse_args()
 
 
 def main():
     args = parse_args()
-    cvat2ultralytics(args.video, args.annotation, args.dataset, args.skip)
+
+    if args.label2index:
+        with open(args.label2index, mode='r', encoding='utf-8') as file:
+            label2index = json.load(file)
+    else:
+        label2index = None
+
+    cvat2ultralytics(args.video, args.annotation, args.dataset, args.skip, label2index)
 
 
 if __name__ == "__main__":
