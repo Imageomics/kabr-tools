@@ -176,3 +176,5 @@ cython_debug/
 
 # Mac System
 .DS_Store
+
+helper_scripts/mini-scenes
