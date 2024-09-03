@@ -104,7 +104,7 @@ python -m pip install git+https://github.com/zhong-al/SlowFast@797a6f3ae81c49019
 After [SlowFast](https://github.com/facebookresearch/SlowFast) is installed, you are ready to label the mini-scenes:
 
 ```
-python miniscene2behavior.py --config [config path] --checkpoint [checkpoint path] --gpu_num [number of gpus available] --miniscene [miniscene path] --output [output path]
+miniscene2behavior --config [config path] --checkpoint [checkpoint path] --gpu_num [number of gpus available] --miniscene [miniscene path] --output [output path]
 ```
 
 **Notes:**
