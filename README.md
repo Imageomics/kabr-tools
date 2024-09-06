@@ -79,7 +79,7 @@ Once you have your tracks generated, use them to create mini-scenes from your ra
 **tracks_extractor:** Extract mini-scenes from CVAT tracks.
 
 ```
-tracks_extractor --video path_to_videos --annotation path_to_annotations [--tracking]
+tracks_extractor --video path_to_videos --annotation path_to_annotations [--tracking] [--imshow]
 ```
 
 ## Step 3: Label mini-scenes with behavior 
