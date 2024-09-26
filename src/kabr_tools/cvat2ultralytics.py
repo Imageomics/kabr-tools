@@ -198,7 +198,7 @@ def parse_args():
     local_parser.add_argument(
         '--label2index',
         type=str,
-        help='path to label to index json',
+        help='path to label to index json (default is for zebra, baboon, and giraffe)',
         required=False
     )
     return local_parser.parse_args()
