@@ -88,23 +88,6 @@ You can use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics
 
 To use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics), download `checkpoint_epoch_00075.pyth.zip`, unzip `checkpoint_epoch_00075.pyth`, and install [SlowFast](https://github.com/facebookresearch/SlowFast). Then run [miniscene2behavior.py](miniscene2behavior.py).
 
-Installing detectron2 and pytorchvideo can be tricky. This should work:
-```
-python -m pip install git+https://github.com/facebookresearch/detectron2.git@2a420edb307c9bdf640f036d3b196bed474b8593
-python -m pip install git+https://github.com/facebookresearch/pytorchvideo.git@1fadaef40dd393ca09680f55582399f4679fc9b7
-```
-
-[SlowFast](https://github.com/facebookresearch/SlowFast)'s `setup.py` is outdated, so a workaround is:
-
-```
-python -m pip install git+https://github.com/zhong-al/SlowFast@797a6f3ae81c49019d006296f1e0f84f431dc356
-```
-
-After [SlowFast](https://github.com/facebookresearch/SlowFast) is installed, you are ready to label the mini-scenes:
-
-```
-miniscene2behavior [--config path_to_config] --checkpoint path_to_checkpoint [--gpu_num number_of_gpus] --miniscene path_to_miniscene [--output path_to_output_csv]
-```
 
 **Notes:**
  - If building detectron2's wheel fails, loading a different gnu module may help (`module load gnu/11.2.0`)
