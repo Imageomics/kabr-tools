@@ -19,7 +19,7 @@ authors = [
 ]
 description = "Tools for working with data for annotating animal behavior. These were specifically designed during construction of the KABR dataset."
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10, <3.11"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
@@ -35,6 +35,9 @@ dependencies = [
     "ruamel.yaml",
     "ultralytics",
     "pandas",
+    "detectron2 @ git+https://github.com/facebookresearch/detectron2.git@2a420edb307c9bdf640f036d3b196bed474b8593",
+    "pytorchvideo @ git+https://github.com/facebookresearch/pytorchvideo.git@1fadaef40dd393ca09680f55582399f4679fc9b7",
+    "slowfast @ git+https://github.com/zhong-al/SlowFast@797a6f3ae81c49019d006296f1e0f84f431dc356"
 ]
 keywords = [
     "annotation",
@@ -60,6 +63,7 @@ cvat2ultralytics = "kabr_tools.cvat2ultralytics:main"
 detector2cvat = "kabr_tools.detector2cvat:main"
 player = "kabr_tools.player:main"
 tracks_extractor = "kabr_tools.tracks_extractor:main"
+miniscene2behavior = "kabr_tools.miniscene2behavior:main"
 
 
 [tool.hatch.version]
