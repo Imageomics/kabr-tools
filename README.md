@@ -12,6 +12,12 @@ The KABR tools used in this process can be installed with:
 ```
 pip install git+https://github.com/Imageomics/kabr-tools
 ```
+
+**Notes:**
+ - detectron2 requires Linux or MacOS
+ - If building detectron2's wheel fails, loading a different gnu module may help (`module load gnu/11.2.0`)
+ - If ModuleNotFoundError: No module named 'torch' appears, try `pip install torch torchvision`
+
 Each KABR tool can be run through the command line (as described below) or imported as a python module. They each have help information which can be accessed on the command line through `<tool-name> -h`.
 
 Please refer to our [KABR Project Page](https://kabrdata.xyz/) for additional details.
@@ -90,7 +96,6 @@ To use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics), do
 
 
 **Notes:**
- - If building detectron2's wheel fails, loading a different gnu module may help (`module load gnu/11.2.0`)
  - If the config hasn't been extracted yet, the script will write it to `config`. 
  - `checkpoint` should be the path to `checkpoint_epoch_00075.pyth`. 
  - If `gpu_num` is 0, the model will use CPU. Using at least 1 GPU greatly increases inference speed. If you're using OSC, you can request a node with one GPU by running `sbatch -N 1 --gpus-per-node 1 -A [account] --time=[minutes] [bash script]`.
