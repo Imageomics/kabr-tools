@@ -100,6 +100,7 @@ To use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics), do
  - If the config hasn't been extracted yet, the script will write it to `config`. 
  - `checkpoint` should be the path to `checkpoint_epoch_00075.pyth`. 
  - If `gpu_num` is 0, the model will use CPU. Using at least 1 GPU greatly increases inference speed. If you're using OSC, you can request a node with one GPU by running `sbatch -N 1 --gpus-per-node 1 -A [account] --time=[minutes] [bash script]`.
+ - mini-scenes are clipped videos focused on individual animals and video is the raw video file from which mini-scenes have been extracted.
 
 See [these csv files](https://huggingface.co/imageomics/x3d-kabr-kinetics/tree/main/data/mini_scene_behavior_annotations) in HuggingFace for examples of annotated mini-scene outputs.
 
