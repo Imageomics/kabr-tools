@@ -56,15 +56,16 @@ frame-by-frame behavior annotation.
 
 #### To create mini-scenes, we first must perform the detection step, by drawing bounding boxes around each animal in frame. 
 
-See [data/mini_scenes](https://huggingface.co/imageomics/x3d-kabr-kinetics/tree/main/data/mini_scenes) for example mini-scenes.
+See [data/mini_scenes](https://huggingface.co/imageomics/x3d-kabr-kinetics/tree/main/data/mini_scenes) in HuggingFace for example mini-scenes.
 
 ### Step 2A: Perform detections to create tracks
 #### Option 1: Manual detections in CVAT
 ![](images/cvat_annotation_tool.png)
 **Figure 4:** Simplified CVAT annotation tool interface
 <br>
+
 Upload your raw videos to [CVAT](https://www.cvat.ai/) and perform the detections by drawing bounding boxes manually. This can be quite consuming, but has the advantage of generating highly accurate tracks. 
-Depending on the resolution of your raw video, you may encounter out of space issues with CVAT. You can use [helper_scripts/downgrade.sh](helper_scripts/downgrade.sh) to reduce the size of your videos. 
+Depending on the resolution of your raw video, you may encounter out of space issues with CVAT. You can use [downgrade.sh](helper_scripts/downgrade.sh) to reduce the size of your videos. 
 
 
 #### Option 2: Automatic detections with YOLO
@@ -90,10 +91,10 @@ tracks_extractor --video path_to_videos --annotation path_to_annotations [--trac
 ```
 
 ## Step 3: Label mini-scenes with behavior 
-You can use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics) to label the mini-scenes with behavior. See the [ethogram](ethogram) folder for the list of behaviors used to label the zebra videos.
+You can use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics) in HuggingFace to label the mini-scenes with behavior. See the [ethogram](ethogram) folder for the list of behaviors used to label the zebra videos.
 
 
-To use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics), download `checkpoint_epoch_00075.pyth.zip`, unzip `checkpoint_epoch_00075.pyth`, and install [SlowFast](https://github.com/facebookresearch/SlowFast). Then run [miniscene2behavior.py](miniscene2behavior.py).
+To use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics), download `checkpoint_epoch_00075.pyth.zip`, unzip `checkpoint_epoch_00075.pyth` from HuggingFace, and install [SlowFast](https://github.com/facebookresearch/SlowFast). Then run [miniscene2behavior.py](miniscene2behavior.py).
 
 
 **Notes:**
@@ -101,12 +102,12 @@ To use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics), do
  - `checkpoint` should be the path to `checkpoint_epoch_00075.pyth`. 
  - If `gpu_num` is 0, the model will use CPU. Using at least 1 GPU greatly increases inference speed. If you're using OSC, you can request a node with one GPU by running `sbatch -N 1 --gpus-per-node 1 -A [account] --time=[minutes] [bash script]`.
 
-See [these csv files](https://huggingface.co/imageomics/x3d-kabr-kinetics/tree/main/data/mini_scene_behavior_annotations) for examples of annotated mini-scene outputs.
+See [these csv files](https://huggingface.co/imageomics/x3d-kabr-kinetics/tree/main/data/mini_scene_behavior_annotations) in Hugging Face for examples of annotated mini-scene outputs.
 
 
 ## Step 4: Calculate time budgets
 
-See [time budgets example](/examples/time_budget.ipynb) to code to create these visualizations.
+See the [time budgets notebook](/notebooks/time_budget.ipynb) for the code to create these visualizations.
 
 
 <!-- Add two photos side by side -->
@@ -120,7 +121,6 @@ See [time budgets example](/examples/time_budget.ipynb) to code to create these 
 
 ![](images/timebudget.png)
 <br>
-
 **Figure 6:** Overall time budget for duration of 10 minute observation
 
 
