@@ -47,7 +47,7 @@ def generate_timeline_image(name, folder, timeline, annotated_size):
     cv2.imwrite(f"mini-scenes/{folder}/metadata/{name}.jpg", timeline_resized)
 
 
-def extract(video_path, annotation_path, tracking):
+def extract(video_path, annotation_path, tracking, show):
     # Parse CVAT for video 1.1 annotation file.
     root = etree.parse(annotation_path).getroot()
     annotated = dict()
@@ -146,7 +146,8 @@ def extract(video_path, annotation_path, tracking):
                     timeline["tracks"][object.object_id][index] = tracked_indices[object.object_id]
                     tracked_indices[object.object_id] += 1
 
-            cv2.imshow("tracks_extractor", cv2.resize(visualization,
+            if show:
+                cv2.imshow("tracks_extractor", cv2.resize(visualization,
                                                       (int(original_width // 2.5), int(original_height // 2.5))))
             vw.write(visualization)
             key = cv2.waitKey(1)
@@ -179,7 +180,7 @@ def extract(video_path, annotation_path, tracking):
     vw.release()
     cv2.destroyAllWindows()
 
-def tracks_extractor(video, annotation, tracking):
+def tracks_extractor(video, annotation, tracking, show):
     if os.path.isdir(annotation):
         videos = []
         annotations = []
@@ -202,9 +203,9 @@ def tracks_extractor(video, annotation, tracking):
                 print(f"Path {video} does not exist.")
                 continue
 
-            extract(video, annotation, tracking)
+            extract(video, annotation, tracking, show)
     else:
-        extract(video, annotation, tracking)
+        extract(video, annotation, tracking, show)
 
 
 def parse_args():
@@ -226,12 +227,17 @@ def parse_args():
         action='store_true',
         help='Flag to use external tracker instead of CVAT tracks'
     )
+    local_parser.add_argument(
+        '--imshow',
+        action='store_true',
+        help='Flag to display tracks\' visualization'
+    )
     return local_parser.parse_args()
 
 
 def main():
     args = parse_args()
-    tracks_extractor(args.video, args.annotation, args.tracking)
+    tracks_extractor(args.video, args.annotation, args.tracking, args.imshow)
 
 if __name__ == "__main__":
     main()

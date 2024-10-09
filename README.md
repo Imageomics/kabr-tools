@@ -12,6 +12,13 @@ The KABR tools used in this process can be installed with:
 ```
 pip install git+https://github.com/Imageomics/kabr-tools
 ```
+
+**Notes:**
+ - detectron2 requires Linux or MacOS.
+ - If building detectron2's wheel fails, loading a different gnu module may help (`module load gnu/11.2.0`).
+ - If `ModuleNotFoundError: No module named 'torch'` appears, try `pip install torch torchvision` in your environment and try installing `kabr_tools` again.
+ - SlowFast's setup.py is outdated; our workaround is `pip install git+https://github.com/Imageomics/SlowFast@797a6f3ae81c49019d006296f1e0f84f431dc356`, which is included when installing `kabr_tools`.
+
 Each KABR tool can be run through the command line (as described below) or imported as a python module. They each have help information which can be accessed on the command line through `<tool-name> -h`.
 
 Please refer to our [KABR Project Page](https://kabrdata.xyz/) for additional details.
@@ -49,7 +56,7 @@ frame-by-frame behavior annotation.
 
 #### To create mini-scenes, we first must perform the detection step, by drawing bounding boxes around each animal in frame. 
 
-See [data/mini_scenes](https://huggingface.co/imageomics/x3d-kabr-kinetics/tree/main/data/mini_scenes) for example mini-scenes.
+See [data/mini_scenes](https://huggingface.co/imageomics/x3d-kabr-kinetics/tree/main/data/mini_scenes) in HuggingFace for example mini-scenes.
 
 ### Step 2A: Perform detections to create tracks
 #### Option 1: Manual detections in CVAT
@@ -64,7 +71,7 @@ Depending on the resolution of your raw video, you may encounter out of space is
 You may use [YOLO](https://docs.ultralytics.com/) to automatically perform detection on your videos. Use the script below to convert YOLO detections to CVAT format.
 
 
-**detector2cvat:**
+[detector2cvat:](src/kabr_tools/detector2cvat.py)
 Detect objects with Ultralytics YOLO detections, apply SORT tracking and convert tracks to CVAT format.
 
 ```
@@ -79,7 +86,7 @@ Once you have your tracks generated, use them to create mini-scenes from your ra
 **tracks_extractor:** Extract mini-scenes from CVAT tracks.
 
 ```
-tracks_extractor --video path_to_videos --annotation path_to_annotations [--tracking]
+tracks_extractor --video path_to_videos --annotation path_to_annotations [--tracking] [--imshow]
 ```
 
 ## Step 3: Label mini-scenes with behavior 
@@ -88,31 +95,14 @@ You can use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics
 
 To use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics), download `checkpoint_epoch_00075.pyth.zip`, unzip `checkpoint_epoch_00075.pyth`, and install [SlowFast](https://github.com/facebookresearch/SlowFast). Then run [miniscene2behavior.py](miniscene2behavior.py).
 
-Installing detectron2 and pytorchvideo can be tricky. This should work:
-```
-python -m pip install git+https://github.com/facebookresearch/detectron2.git@2a420edb307c9bdf640f036d3b196bed474b8593
-python -m pip install git+https://github.com/facebookresearch/pytorchvideo.git@1fadaef40dd393ca09680f55582399f4679fc9b7
-```
-
-[SlowFast](https://github.com/facebookresearch/SlowFast)'s `setup.py` is outdated, so a workaround is:
-
-```
-python -m pip install git+https://github.com/zhong-al/SlowFast@797a6f3ae81c49019d006296f1e0f84f431dc356
-```
-
-After [SlowFast](https://github.com/facebookresearch/SlowFast) is installed, you are ready to label the mini-scenes:
-
-```
-miniscene2behavior --config [config path] --checkpoint [checkpoint path] --gpu_num [number of gpus available] --miniscene [miniscene path] --video [video name] --output [output path]
-```
 
 **Notes:**
- - If building detectron2's wheel fails, loading a different gnu module may help (`module load gnu/11.2.0`)
  - If the config hasn't been extracted yet, the script will write it to `config`. 
  - `checkpoint` should be the path to `checkpoint_epoch_00075.pyth`. 
  - If `gpu_num` is 0, the model will use CPU. Using at least 1 GPU greatly increases inference speed. If you're using OSC, you can request a node with one GPU by running `sbatch -N 1 --gpus-per-node 1 -A [account] --time=[minutes] [bash script]`.
+ - mini-scenes are clipped videos focused on individual animals and video is the raw video file from which mini-scenes have been extracted.
 
-See [these csv files](https://huggingface.co/imageomics/x3d-kabr-kinetics/tree/main/data/mini_scene_behavior_annotations) for examples of annotated mini-scene outputs.
+See [these csv files](https://huggingface.co/imageomics/x3d-kabr-kinetics/tree/main/data/mini_scene_behavior_annotations) in HuggingFace for examples of annotated mini-scene outputs.
 
 
 ## Step 4: Calculate time budgets
@@ -148,7 +138,7 @@ See [time budgets example](/examples/time_budget.ipynb) to code to create these 
 If you wish to use YOLO to automatically generate detections, you may want to fine-tune your YOLO model for your dataset using the [train_yolo notebook](examples/train_yolo.ipynb).
 
 
-**cvat2ultralytics:** Convert CVAT annotations to Ultralytics YOLO dataset.
+[cvat2ultralytics:](src/kabr_tools/cvat2ultralytics.py) Convert CVAT annotations to Ultralytics YOLO dataset.
 
 ```
 cvat2ultralytics --video path_to_videos --annotation path_to_annotations --dataset dataset_name [--skip skip_frames]
@@ -160,7 +150,7 @@ Not sure what these scripts are for, Maksim you can provide info here?
 
 ###  Extras
 
-**player:** Player for tracking and behavior observation.
+[player:](src/kabr_tools/player.py) Player for tracking and behavior observation.
 
 ```
 player --folder path_to_folder [--save]
@@ -169,10 +159,10 @@ player --folder path_to_folder [--save]
 ![](images/playeroutput.png)
 **Figure 7:** Example player.py output.
 
-**cvat2slowfast:** Convert CVAT annotations to the dataset in Charades format.
+[cvat2slowfast:](src/kabr_tools/cvat2slowfast.py) Convert CVAT annotations to the dataset in Charades format.
 
 
 ```
-cvat2slowfast --miniscene path_to_mini_scenes --dataset dataset_name --classes path_to_classes_json --old2new path_to_old2new_json
+cvat2slowfast --miniscene path_to_mini_scenes --dataset dataset_name --classes path_to_classes_json [--old2new path_to_old2new_json]
 ```
 
