@@ -177,5 +177,13 @@ cython_debug/
 # Mac System
 .DS_Store
 
+# Annotation output
+*.csv
+
+# Model files
+*.pyth
+*.pyth.zip
+*.yml
+
 
 helper_scripts/mini-scenes
