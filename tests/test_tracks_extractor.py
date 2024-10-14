@@ -7,6 +7,6 @@ class TestTracksExtractor(unittest.TestCase):
     def test_extractor(self):
         # run tracks_extractor
         sys.argv = ["tracks_extractor.py",
-                    "--video", "tests/examples/DJI_0068.mp4",
-                    "--annotation", "tests/examples/tracks.xml"]
+                    "--video", "tests/detection_example/DJI_0068.mp4",
+                    "--annotation", "tests/detection_example/DJI_0068.xml"]
         tracks_extractor.main()
