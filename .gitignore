@@ -177,6 +177,11 @@ cython_debug/
 # Mac System
 .DS_Store
 
+# Track extraction output
+*.json
+*.xml
+*.jpg
+
 # Annotation output
 *.csv
 
