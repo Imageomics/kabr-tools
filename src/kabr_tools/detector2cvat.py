@@ -9,6 +9,14 @@ from kabr_tools.utils.draw import Draw
 
 
 def detector2cvat(path_to_videos: str, path_to_save: str, show: bool) -> None:
+    """
+    Detect objects with Ultralytics YOLO detections, apply SORT tracking and convert tracks to CVAT format.
+
+    Parameters:
+    path_to_videos - str. Path to the folder containing videos.
+    path_to_save - str. Path to the folder to save output xml & mp4 files.
+    show - bool. Flag to display detector's visualization.
+    """
     videos = []
 
     for root, dirs, files in os.walk(path_to_videos):
