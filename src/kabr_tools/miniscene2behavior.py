@@ -117,8 +117,8 @@ def annotate_miniscene(cfg: CfgNode, model: torch.nn.Module, miniscene_path: str
         tracks.append(track_id)
 
     # find all frames
+    # TODO: rewrite - some tracks may have different frames
     assert len(tracks) > 0, "No tracks found in track file"
-    track = tracks[-1]
     frames = []
     for box in track.iterfind("box"):
         frames.append(int(box.attrib["frame"]))
