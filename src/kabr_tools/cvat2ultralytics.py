@@ -1,4 +1,5 @@
 import os
+from typing import Optional
 import argparse
 import json
 import cv2
@@ -10,7 +11,7 @@ import shutil
 from natsort import natsorted
 
 
-def cvat2ultralytics(video_path, annotation_path, dataset, skip, label2index=None):
+def cvat2ultralytics(video_path: str, annotation_path: str, dataset: str, skip: int, label2index: Optional[dict] = None):
     # Create a YOLO dataset structure.
     dataset_file = f"""
     path: {dataset}
