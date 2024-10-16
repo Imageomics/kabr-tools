@@ -15,7 +15,7 @@ from kabr_tools.utils.draw import Draw
 from tqdm import tqdm
 
 
-def generate_timeline_image(name, folder, timeline, annotated_size):
+def generate_timeline_image(name: str, folder: str, timeline: OrderedDict, annotated_size: int) -> None:
     timeline_image = np.zeros(shape=(len(timeline["tracks"].keys()) * 100, annotated_size, 3), dtype=np.uint8)
 
     for i, (key, value) in enumerate(timeline["tracks"].items()):
@@ -47,7 +47,7 @@ def generate_timeline_image(name, folder, timeline, annotated_size):
     cv2.imwrite(f"mini-scenes/{folder}/metadata/{name}.jpg", timeline_resized)
 
 
-def extract(video_path, annotation_path, tracking, show):
+def extract(video_path: str, annotation_path: str, tracking: bool, show: bool) -> None:
     # Parse CVAT for video 1.1 annotation file.
     root = etree.parse(annotation_path).getroot()
     annotated = dict()
@@ -180,7 +180,7 @@ def extract(video_path, annotation_path, tracking, show):
     vw.release()
     cv2.destroyAllWindows()
 
-def tracks_extractor(video, annotation, tracking, show):
+def tracks_extractor(video: str, annotation: str, tracking: bool, show: bool) -> None:
     if os.path.isdir(annotation):
         videos = []
         annotations = []
@@ -208,34 +208,34 @@ def tracks_extractor(video, annotation, tracking, show):
         extract(video, annotation, tracking, show)
 
 
-def parse_args():
+def parse_args() -> argparse.Namespace:
     local_parser = argparse.ArgumentParser()
     local_parser.add_argument(
-        '--video',
+        "--video",
         type=str,
-        help='path to folder containing videos',
+        help="path to folder containing videos",
         required=True
     )
     local_parser.add_argument(
-        '--annotation',
+        "--annotation",
         type=str,
-        help='path to folder containing annotations',
+        help="path to folder containing annotations",
         required=True
     )
     local_parser.add_argument(
-        '--tracking',
-        action='store_true',
-        help='Flag to use external tracker instead of CVAT tracks'
+        "--tracking",
+        action="store_true",
+        help="Flag to use external tracker instead of CVAT tracks"
     )
     local_parser.add_argument(
-        '--imshow',
-        action='store_true',
-        help='Flag to display tracks\' visualization'
+        "--imshow",
+        action="store_true",
+        help="Flag to display tracks\' visualization"
     )
     return local_parser.parse_args()
 
 
-def main():
+def main() -> None:
     args = parse_args()
     tracks_extractor(args.video, args.annotation, args.tracking, args.imshow)
 
