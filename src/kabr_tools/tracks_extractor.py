@@ -225,12 +225,12 @@ def parse_args() -> argparse.Namespace:
     local_parser.add_argument(
         "--tracking",
         action="store_true",
-        help="Flag to use external tracker instead of CVAT tracks"
+        help="flag to use external tracker instead of CVAT tracks"
     )
     local_parser.add_argument(
         "--imshow",
         action="store_true",
-        help="Flag to display tracks\' visualization"
+        help="flag to display tracks\' visualization"
     )
     return local_parser.parse_args()
 
