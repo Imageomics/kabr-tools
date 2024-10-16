@@ -114,22 +114,21 @@ def annotate_miniscene(cfg: CfgNode, model: torch.nn.Module,
 
     # find all tracks
     tracks = []
+    frames = {}
     for track in root.iterfind("track"):
         track_id = track.attrib["id"]
         tracks.append(track_id)
+        frames[track_id] = []
 
-    # find all frames
-    # TODO: rewrite - some tracks may have different frames
-    assert len(tracks) > 0, "No tracks found in track file"
-    frames = []
-    for box in track.iterfind("box"):
-        frames.append(int(box.attrib["frame"]))
+        # find all frames
+        for box in track.iterfind("box"):
+            frames[track_id].append(int(box.attrib["frame"]))
 
     # run model on miniscene
     for track in tracks:
         video_file = f"{miniscene_path}/{track}.mp4"
         cap = cv2.VideoCapture(video_file)
-        for frame in tqdm(frames, desc=f"{track} frames"):
+        for frame in tqdm(frames[track], desc=f"{track} frames"):
             inputs = get_input_clip(cap, cfg, frame)
 
             if cfg.NUM_GPUS:
