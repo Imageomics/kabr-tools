@@ -128,8 +128,9 @@ def annotate_miniscene(cfg: CfgNode, model: torch.nn.Module,
     for track in tracks:
         video_file = f"{miniscene_path}/{track}.mp4"
         cap = cv2.VideoCapture(video_file)
+        start_frame = frames[track][0]
         for frame in tqdm(frames[track], desc=f"{track} frames"):
-            inputs = get_input_clip(cap, cfg, frame)
+            inputs = get_input_clip(cap, cfg, frame - start_frame)
 
             if cfg.NUM_GPUS:
                 # transfer the data to the current GPU device.
