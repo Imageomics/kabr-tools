@@ -105,7 +105,9 @@ def create_model(config_path: str, checkpoint_path: str, gpu_num: int) -> tuple[
     return cfg, model
 
 
-def annotate_miniscene(cfg: CfgNode, model: torch.nn.Module, miniscene_path: str, video: str, output_path: str) -> None:
+def annotate_miniscene(cfg: CfgNode, model: torch.nn.Module,
+                       miniscene_path: str, video: str,
+                       output_path: str) -> None:
     label_data = []
     track_file = f"{miniscene_path}/metadata/{video}_tracks.xml"
     root = etree.parse(track_file).getroot()

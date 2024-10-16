@@ -10,7 +10,8 @@ from natsort import natsorted
 import cv2
 
 
-def cvat2slowfast(path_to_mini_scenes: str, path_to_new_dataset: str, label2number: dict, old2new: Optional[dict]) -> None:
+def cvat2slowfast(path_to_mini_scenes: str, path_to_new_dataset: str,
+                  label2number: dict, old2new: Optional[dict]) -> None:
     if not os.path.exists(path_to_new_dataset):
         os.makedirs(path_to_new_dataset)
 

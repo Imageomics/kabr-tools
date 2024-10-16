@@ -11,7 +11,9 @@ import shutil
 from natsort import natsorted
 
 
-def cvat2ultralytics(video_path: str, annotation_path: str, dataset: str, skip: int, label2index: Optional[dict] = None):
+def cvat2ultralytics(video_path: str, annotation_path: str,
+                     dataset: str, skip: int,
+                     label2index: Optional[dict] = None) -> None:
     # Create a YOLO dataset structure.
     dataset_file = f"""
     path: {dataset}
@@ -170,7 +172,7 @@ def cvat2ultralytics(video_path: str, annotation_path: str, dataset: str, skip: 
         shutil.move(f"{dataset}/labels/train/{file}", f"{dataset}/labels/test/{file}")
 
 
-def parse_args():
+def parse_args() -> argparse.Namespace:
     local_parser = argparse.ArgumentParser()
     local_parser.add_argument(
         '--video',
@@ -205,7 +207,7 @@ def parse_args():
     return local_parser.parse_args()
 
 
-def main():
+def main() -> None:
     args = parse_args()
 
     if args.label2index:
