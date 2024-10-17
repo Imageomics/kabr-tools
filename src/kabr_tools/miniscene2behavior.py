@@ -19,12 +19,16 @@ def get_input_clip(cap: cv2.VideoCapture, cfg: CfgNode, keyframe_idx: int) -> li
     # https://github.com/facebookresearch/SlowFast/blob/bac7b672f40d44166a84e8c51d1a5ba367ace816/slowfast/visualization/ava_demo_precomputed_boxes.py
     seq_length = cfg.DATA.NUM_FRAMES * cfg.DATA.SAMPLING_RATE
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    assert keyframe_idx < total_frames, f"keyframe_idx: {keyframe_idx}" \
+        f">= total_frames: {total_frames}"
     seq = get_sequence(
         keyframe_idx,
         seq_length // 2,
         cfg.DATA.SAMPLING_RATE,
         total_frames,
     )
+    # TODO: remove after debugging
+    print(seq)
     clip = []
     for frame_idx in seq:
         cap.set(cv2.CAP_PROP_POS_FRAMES, frame_idx)
@@ -130,7 +134,11 @@ def annotate_miniscene(cfg: CfgNode, model: torch.nn.Module,
         cap = cv2.VideoCapture(video_file)
         start_frame = frames[track][0]
         for frame in tqdm(frames[track], desc=f"{track} frames"):
-            inputs = get_input_clip(cap, cfg, frame - start_frame)
+            try:
+                inputs = get_input_clip(cap, cfg, frame - start_frame)
+            except AssertionError as e:
+                print(e)
+                break
 
             if cfg.NUM_GPUS:
                 # transfer the data to the current GPU device.
@@ -153,6 +161,7 @@ def annotate_miniscene(cfg: CfgNode, model: torch.nn.Module,
             if frame % 20 == 0:
                 pd.DataFrame(label_data).to_csv(
                     output_path, sep=" ", index=False)
+        cap.release()
     pd.DataFrame(label_data).to_csv(output_path, sep=" ", index=False)
 
 
