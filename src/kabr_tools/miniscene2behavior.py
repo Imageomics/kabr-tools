@@ -28,7 +28,7 @@ def get_input_clip(cap: cv2.VideoCapture, cfg: CfgNode, keyframe_idx: int) -> li
         total_frames,
     )
     # TODO: remove after debugging
-    print(seq)
+    print(keyframe_idx, seq[0], seq[-1], total_frames)
     clip = []
     for frame_idx in seq:
         cap.set(cv2.CAP_PROP_POS_FRAMES, frame_idx)
@@ -143,8 +143,8 @@ def annotate_miniscene(cfg: CfgNode, model: torch.nn.Module,
             if cfg.NUM_GPUS:
                 # transfer the data to the current GPU device.
                 if isinstance(inputs, (list,)):
-                    for i in range(len(inputs)):
-                        inputs[i] = inputs[i].cuda(non_blocking=True)
+                    for i, input_clip in enumerate(inputs):
+                        inputs[i] = input_clip.cuda(non_blocking=True)
                 else:
                     inputs = inputs.cuda(non_blocking=True)
 
