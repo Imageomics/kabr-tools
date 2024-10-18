@@ -5,7 +5,7 @@ from kabr_tools import detector2cvat
 
 
 class TestDetector2Cvat(unittest.TestCase):
-    @patch('kabr_tools.miniscene2behavior.cv2.imshow')
+    @patch('kabr_tools.detector2cvat.cv2.imshow')
     def test_detector(self, imshow):
         sys.argv = ["detector2cvat.py",
                     "--video", "tests/detection_example",
