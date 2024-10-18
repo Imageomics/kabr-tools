@@ -91,7 +91,7 @@ tracks_extractor --video path_to_videos --annotation path_to_annotations [--trac
 ```
 
 ## Step 3: Label mini-scenes with behavior 
-You can use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics) in HuggingFace to label the mini-scenes with behavior. See the [ethogram](ethogram) folder for the list of behaviors used to label the zebra videos.
+You can use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics) on Hugging Face to label the mini-scenes with behavior. See the [ethogram](ethogram) folder for the list of behaviors used to label the zebra videos.
 
 
 To use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics), download `checkpoint_epoch_00075.pyth.zip`, unzip `checkpoint_epoch_00075.pyth` from HuggingFace, and install [SlowFast](https://github.com/facebookresearch/SlowFast). Then run [miniscene2behavior.py](miniscene2behavior.py).
