@@ -4,7 +4,7 @@ from kabr_tools import cvat2ultralytics
 
 
 class TestCvat2Ultralytics(unittest.TestCase):
-    def test_cvat2ultralytics(self):
+    def test_run(self):
         sys.argv = ["cvat2ultralytics.py",
                     "--video", "tests/detection_example",
                     "--annotation", "tests/detection_example",

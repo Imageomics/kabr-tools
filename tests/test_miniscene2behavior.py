@@ -19,7 +19,7 @@ EXAMPLESDIR = os.path.join(TESTSDIR, "examples")
 
 
 class TestMiniscene2Behavior(unittest.TestCase):
-    def test_annotate(self):
+    def test_run(self):
         # run tracks_extractor
         sys.argv = ["tracks_extractor.py",
                     "--video", "tests/detection_example/DJI_0068.mp4",
