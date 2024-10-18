@@ -56,7 +56,7 @@ frame-by-frame behavior annotation.
 
 #### To create mini-scenes, we first must perform the detection step, by drawing bounding boxes around each animal in frame. 
 
-See [data/mini_scenes](https://huggingface.co/imageomics/x3d-kabr-kinetics/tree/main/data/mini_scenes) in HuggingFace for example mini-scenes.
+See [data/mini_scenes](https://huggingface.co/imageomics/x3d-kabr-kinetics/tree/main/data/mini_scenes) on Hugging Face for example mini-scenes.
 
 ### Step 2A: Perform detections to create tracks
 #### Option 1: Manual detections in CVAT
