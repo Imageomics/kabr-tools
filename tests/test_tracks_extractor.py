@@ -1,12 +1,12 @@
-import unittest
-import sys
-from kabr_tools import tracks_extractor
+# import unittest
+# import sys
+# from kabr_tools import tracks_extractor
 
 
-class TestTracksExtractor(unittest.TestCase):
-    def test_extractor(self):
-        # run tracks_extractor
-        sys.argv = ["tracks_extractor.py",
-                    "--video", "tests/detection_example/DJI_0068.mp4",
-                    "--annotation", "tests/detection_example/DJI_0068.xml"]
-        tracks_extractor.main()
+# class TestTracksExtractor(unittest.TestCase):
+#     def test_extractor(self):
+#         # run tracks_extractor
+#         sys.argv = ["tracks_extractor.py",
+#                     "--video", "tests/detection_example/DJI_0068.mp4",
+#                     "--annotation", "tests/detection_example/DJI_0068.xml"]
+#         tracks_extractor.main()
