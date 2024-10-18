@@ -131,6 +131,7 @@ def hotkey(key):
                     vc.set(cv2.CAP_PROP_POS_FRAMES, metadata["tracks"][current][index])
 
 def player(folder, save):
+    global metadata, vcs, letter2hotkey, trackbar_position, paused, current
     name = folder.split("/")[-1].split('|')[-1]
 
     metadata_path = f"{folder}/metadata/{name}_metadata.json"
