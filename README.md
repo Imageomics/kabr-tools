@@ -75,7 +75,7 @@ You may use [YOLO](https://docs.ultralytics.com/) to automatically perform detec
 Detect objects with Ultralytics YOLO detections, apply SORT tracking and convert tracks to CVAT format.
 
 ```
-detector2cvat --video path_to_videos --save path_to_save
+detector2cvat --video path_to_videos --save path_to_save [--imshow]
 ```
 
 
