@@ -15,8 +15,8 @@ pip install git+https://github.com/Imageomics/kabr-tools
 
 **Notes:**
  - detectron2 requires Linux or MacOS.
- - If building detectron2's wheel fails, loading a different gnu module may help (`module load gnu/11.2.0`).
  - If `ModuleNotFoundError: No module named 'torch'` appears, try `pip install torch torchvision` in your environment and try installing `kabr_tools` again.
+ - If building detectron2's wheel fails, check gcc & g++ ≥ 5.4.
  - SlowFast's setup.py is outdated; our workaround is `pip install git+https://github.com/Imageomics/SlowFast@797a6f3ae81c49019d006296f1e0f84f431dc356`, which is included when installing `kabr_tools`.
 
 Each KABR tool can be run through the command line (as described below) or imported as a python module. They each have help information which can be accessed on the command line through `<tool-name> -h`.
