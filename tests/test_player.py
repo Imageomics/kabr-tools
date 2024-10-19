@@ -19,3 +19,20 @@ class TestPlayer(unittest.TestCase):
                     "--folder", "tests/behavior_example/DJI_0001",
                     "--save"]
         player.main()
+
+    def test_parse_arg_min(self):
+        # parse arguments
+        sys.argv = ["player.py",
+                    "--folder", "tests/behavior_example/DJI_0001"]
+        args = player.parse_args()
+        self.assertEqual(args.folder, "tests/behavior_example/DJI_0001")
+        self.assertEqual(args.save, False)
+
+    def test_parse_arg_full(self):
+        # parse arguments
+        sys.argv = ["player.py",
+                    "--folder", "tests/behavior_example/DJI_0001",
+                    "--save"]
+        args = player.parse_args()
+        self.assertEqual(args.folder, "tests/behavior_example/DJI_0001")
+        self.assertEqual(args.save, True)
