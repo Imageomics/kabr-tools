@@ -119,3 +119,34 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.assertEqual(list(df.columns), [
                          "video", "track", "frame", "label"])
         self.assertGreater(len(df.index), 0)
+
+    def test_parse_arg_min(self):
+        # parse arguments
+        sys.argv = ["miniscene2behavior.py",
+                    "--checkpoint", "checkpoint_epoch_00075.pyth",
+                    "--miniscene", "mini-scenes/tests|detection_example|DJI_0068",
+                    "--video", "DJI_0068"]
+        args = miniscene2behavior.parse_args()
+        self.assertEqual(args.config, "config.yml")
+        self.assertEqual(args.checkpoint, "checkpoint_epoch_00075.pyth")
+        self.assertEqual(args.gpu_num, 0)
+        self.assertEqual(args.miniscene, "mini-scenes/tests|detection_example|DJI_0068")
+        self.assertEqual(args.video, "DJI_0068")
+        self.assertEqual(args.output, "annotation_data.csv")
+
+    def test_parse_arg_full(self):
+        # parse arguments
+        sys.argv = ["miniscene2behavior.py",
+                    "--config", "special_config.yml",
+                    "--checkpoint", "checkpoint_epoch_00075.pyth",
+                    "--gpu_num", "1",
+                    "--miniscene", "mini-scenes/tests|detection_example|DJI_0068",
+                    "--video", "DJI_0068",
+                    "--output", "DJI_0068.csv"]
+        args = miniscene2behavior.parse_args()
+        self.assertEqual(args.config, "special_config.yml")
+        self.assertEqual(args.checkpoint, "checkpoint_epoch_00075.pyth")
+        self.assertEqual(args.gpu_num, 1)
+        self.assertEqual(args.miniscene, "mini-scenes/tests|detection_example|DJI_0068")
+        self.assertEqual(args.video, "DJI_0068")
+        self.assertEqual(args.output, "DJI_0068.csv")
