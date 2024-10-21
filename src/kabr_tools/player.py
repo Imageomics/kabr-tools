@@ -135,7 +135,7 @@ def hotkey(key: int) -> None:
                     vc.set(cv2.CAP_PROP_POS_FRAMES, metadata["tracks"][current][index])
 
 def player(folder: str, save: bool) -> None:
-    name = folder.split("/")[-1].split('|')[-1]
+    name = folder.split("/")[-1].split("|")[-1]
 
     metadata_path = f"{folder}/metadata/{name}_metadata.json"
     actions_path = f"{folder}/actions"
@@ -276,15 +276,15 @@ def player(folder: str, save: bool) -> None:
 def parse_args() -> argparse.Namespace:
     local_parser = argparse.ArgumentParser()
     local_parser.add_argument(
-        '--folder',
+        "--folder",
         type=str,
-        help='path to folder with metadata and actions',
+        help="path to folder with metadata and actions",
         required=True
     )
     local_parser.add_argument(
-        '--save',
-        action='store_true',
-        help='Flag to save video'
+        "--save",
+        action="store_true",
+        help="Flag to save video"
     )
     return local_parser.parse_args()
 

@@ -175,33 +175,33 @@ def cvat2ultralytics(video_path: str, annotation_path: str,
 def parse_args() -> argparse.Namespace:
     local_parser = argparse.ArgumentParser()
     local_parser.add_argument(
-        '--video',
+        "--video",
         type=str,
-        help='path to folder containing video mp4 files',
+        help="path to folder containing video mp4 files",
         required=True
     )
     local_parser.add_argument(
-        '--annotation',
+        "--annotation",
         type=str,
-        help='path to folder containing annotation xml files',
+        help="path to folder containing annotation xml files",
         required=True
     )
     local_parser.add_argument(
-        '--dataset',
+        "--dataset",
         type=str,
-        help='path to output dataset files',
+        help="path to output dataset files",
         required=True
     )
     local_parser.add_argument(
-        '--skip',
+        "--skip",
         type=int,
-        help='process one out of skip number of frames',
+        help="process one out of skip number of frames",
         default=10
     )
     local_parser.add_argument(
-        '--label2index',
+        "--label2index",
         type=str,
-        help='path to label to index json (default is for zebra, baboon, and giraffe)',
+        help="path to label to index json (default is for zebra, baboon, and giraffe)",
         required=False
     )
     return local_parser.parse_args()
@@ -211,7 +211,7 @@ def main() -> None:
     args = parse_args()
 
     if args.label2index:
-        with open(args.label2index, mode='r', encoding='utf-8') as file:
+        with open(args.label2index, mode="r", encoding="utf-8") as file:
             label2index = json.load(file)
     else:
         label2index = None
