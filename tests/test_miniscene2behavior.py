@@ -19,6 +19,9 @@ EXAMPLESDIR = os.path.join(TESTSDIR, "examples")
 
 
 class TestMiniscene2Behavior(unittest.TestCase):
+    def __init__(self):
+        self.download = True
+
     def setUp(self):
         self.tool = "miniscene2behavior.py"
         self.checkpoint = "checkpoint_epoch_00075.pyth"
@@ -28,6 +31,21 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.gpu_num = "1"
         self.output = "DJI_0068.csv"
 
+    def downloadModel(self):
+        if self.download:
+            # download model from huggingface
+            url = "https://huggingface.co/imageomics/" \
+                + "x3d-kabr-kinetics/resolve/main/" \
+                + "checkpoint_epoch_00075.pyth.zip"
+            r = requests.get(url, allow_redirects=True, timeout=120)
+            with open("checkpoint_epoch_00075.pyth.zip", "wb") as f:
+                f.write(r.content)
+
+            # unzip model checkpoint
+            with zipfile.ZipFile("checkpoint_epoch_00075.pyth.zip", "r") as zip_ref:
+                zip_ref.extractall(".")
+            self.download = False
+
     def test_run(self):
         # run tracks_extractor
         sys.argv = ["tracks_extractor.py",
@@ -35,17 +53,8 @@ class TestMiniscene2Behavior(unittest.TestCase):
                     "--annotation", "tests/detection_example/DJI_0068.xml"]
         tracks_extractor.main()
 
-        # download model from huggingface
-        url = "https://huggingface.co/imageomics/" \
-            + "x3d-kabr-kinetics/resolve/main/" \
-            + "checkpoint_epoch_00075.pyth.zip"
-        r = requests.get(url, allow_redirects=True, timeout=300)
-        with open("checkpoint_epoch_00075.pyth.zip", "wb") as f:
-            f.write(r.content)
-
-        # unzip model checkpoint
-        with zipfile.ZipFile("checkpoint_epoch_00075.pyth.zip", "r") as zip_ref:
-            zip_ref.extractall(".")
+        # download model
+        self.downloadModel()
 
         # annotate mini-scenes
         sys.argv = [self.tool,
