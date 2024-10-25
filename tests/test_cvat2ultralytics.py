@@ -50,5 +50,5 @@ class TestCvat2Ultralytics(unittest.TestCase):
         self.assertEqual(args.video, self.video)
         self.assertEqual(args.annotation, self.annotation)
         self.assertEqual(args.dataset, self.dataset)
-        self.assertEqual(args.skip, self.skip)
+        self.assertEqual(args.skip, 5)
         self.assertEqual(args.label2index, self.label2index)
