@@ -19,6 +19,15 @@ EXAMPLESDIR = os.path.join(TESTSDIR, "examples")
 
 
 class TestMiniscene2Behavior(unittest.TestCase):
+    def setUp(self):
+        self.tool = "miniscene2behavior.py"
+        self.checkpoint = "checkpoint_epoch_00075.pyth"
+        self.miniscene = "mini-scenes/tests|detection_example|DJI_0068"
+        self.video = "DJI_0068"
+        self.config = "special_config.yml"
+        self.gpu_num = "1"
+        self.output = "DJI_0068.csv"
+
     def test_run(self):
         # run tracks_extractor
         sys.argv = ["tracks_extractor.py",
@@ -39,10 +48,10 @@ class TestMiniscene2Behavior(unittest.TestCase):
             zip_ref.extractall(".")
 
         # annotate mini-scenes
-        sys.argv = ["miniscene2behavior.py",
-                    "--checkpoint", "checkpoint_epoch_00075.pyth",
-                    "--miniscene", "mini-scenes/tests|detection_example|DJI_0068",
-                    "--video", "DJI_0068",]
+        sys.argv = [self.tool,
+                    "--checkpoint", self.checkpoint,
+                    "--miniscene", self.miniscene,
+                    "--video", self.video]
         miniscene2behavior.main()
 
     @patch('kabr_tools.miniscene2behavior.process_cv2_inputs')
@@ -81,7 +90,6 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.assertEqual(list(df.columns), [
                          "video", "track", "frame", "label"])
         self.assertGreater(len(df.index), 0)
-
 
     @patch('kabr_tools.miniscene2behavior.process_cv2_inputs')
     @patch('kabr_tools.miniscene2behavior.cv2.VideoCapture')
@@ -122,31 +130,37 @@ class TestMiniscene2Behavior(unittest.TestCase):
 
     def test_parse_arg_min(self):
         # parse arguments
-        sys.argv = ["miniscene2behavior.py",
-                    "--checkpoint", "checkpoint_epoch_00075.pyth",
-                    "--miniscene", "mini-scenes/tests|detection_example|DJI_0068",
-                    "--video", "DJI_0068"]
+        sys.argv = [self.tool,
+                    "--checkpoint", self.checkpoint,
+                    "--miniscene", self.miniscene,
+                    "--video", self.video]
         args = miniscene2behavior.parse_args()
+
+        # check parsed argument values
+        self.assertEqual(args.checkpoint, self.checkpoint)
+        self.assertEqual(args.miniscene, self.miniscene)
+        self.assertEqual(args.video, self.video)
+
+        # check default argument values
         self.assertEqual(args.config, "config.yml")
-        self.assertEqual(args.checkpoint, "checkpoint_epoch_00075.pyth")
         self.assertEqual(args.gpu_num, 0)
-        self.assertEqual(args.miniscene, "mini-scenes/tests|detection_example|DJI_0068")
-        self.assertEqual(args.video, "DJI_0068")
         self.assertEqual(args.output, "annotation_data.csv")
 
     def test_parse_arg_full(self):
         # parse arguments
-        sys.argv = ["miniscene2behavior.py",
-                    "--config", "special_config.yml",
-                    "--checkpoint", "checkpoint_epoch_00075.pyth",
-                    "--gpu_num", "1",
-                    "--miniscene", "mini-scenes/tests|detection_example|DJI_0068",
-                    "--video", "DJI_0068",
-                    "--output", "DJI_0068.csv"]
+        sys.argv = [self.tool,
+                    "--config", self.config,
+                    "--checkpoint", self.checkpoint,
+                    "--gpu_num", self.gpu_num,
+                    "--miniscene", self.miniscene,
+                    "--video", self.video,
+                    "--output", self.output]
         args = miniscene2behavior.parse_args()
-        self.assertEqual(args.config, "special_config.yml")
-        self.assertEqual(args.checkpoint, "checkpoint_epoch_00075.pyth")
+
+        # check parsed argument values
+        self.assertEqual(args.config, self.config)
+        self.assertEqual(args.checkpoint, self.checkpoint)
         self.assertEqual(args.gpu_num, 1)
-        self.assertEqual(args.miniscene, "mini-scenes/tests|detection_example|DJI_0068")
-        self.assertEqual(args.video, "DJI_0068")
-        self.assertEqual(args.output, "DJI_0068.csv")
+        self.assertEqual(args.miniscene, self.miniscene)
+        self.assertEqual(args.video, self.video)
+        self.assertEqual(args.output, self.output)
