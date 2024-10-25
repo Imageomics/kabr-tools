@@ -19,9 +19,6 @@ EXAMPLESDIR = os.path.join(TESTSDIR, "examples")
 
 
 class TestMiniscene2Behavior(unittest.TestCase):
-    def __init__(self):
-        self.download = True
-
     def setUp(self):
         self.tool = "miniscene2behavior.py"
         self.checkpoint = "checkpoint_epoch_00075.pyth"
@@ -31,8 +28,8 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.gpu_num = "1"
         self.output = "DJI_0068.csv"
 
-    def downloadModel(self):
-        if self.download:
+    def download_model(self):
+        if not os.path.exists("checkpoint_epoch_00075.pyth"):
             # download model from huggingface
             url = "https://huggingface.co/imageomics/" \
                 + "x3d-kabr-kinetics/resolve/main/" \
@@ -54,7 +51,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
         tracks_extractor.main()
 
         # download model
-        self.downloadModel()
+        self.download_model()
 
         # annotate mini-scenes
         sys.argv = [self.tool,
