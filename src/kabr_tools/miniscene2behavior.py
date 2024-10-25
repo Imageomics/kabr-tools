@@ -20,15 +20,14 @@ def get_input_clip(cap: cv2.VideoCapture, cfg: CfgNode, keyframe_idx: int) -> li
     seq_length = cfg.DATA.NUM_FRAMES * cfg.DATA.SAMPLING_RATE
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     assert keyframe_idx < total_frames, f"keyframe_idx: {keyframe_idx}" \
-        f">= total_frames: {total_frames}"
+        f" >= total_frames: {total_frames}"
     seq = get_sequence(
         keyframe_idx,
         seq_length // 2,
         cfg.DATA.SAMPLING_RATE,
         total_frames,
     )
-    # TODO: remove after debugging
-    print(keyframe_idx, seq[0], seq[-1], total_frames)
+
     clip = []
     for frame_idx in seq:
         cap.set(cv2.CAP_PROP_POS_FRAMES, frame_idx)
@@ -132,13 +131,14 @@ def annotate_miniscene(cfg: CfgNode, model: torch.nn.Module,
     for track in tracks:
         video_file = f"{miniscene_path}/{track}.mp4"
         cap = cv2.VideoCapture(video_file)
-        print(f'{track=}')
-        for index, frame in tqdm(enumerate(frames[track]), desc=f'{track} frames'):
+        index = 0
+        for frame in tqdm(frames[track], desc=f'{track} frames'):
             try:
                 inputs = get_input_clip(cap, cfg, index)
             except AssertionError as e:
                 print(e)
                 break
+            index += 1
 
             if cfg.NUM_GPUS:
                 # transfer the data to the current GPU device.
