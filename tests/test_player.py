@@ -5,6 +5,10 @@ from kabr_tools import player
 
 
 class TestPlayer(unittest.TestCase):
+    def setUp(self):
+        self.tool = "player.py"
+        self.folder = "tests/behavior_example/DJI_0001"
+
     @patch('kabr_tools.player.cv2.imshow')
     @patch('kabr_tools.player.cv2.namedWindow')
     @patch('kabr_tools.player.cv2.createTrackbar')
@@ -15,24 +19,30 @@ class TestPlayer(unittest.TestCase):
         getTrackbarPos.return_value = 0
 
         # run player
-        sys.argv = ["player.py",
-                    "--folder", "tests/behavior_example/DJI_0001",
+        sys.argv = [self.tool,
+                    "--folder", self.folder,
                     "--save"]
         player.main()
 
     def test_parse_arg_min(self):
         # parse arguments
-        sys.argv = ["player.py",
-                    "--folder", "tests/behavior_example/DJI_0001"]
+        sys.argv = [self.tool,
+                    "--folder", self.folder]
         args = player.parse_args()
-        self.assertEqual(args.folder, "tests/behavior_example/DJI_0001")
+
+        # check parsed arguments
+        self.assertEqual(args.folder, self.folder)
+
+        # check default arguments
         self.assertEqual(args.save, False)
 
     def test_parse_arg_full(self):
         # parse arguments
-        sys.argv = ["player.py",
-                    "--folder", "tests/behavior_example/DJI_0001",
+        sys.argv = [self.tool,
+                    "--folder", self.folder,
                     "--save"]
         args = player.parse_args()
-        self.assertEqual(args.folder, "tests/behavior_example/DJI_0001")
+
+        # check parsed arguments
+        self.assertEqual(args.folder, self.folder)
         self.assertEqual(args.save, True)
