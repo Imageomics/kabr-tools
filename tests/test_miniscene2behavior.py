@@ -19,6 +19,35 @@ EXAMPLESDIR = os.path.join(TESTSDIR, "examples")
 
 
 class TestMiniscene2Behavior(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.checkpoint = "checkpoint_epoch_00075.pyth"
+        # Download the model from Imageomics HF before running tests
+        cls.download_model()
+
+    @classmethod
+    def download_model(cls):
+        if not os.path.exists(cls.checkpoint):
+            url = "https://huggingface.co/imageomics/" \
+                  + "x3d-kabr-kinetics/resolve/main/" \
+                  + f"{cls.checkpoint}.zip"
+            r = requests.get(url, allow_redirects=True, timeout=120)
+            with open(f"{cls.checkpoint}.zip", "wb") as f:
+                f.write(r.content)
+
+            # unzip model checkpoint
+            with zipfile.ZipFile(f"{cls.checkpoint}.zip", "r") as zip_ref:
+                zip_ref.extractall(".")
+
+    @classmethod
+    def tearDownClass(cls):
+        # Remove model files after all tests have been completed
+        if os.path.exists(f"{cls.checkpoint}.zip"):
+            os.remove(f"{cls.checkpoint}.zip")
+        if os.path.exists(cls.checkpoint):
+            os.remove(cls.checkpoint)
+
     def setUp(self):
         self.tool = "miniscene2behavior.py"
         self.checkpoint = "checkpoint_epoch_00075.pyth"
@@ -27,21 +56,6 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.config = "special_config.yml"
         self.gpu_num = "1"
         self.output = "DJI_0068.csv"
-
-    def download_model(self):
-        if not os.path.exists("checkpoint_epoch_00075.pyth"):
-            # download model from huggingface
-            url = "https://huggingface.co/imageomics/" \
-                + "x3d-kabr-kinetics/resolve/main/" \
-                + "checkpoint_epoch_00075.pyth.zip"
-            r = requests.get(url, allow_redirects=True, timeout=120)
-            with open("checkpoint_epoch_00075.pyth.zip", "wb") as f:
-                f.write(r.content)
-
-            # unzip model checkpoint
-            with zipfile.ZipFile("checkpoint_epoch_00075.pyth.zip", "r") as zip_ref:
-                zip_ref.extractall(".")
-            self.download = False
 
     def test_run(self):
         # run tracks_extractor
