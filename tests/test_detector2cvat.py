@@ -1,6 +1,6 @@
 import unittest
 import sys
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 from kabr_tools import detector2cvat
 
 
@@ -10,8 +10,25 @@ class TestDetector2Cvat(unittest.TestCase):
         self.video = "tests/detection_example"
         self.save = "tests/detection_example/output"
 
+    # @patch('kabr_tools.detector2cvat.cv2.imshow')
+    # def test_run(self, imshow):
+    #     sys.argv = [self.tool,
+    #                 "--video", self.video,
+    #                 "--save", self.save]
+    #     detector2cvat.main()
+
+
     @patch('kabr_tools.detector2cvat.cv2.imshow')
-    def test_run(self, imshow):
+    @patch('kabr_tools.detector2cvat.YOLOv8')
+    def test_mock_yolo(self, yolo, imshow):
+
+        # Create fake YOLO
+        yolo_instance = MagicMock()
+        yolo_instance.forward.return_value = [(0, 0, 0, 0)]
+        yolo_instance.get_centroid.return_value = (0, 0)
+        yolo.return_value = yolo_instance
+
+        # Run detector2cvat
         sys.argv = [self.tool,
                     "--video", self.video,
                     "--save", self.save]
