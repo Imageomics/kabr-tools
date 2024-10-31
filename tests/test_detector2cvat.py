@@ -24,8 +24,8 @@ class TestDetector2Cvat(unittest.TestCase):
 
         # Create fake YOLO
         yolo_instance = MagicMock()
-        yolo_instance.forward.return_value = [(0, 0, 0, 0)]
-        yolo_instance.get_centroid.return_value = (0, 0)
+        yolo_instance.forward.return_value = [[[0, 0, 0, 0], 0.95, 0]]
+        yolo.get_centroid.return_value = (50, 50)
         yolo.return_value = yolo_instance
 
         # Run detector2cvat
