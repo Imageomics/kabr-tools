@@ -8,8 +8,7 @@ from kabr_tools.utils.object import Object
 from kabr_tools.utils.draw import Draw
 
 
-
-def detector2cvat(path_to_videos, path_to_save):
+def detector2cvat(path_to_videos: str, path_to_save: str) -> None:
     videos = []
 
     for root, dirs, files in os.walk(path_to_videos):
@@ -97,24 +96,24 @@ def detector2cvat(path_to_videos, path_to_save):
             print("Something went wrong...")
 
 
-def parse_args():
+def parse_args() -> argparse.Namespace:
     local_parser = argparse.ArgumentParser()
     local_parser.add_argument(
-        '--video',
+        "--video",
         type=str,
-        help='path to folder containing videos',
+        help="path to folder containing videos",
         required=True
     )
     local_parser.add_argument(
-        '--save',
+        "--save",
         type=str,
-        help='path to save output xml & mp4 files',
+        help="path to save output xml & mp4 files",
         required=True
     )
     return local_parser.parse_args()
 
 
-def main():
+def main() -> None:
     args = parse_args()
     detector2cvat(args.video, args.save)
 
