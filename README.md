@@ -95,6 +95,10 @@ You can use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics
 
 To use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics), download `checkpoint_epoch_00075.pyth.zip`, unzip `checkpoint_epoch_00075.pyth`, and install [SlowFast](https://github.com/facebookresearch/SlowFast). Then run [miniscene2behavior.py](miniscene2behavior.py).
 
+Label the mini-scenes:
+```
+miniscene2behavior [--config path_to_config] --checkpoint path_to_checkpoint [--gpu_num number_of_gpus] --miniscene path_to_miniscene [--output path_to_output_csv]
+```
 
 **Notes:**
  - If the config hasn't been extracted yet, the script will write it to `config`. 
