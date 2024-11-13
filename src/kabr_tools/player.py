@@ -134,6 +134,7 @@ def hotkey(key: int) -> None:
 
                     vc.set(cv2.CAP_PROP_POS_FRAMES, metadata["tracks"][current][index])
 
+
 def player(folder: str, save: bool, show: bool) -> None:
     name = folder.split("/")[-1].split('|')[-1]
 
