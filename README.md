@@ -8,7 +8,7 @@
 ![](images/pipeline.jpg)
 **Figure 1:** Overview of the pipeline for KABR dataset preparation.
 
-KABR tools requires that tor
+KABR tools requires that torch be installed.
 
 The KABR tools used in this process can be installed with:
 ```
