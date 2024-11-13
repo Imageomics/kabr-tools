@@ -29,20 +29,34 @@ class TestDetector2Cvat(unittest.TestCase):
         # TODO: delete outputs
         del_dir(self.save)
 
-    @patch('kabr_tools.detector2cvat.cv2.imshow')
-    def test_run(self, imshow):
+    def test_run(self):
         # run detector2cvat
         sys.argv = [self.tool,
                     "--video", self.video,
                     "--save", self.save]
         run()
 
-    @patch('kabr_tools.detector2cvat.cv2.imshow')
-    def test_parse_arg_full(self):
+    def test_parse_arg_min(self):
         # parse arguments
         sys.argv = [self.tool,
                     "--video", self.video,
                     "--save", self.save]
+        args = detector2cvat.parse_args()
+
+        # check parsed argument values
+        self.assertEqual(args.video, self.video)
+        self.assertEqual(args.save, self.save)
+
+        # run detector2cvat
+        run()
+
+    @patch('kabr_tools.detector2cvat.cv2.imshow')
+    def test_parse_arg_full(self, imshow):
+        # parse arguments
+        sys.argv = [self.tool,
+                    "--video", self.video,
+                    "--save", self.save,
+                    "--imshow"]
         args = detector2cvat.parse_args()
 
         # check parsed argument values

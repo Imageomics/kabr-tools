@@ -75,7 +75,7 @@ class TestPlayer(unittest.TestCase):
         # parse arguments
         sys.argv = [self.tool,
                     "--folder", self.folder,
-                    "--save"]
+                    "--save", "--imshow"]
         args = player.parse_args()
 
         # check parsed arguments
