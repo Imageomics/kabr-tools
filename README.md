@@ -8,15 +8,18 @@
 ![](images/pipeline.jpg)
 **Figure 1:** Overview of the pipeline for KABR dataset preparation.
 
+KABR tools requires that torch be installed.
+
 The KABR tools used in this process can be installed with:
 ```
+pip install torch torchvision
 pip install git+https://github.com/Imageomics/kabr-tools
 ```
 
 **Notes:**
- - detectron2 requires Linux or MacOS.
- - If building detectron2's wheel fails, loading a different gnu module may help (`module load gnu/11.2.0`).
- - If `ModuleNotFoundError: No module named 'torch'` appears, try `pip install torch torchvision` in your environment and try installing `kabr_tools` again.
+ - Refer to [pytorch.org](https://pytorch.org/get-started/locally/) to install specific versions of torch/CUDA
+ - [detectron2](https://detectron2.readthedocs.io/en/latest/tutorials/install.html#requirements) requires Linux or MacOS.
+ - If building detectron2's wheel fails, check gcc & g++ ≥ 5.4 (run `gcc --version` and `g++ --version`).
  - SlowFast's setup.py is outdated; our workaround is `pip install git+https://github.com/Imageomics/SlowFast@797a6f3ae81c49019d006296f1e0f84f431dc356`, which is included when installing `kabr_tools`.
 
 Each KABR tool can be run through the command line (as described below) or imported as a python module. They each have help information which can be accessed on the command line through `<tool-name> -h`.
@@ -75,7 +78,7 @@ You may use [YOLO](https://docs.ultralytics.com/) to automatically perform detec
 Detect objects with Ultralytics YOLO detections, apply SORT tracking and convert tracks to CVAT format.
 
 ```
-detector2cvat --video path_to_videos --save path_to_save
+detector2cvat --video path_to_videos --save path_to_save [--imshow]
 ```
 
 
@@ -157,7 +160,7 @@ Not sure what these scripts are for, Maksim you can provide info here?
 [player:](src/kabr_tools/player.py) Player for tracking and behavior observation.
 
 ```
-player --folder path_to_folder [--save]
+player --folder path_to_folder [--save] [--imshow]
 ```
 
 ![](images/playeroutput.png)

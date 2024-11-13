@@ -8,7 +8,15 @@ from kabr_tools.utils.object import Object
 from kabr_tools.utils.draw import Draw
 
 
-def detector2cvat(path_to_videos: str, path_to_save: str) -> None:
+def detector2cvat(path_to_videos: str, path_to_save: str, show: bool) -> None:
+    """
+    Detect objects with Ultralytics YOLO detections, apply SORT tracking and convert tracks to CVAT format.
+
+    Parameters:
+    path_to_videos - str. Path to the folder containing videos.
+    path_to_save - str. Path to the folder to save output xml & mp4 files.
+    show - bool. Flag to display detector's visualization.
+    """
     videos = []
 
     for root, dirs, files in os.walk(path_to_videos):
@@ -76,7 +84,9 @@ def detector2cvat(path_to_videos: str, path_to_save: str) -> None:
 
                     cv2.putText(visualization, f"Frame: {index}", (50, 50), cv2.FONT_HERSHEY_SIMPLEX,
                                 0.8, (255, 255, 255), 3, cv2.LINE_AA)
-                    cv2.imshow("detector2cvat", cv2.resize(visualization, (int(width // 2.5), int(height // 2.5))))
+                    if show:
+                        cv2.imshow("detector2cvat", cv2.resize(
+                            visualization, (int(width // 2.5), int(height // 2.5))))
                     vw.write(visualization)
                     key = cv2.waitKey(1)
                     index += 1
@@ -110,12 +120,17 @@ def parse_args() -> argparse.Namespace:
         help="path to save output xml & mp4 files",
         required=True
     )
+    local_parser.add_argument(
+        "--imshow",
+        action="store_true",
+        help="flag to display detector's visualization"
+    )
     return local_parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    detector2cvat(args.video, args.save)
+    detector2cvat(args.video, args.save, args.imshow)
 
 
 if __name__ == "__main__":
