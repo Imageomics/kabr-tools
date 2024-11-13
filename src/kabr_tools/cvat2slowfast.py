@@ -12,6 +12,15 @@ import cv2
 
 def cvat2slowfast(path_to_mini_scenes: str, path_to_new_dataset: str,
                   label2number: dict, old2new: Optional[dict]) -> None:
+    """
+    Convert CVAT annotations to the dataset in Charades format.
+
+    Parameters:
+    path_to_mini_scenes - str. Path to the folder containing mini-scene files.
+    path_to_new_dataset - str. Path to the folder to output dataset files.
+    label2number - dict. Mapping of ethogram labels to integers.
+    old2new - dict [optional]. Mapping of old ethogram labels to new ethogram labels.
+    """
     if not os.path.exists(path_to_new_dataset):
         os.makedirs(path_to_new_dataset)
 

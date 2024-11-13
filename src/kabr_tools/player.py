@@ -136,6 +136,14 @@ def hotkey(key: int) -> None:
 
 
 def player(folder: str, save: bool, show: bool) -> None:
+    """
+    Player for tracking and behavior observation. Runs video with bounding boxes overlaid on the animals.
+
+    Parameters:
+    folder - str. Path to folder with metadata and actions.
+    save - bool. Flag to save video.
+    show - bool. Flag to display player's visualization.
+    """
     name = folder.split("/")[-1].split('|')[-1]
 
     metadata_path = f"{folder}/metadata/{name}_metadata.json"
@@ -292,7 +300,7 @@ def parse_args() -> argparse.Namespace:
     local_parser.add_argument(
         "--imshow",
         action="store_true",
-        help="flag to display detector's visualization"
+        help="flag to display player's visualization"
     )
     return local_parser.parse_args()
 
