@@ -1,14 +1,8 @@
 import unittest
 import sys
-import os
-import shutil
 from unittest.mock import patch
 from kabr_tools import tracks_extractor
-
-
-def del_dir(path):
-    if os.path.exists(path):
-        shutil.rmtree(path)
+from tests.utils import del_dir
 
 
 def run():
@@ -16,16 +10,27 @@ def run():
 
 
 class TestTracksExtractor(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        # TODO: download data
+        pass
+
+    @classmethod
+    def tearDownClass(cls):
+        # TODO: delete data
+        pass
+
     def setUp(self):
         self.tool = "tracks_extractor.py"
         self.video = "tests/detection_example/DJI_0068.mp4"
         self.annotation = "tests/detection_example/DJI_0068.xml"
 
-        # Remove output directory before test
+        # remove output directory before test
         del_dir("mini-scenes")
 
     def tearDown(self):
-        # Remove output directory after test
+        # remove output directory after test
         del_dir("mini-scenes")
 
     def test_run(self):
@@ -70,4 +75,4 @@ class TestTracksExtractor(unittest.TestCase):
         self.assertEqual(args.imshow, True)
 
         # run tracks_extractor
-        tracks_extractor.main()
+        run()

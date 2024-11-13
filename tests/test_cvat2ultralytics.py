@@ -1,9 +1,25 @@
 import unittest
 import sys
 from kabr_tools import cvat2ultralytics
+from tests.utils import del_dir
+
+
+def run():
+    cvat2ultralytics.main()
 
 
 class TestCvat2Ultralytics(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        # TODO: download data
+        pass
+
+    @classmethod
+    def tearDownClass(cls):
+        # TODO: delete data
+        pass
+
     def setUp(self):
         self.tool = "cvat2ultralytics.py"
         self.video = "tests/detection_example"
@@ -12,12 +28,17 @@ class TestCvat2Ultralytics(unittest.TestCase):
         self.skip = "5"
         self.label2index = "ethogram/label2index.json"
 
+    def tearDown(self):
+        # TODO: delete outputs
+        del_dir(self.dataset)
+
     def test_run(self):
+        # run cvat2ultralytics
         sys.argv = [self.tool,
                     "--video", self.video,
                     "--annotation", self.annotation,
                     "--dataset", "tests/ultralytics"]
-        cvat2ultralytics.main()
+        run()
 
     def test_parse_arg_min(self):
         # parse arguments
@@ -36,6 +57,9 @@ class TestCvat2Ultralytics(unittest.TestCase):
         self.assertEqual(args.skip, 10)
         self.assertEqual(args.label2index, None)
 
+        # run cvat2ultralytics
+        run()
+
     def test_parse_arg_full(self):
         # parse arguments
         sys.argv = [self.tool,
@@ -52,3 +76,6 @@ class TestCvat2Ultralytics(unittest.TestCase):
         self.assertEqual(args.dataset, self.dataset)
         self.assertEqual(args.skip, 5)
         self.assertEqual(args.label2index, self.label2index)
+
+        # run cvat2ultralytics
+        run()

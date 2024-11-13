@@ -12,10 +12,15 @@ from kabr_tools import (
     tracks_extractor
 )
 from kabr_tools.miniscene2behavior import annotate_miniscene
+from tests.utils import del_file
 
 
 TESTSDIR = os.path.dirname(os.path.realpath(__file__))
 EXAMPLESDIR = os.path.join(TESTSDIR, "examples")
+
+
+def run():
+    miniscene2behavior.main()
 
 
 class TestMiniscene2Behavior(unittest.TestCase):
@@ -57,6 +62,10 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.gpu_num = "1"
         self.output = "DJI_0068.csv"
 
+    def tearDown(self):
+        # TODO: delete outputs
+        del_file(self.output)
+
     def test_run(self):
         # run tracks_extractor
         sys.argv = ["tracks_extractor.py",
@@ -72,7 +81,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
                     "--checkpoint", self.checkpoint,
                     "--miniscene", self.miniscene,
                     "--video", self.video]
-        miniscene2behavior.main()
+        run()
 
     @patch('kabr_tools.miniscene2behavior.process_cv2_inputs')
     @patch('kabr_tools.miniscene2behavior.cv2.VideoCapture')
@@ -96,17 +105,17 @@ class TestMiniscene2Behavior(unittest.TestCase):
         vc.read.return_value = True, np.zeros((8, 8, 3), np.uint8)
         vc.get.return_value = 1
 
-        output_csv = '/tmp/annotation_data.csv'
+        self.output = '/tmp/annotation_data.csv'
 
         annotate_miniscene(cfg=mock_config,
                            model=mock_model,
                            miniscene_path=os.path.join(
                                EXAMPLESDIR, "MINISCENE1"),
                            video='DJI',
-                           output_path=output_csv)
+                           output_path=self.output)
 
         # Read in output CSV and make sure we have the expected columns and at least one row
-        df = pd.read_csv(output_csv, sep=' ')
+        df = pd.read_csv(self.output, sep=' ')
         self.assertEqual(list(df.columns), [
                          "video", "track", "frame", "label"])
         self.assertGreater(len(df.index), 0)
@@ -133,17 +142,17 @@ class TestMiniscene2Behavior(unittest.TestCase):
         vc.read.return_value = True, np.zeros((8, 8, 3), np.uint8)
         vc.get.return_value = 1
 
-        output_csv = '/tmp/annotation_data.csv'
+        self.output = '/tmp/annotation_data.csv'
 
         annotate_miniscene(cfg=mock_config,
                            model=mock_model,
                            miniscene_path=os.path.join(
                                EXAMPLESDIR, "MINISCENE2"),
                            video='DJI',
-                           output_path=output_csv)
+                           output_path=self.output)
 
         # Read in output CSV and make sure we have the expected columns and at least one row
-        df = pd.read_csv(output_csv, sep=' ')
+        df = pd.read_csv(self.output, sep=' ')
         self.assertEqual(list(df.columns), [
                          "video", "track", "frame", "label"])
         self.assertGreater(len(df.index), 0)
