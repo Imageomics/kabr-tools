@@ -75,7 +75,7 @@ You may use [YOLO](https://docs.ultralytics.com/) to automatically perform detec
 Detect objects with Ultralytics YOLO detections, apply SORT tracking and convert tracks to CVAT format.
 
 ```
-detector2cvat --video path_to_videos --save path_to_save
+detector2cvat --video path_to_videos --save path_to_save [--imshow]
 ```
 
 
@@ -157,7 +157,7 @@ Not sure what these scripts are for, Maksim you can provide info here?
 [player:](src/kabr_tools/player.py) Player for tracking and behavior observation.
 
 ```
-player --folder path_to_folder [--save]
+player --folder path_to_folder [--save] [--imshow]
 ```
 
 ![](images/playeroutput.png)

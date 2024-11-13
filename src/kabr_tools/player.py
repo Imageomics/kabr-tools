@@ -134,8 +134,9 @@ def hotkey(key: int) -> None:
 
                     vc.set(cv2.CAP_PROP_POS_FRAMES, metadata["tracks"][current][index])
 
-def player(folder: str, save: bool) -> None:
-    name = folder.split("/")[-1].split("|")[-1]
+
+def player(folder: str, save: bool, show: bool) -> None:
+    name = folder.split("/")[-1].split('|')[-1]
 
     metadata_path = f"{folder}/metadata/{name}_metadata.json"
     actions_path = f"{folder}/actions"
@@ -216,9 +217,11 @@ def player(folder: str, save: bool) -> None:
             cv2.setTrackbarPos(name, "TrackPlayer", index)
             cv2.putText(visualization, f"Frame: {index}", (50, 50), cv2.FONT_HERSHEY_SIMPLEX,
                         0.8, (255, 255, 255), 3, cv2.LINE_AA)
-
-            cv2.imshow("TrackPlayer", cv2.resize(visualization, (int(target_width // 2.5), int(target_height // 2.5)),
-                                                 interpolation=cv2.INTER_AREA))
+            if show:
+                cv2.imshow("TrackPlayer",
+                           cv2.resize(visualization,
+                                      (int(target_width // 2.5), int(target_height // 2.5)),
+                                      interpolation=cv2.INTER_AREA))
 
             if save:
                 vw.write(visualization)
@@ -284,14 +287,19 @@ def parse_args() -> argparse.Namespace:
     local_parser.add_argument(
         "--save",
         action="store_true",
-        help="Flag to save video"
+        help="flag to save video"
+    )
+    local_parser.add_argument(
+        "--imshow",
+        action="store_true",
+        help="flag to display detector's visualization"
     )
     return local_parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    player(args.folder, args.save)
+    player(args.folder, args.save, args.imshow)
 
 
 if __name__ == "__main__":
