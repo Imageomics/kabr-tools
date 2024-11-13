@@ -136,7 +136,7 @@ def hotkey(key: int) -> None:
 
 def player(folder: str, save: bool, show: bool) -> None:
     """
-    Player for tracking and behavior observation.
+    Player for tracking and behavior observation. Runs video with bounding boxes overlaid on the animals.
 
     Parameters:
     folder - str. Path to folder with metadata and actions.
