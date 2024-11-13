@@ -72,6 +72,14 @@ class TestDetector2Cvat(unittest.TestCase):
                 else:
                     self.assertEqual(box.get("outside"), "0")
 
+    def test_mock_with_data(self):
+        # TODO: Mock outputs CVAT data
+        pass
+
+    def test_mock_noncontiguous(self):
+        # TODO: Mock outputs non-contiguous frame detections
+        pass
+
     def test_parse_arg_full(self):
         # parse arguments
         sys.argv = [self.tool,
