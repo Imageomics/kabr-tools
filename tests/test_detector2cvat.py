@@ -1,36 +1,46 @@
 import unittest
 import sys
 import os
-import shutil
 from lxml import etree
 from unittest.mock import MagicMock, patch
 from kabr_tools import detector2cvat
+from tests.utils import del_dir
 
-SAVE_DIR = "tests/detector2cvat"
+
+def run():
+    detector2cvat.main()
 
 
 class TestDetector2Cvat(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        # TODO: download data
+        pass
+
     @classmethod
     def tearDownClass(cls):
-        # Remove output files after all tests have been completed
-        if os.path.exists(SAVE_DIR):
-            shutil.rmtree(SAVE_DIR)
+        # TODO: delete data
+        pass
 
     def setUp(self):
         self.tool = "detector2cvat.py"
         self.video = "tests/detection_example"
+        self.save = "tests/detector2cvat"
 
-    @patch('kabr_tools.detector2cvat.cv2.imshow')
-    def test_run(self, imshow):
+    def tearDown(self):
+        # TODO: delete outputs
+        del_dir(self.save)
+
+    def test_run(self):
         # Check if tool runs on real data
         sys.argv = [self.tool,
                     "--video", self.video,
-                    "--save", f"{SAVE_DIR}/run"]
+                    "--save", f"{self.save}/run"]
         detector2cvat.main()
 
-    @patch('kabr_tools.detector2cvat.cv2.imshow')
     @patch('kabr_tools.detector2cvat.YOLOv8')
-    def test_mock_yolo(self, yolo, imshow):
+    def test_mock_yolo(self, yolo):
         # Create fake YOLO
         yolo_instance = MagicMock()
         yolo_instance.forward.return_value = [[[0, 0, 0, 0], 0.95, 'Grevy']]
@@ -38,7 +48,7 @@ class TestDetector2Cvat(unittest.TestCase):
         yolo.return_value = yolo_instance
 
         # Run detector2cvat
-        save = f"{SAVE_DIR}/mock/0"
+        save = f"{self.save}/mock/0"
         sys.argv = [self.tool,
                     "--video", self.video,
                     "--save", save]
@@ -80,13 +90,33 @@ class TestDetector2Cvat(unittest.TestCase):
         # TODO: Mock outputs non-contiguous frame detections
         pass
 
-    def test_parse_arg_full(self):
+    def test_parse_arg_min(self):
         # parse arguments
         sys.argv = [self.tool,
                     "--video", self.video,
-                    "--save", SAVE_DIR]
+                    "--save", self.save]
         args = detector2cvat.parse_args()
 
         # check parsed argument values
         self.assertEqual(args.video, self.video)
-        self.assertEqual(args.save, SAVE_DIR)
+        self.assertEqual(args.save, self.save)
+        self.assertEqual(args.save, self.save)
+
+        # run detector2cvat
+        run()
+
+    @patch('kabr_tools.detector2cvat.cv2.imshow')
+    def test_parse_arg_full(self, imshow):
+        # parse arguments
+        sys.argv = [self.tool,
+                    "--video", self.video,
+                    "--save", self.save,
+                    "--imshow"]
+        args = detector2cvat.parse_args()
+
+        # check parsed argument values
+        self.assertEqual(args.video, self.video)
+        self.assertEqual(args.save, self.save)
+
+        # run detector2cvat
+        run()

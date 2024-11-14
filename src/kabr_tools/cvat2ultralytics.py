@@ -1,4 +1,5 @@
 import os
+from typing import Optional
 import argparse
 import json
 import cv2
@@ -10,7 +11,19 @@ import shutil
 from natsort import natsorted
 
 
-def cvat2ultralytics(video_path, annotation_path, dataset, skip, label2index=None):
+def cvat2ultralytics(video_path: str, annotation_path: str,
+                     dataset: str, skip: int,
+                     label2index: Optional[dict] = None) -> None:
+    """
+    Convert CVAT annotations to Ultralytics YOLO dataset.
+
+    Parameters:
+    video_path - str. Path to the folder containing video mp4 files.
+    annotation_path - str. Path to the folder containing annotation xml files.
+    dataset - str. Path to the output dataset files.
+    skip - int. Process one out of skip number of frames.
+    label2index - dict [optional]. Mapping of ethogram labels to integers.
+    """
     # Create a YOLO dataset structure.
     dataset_file = f"""
     path: {dataset}
@@ -175,46 +188,46 @@ def cvat2ultralytics(video_path, annotation_path, dataset, skip, label2index=Non
         shutil.move(f"{dataset}/labels/train/{file}", f"{dataset}/labels/test/{file}")
 
 
-def parse_args():
+def parse_args() -> argparse.Namespace:
     local_parser = argparse.ArgumentParser()
     local_parser.add_argument(
-        '--video',
+        "--video",
         type=str,
-        help='path to folder containing video mp4 files',
+        help="path to folder containing video mp4 files",
         required=True
     )
     local_parser.add_argument(
-        '--annotation',
+        "--annotation",
         type=str,
-        help='path to folder containing annotation xml files',
+        help="path to folder containing annotation xml files",
         required=True
     )
     local_parser.add_argument(
-        '--dataset',
+        "--dataset",
         type=str,
-        help='path to output dataset files',
+        help="path to output dataset files",
         required=True
     )
     local_parser.add_argument(
-        '--skip',
+        "--skip",
         type=int,
-        help='process one out of skip number of frames',
+        help="process one out of skip number of frames",
         default=10
     )
     local_parser.add_argument(
-        '--label2index',
+        "--label2index",
         type=str,
-        help='path to label to index json (default is for zebra, baboon, and giraffe)',
+        help="path to label to index json (default is for zebra, baboon, and giraffe)",
         required=False
     )
     return local_parser.parse_args()
 
 
-def main():
+def main() -> None:
     args = parse_args()
 
     if args.label2index:
-        with open(args.label2index, mode='r', encoding='utf-8') as file:
+        with open(args.label2index, mode="r", encoding="utf-8") as file:
             label2index = json.load(file)
     else:
         label2index = None

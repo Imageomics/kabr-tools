@@ -1,12 +1,13 @@
 import os
 import argparse
 import json
-from lxml import etree
 from collections import OrderedDict
+from lxml import etree
 import cv2
+from cv2.typing import MatLike
 
 
-def on_slider_change(value):
+def on_slider_change(value: int) -> None:
     global index, vcs, current, trackbar_position, paused, updated
     index = value
 
@@ -17,7 +18,7 @@ def on_slider_change(value):
             updated = True
 
 
-def pad(image, width, height):
+def pad(image: MatLike, width: int, height: int) -> MatLike:
     shape_0, shape_1 = image.shape[0], image.shape[1]
 
     if shape_0 < shape_1:
@@ -34,7 +35,7 @@ def pad(image, width, height):
     return padded
 
 
-def draw_aim(current, image):
+def draw_aim(current: str, image: MatLike) -> MatLike:
     if current == "main":
         return image
 
@@ -47,7 +48,8 @@ def draw_aim(current, image):
     return cv2.addWeighted(image, 0.4, copied, 0.6, 0.0)
 
 
-def draw_id(current, image, metadata, width):
+def draw_id(current: str, image: MatLike,
+            metadata: dict, width: int) -> MatLike:
     if current == "main":
         label = f"Drone View"
         color = (127, 127, 127)
@@ -68,7 +70,9 @@ def draw_id(current, image, metadata, width):
     return cv2.addWeighted(image, 0.4, copied, 0.6, 0.0)
 
 
-def draw_actions(current, index, image, actions, metadata, width, height):
+def draw_actions(current: str, index: int,
+                 image: MatLike, actions: OrderedDict,
+                 metadata: dict, width: int, height: int) -> MatLike:
     if current == "main":
         return image
 
@@ -92,7 +96,7 @@ def draw_actions(current, index, image, actions, metadata, width, height):
     return cv2.addWeighted(image, 0.4, copied, 0.6, 0.0)
 
 
-def draw_info(image, width):
+def draw_info(image: MatLike, width: int) -> MatLike:
     copied = image.copy()
     cv2.rectangle(image, (width - 600, 100), (width - 100, 340), (0, 0, 0), -1)
     cv2.putText(image, "[0-9]: Show Track #[0-9]", (width - 565, 150),
@@ -107,7 +111,7 @@ def draw_info(image, width):
     return cv2.addWeighted(image, 0.4, copied, 0.6, 0.0)
 
 
-def hotkey(key):
+def hotkey(key: int) -> None:
     global current, metadata, vc, letter2hotkey
 
     mapped = letter2hotkey[key]
@@ -130,8 +134,16 @@ def hotkey(key):
 
                     vc.set(cv2.CAP_PROP_POS_FRAMES, metadata["tracks"][current][index])
 
-def player(folder, save):
-    global metadata, vcs, letter2hotkey, trackbar_position, paused, current
+
+def player(folder: str, save: bool, show: bool) -> None:
+    """
+    Player for tracking and behavior observation. Runs video with bounding boxes overlaid on the animals.
+
+    Parameters:
+    folder - str. Path to folder with metadata and actions.
+    save - bool. Flag to save video.
+    show - bool. Flag to display player's visualization.
+    """
     name = folder.split("/")[-1].split('|')[-1]
 
     metadata_path = f"{folder}/metadata/{name}_metadata.json"
@@ -213,9 +225,11 @@ def player(folder, save):
             cv2.setTrackbarPos(name, "TrackPlayer", index)
             cv2.putText(visualization, f"Frame: {index}", (50, 50), cv2.FONT_HERSHEY_SIMPLEX,
                         0.8, (255, 255, 255), 3, cv2.LINE_AA)
-
-            cv2.imshow("TrackPlayer", cv2.resize(visualization, (int(target_width // 2.5), int(target_height // 2.5)),
-                                                 interpolation=cv2.INTER_AREA))
+            if show:
+                cv2.imshow("TrackPlayer",
+                           cv2.resize(visualization,
+                                      (int(target_width // 2.5), int(target_height // 2.5)),
+                                      interpolation=cv2.INTER_AREA))
 
             if save:
                 vw.write(visualization)
@@ -270,25 +284,30 @@ def player(folder, save):
     cv2.destroyAllWindows()
 
 
-def parse_args():
+def parse_args() -> argparse.Namespace:
     local_parser = argparse.ArgumentParser()
     local_parser.add_argument(
-        '--folder',
+        "--folder",
         type=str,
-        help='path to folder with metadata and actions',
+        help="path to folder with metadata and actions",
         required=True
     )
     local_parser.add_argument(
-        '--save',
-        action='store_true',
-        help='Flag to save video'
+        "--save",
+        action="store_true",
+        help="flag to save video"
+    )
+    local_parser.add_argument(
+        "--imshow",
+        action="store_true",
+        help="flag to display player's visualization"
     )
     return local_parser.parse_args()
 
 
-def main():
+def main() -> None:
     args = parse_args()
-    player(args.folder, args.save)
+    player(args.folder, args.save, args.imshow)
 
 
 if __name__ == "__main__":
