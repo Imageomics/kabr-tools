@@ -5,9 +5,9 @@ from lxml import etree
 import pandas as pd
 import cv2
 from tqdm import tqdm
-import slowfast.utils.checkpoint as cu
-from slowfast.models import build
-from slowfast.utils import parser
+
+from transformers import AutoConfig, AutoModel
+
 from slowfast.datasets.utils import get_sequence
 from slowfast.visualization.utils import process_cv2_inputs
 from slowfast.datasets.cv2_transform import scale
@@ -85,24 +85,9 @@ def parse_args() -> argparse.Namespace:
 
 def create_model(config_path: str, checkpoint_path: str, gpu_num: int) -> tuple[CfgNode, torch.nn.Module]:
     # load model config
-    try:
-        cfg = parser.load_config(parser.parse_args(), config_path)
-    except FileNotFoundError:
-        checkpoint = torch.load(
-            checkpoint_path, map_location=torch.device("cpu"))
-        with open(config_path, "w") as file:
-            file.write(checkpoint["cfg"])
-        cfg = parser.load_config(parser.parse_args(), config_path)
-    cfg.NUM_GPUS = gpu_num
-    cfg.OUTPUT_DIR = ""
-    model = build.build_model(cfg)
-
-    # load model checkpoint
-    cu.load_checkpoint(checkpoint_path, model, data_parallel=False)
-
-    # set model to eval mode
-    model.eval()
-    return cfg, model
+    config = AutoConfig.from_pretrained("zhong-al/x3d", trust_remote_code=True)
+    model = AutoModel.from_pretrained("zhong-al/x3d", trust_remote_code=True)
+    return config, model
 
 
 def annotate_miniscene(cfg: CfgNode, model: torch.nn.Module,
