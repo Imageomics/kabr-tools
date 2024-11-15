@@ -5,40 +5,8 @@ from lxml import etree
 import pandas as pd
 import cv2
 from tqdm import tqdm
-
 from transformers import AutoConfig, AutoModel
-
-from slowfast.datasets.utils import get_sequence
-from slowfast.visualization.utils import process_cv2_inputs
-from slowfast.datasets.cv2_transform import scale
-from fvcore.common.config import CfgNode
-from torch import Tensor
-
-
-def get_input_clip(cap: cv2.VideoCapture, cfg: CfgNode, keyframe_idx: int) -> list[Tensor]:
-    # https://github.com/facebookresearch/SlowFast/blob/bac7b672f40d44166a84e8c51d1a5ba367ace816/slowfast/visualization/ava_demo_precomputed_boxes.py
-    seq_length = cfg.DATA.NUM_FRAMES * cfg.DATA.SAMPLING_RATE
-    total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-    seq = get_sequence(
-        keyframe_idx,
-        seq_length // 2,
-        cfg.DATA.SAMPLING_RATE,
-        total_frames,
-    )
-    clip = []
-    for frame_idx in seq:
-        cap.set(cv2.CAP_PROP_POS_FRAMES, frame_idx)
-        was_read, frame = cap.read()
-        if was_read:
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            frame = scale(cfg.DATA.TEST_CROP_SIZE, frame)
-            clip.append(frame)
-        else:
-            print("Unable to read frame. Duplicating previous frame.")
-            clip.append(clip[-1])
-
-    clip = process_cv2_inputs(clip, cfg)
-    return clip
+from kabr_tools.utils.slowfast import get_input_clip
 
 
 def parse_args() -> argparse.Namespace:
@@ -83,14 +51,14 @@ def parse_args() -> argparse.Namespace:
     return local_parser.parse_args()
 
 
-def create_model(config_path: str, checkpoint_path: str, gpu_num: int) -> tuple[CfgNode, torch.nn.Module]:
+def create_model(config_path: str, checkpoint_path: str, gpu_num: int) -> tuple[AutoConfig, torch.nn.Module]:
     # load model config
     config = AutoConfig.from_pretrained("zhong-al/x3d", trust_remote_code=True)
     model = AutoModel.from_pretrained("zhong-al/x3d", trust_remote_code=True)
     return config, model
 
 
-def annotate_miniscene(cfg: CfgNode, model: torch.nn.Module,
+def annotate_miniscene(cfg: AutoConfig, model: torch.nn.Module,
                        miniscene_path: str, video: str,
                        output_path: str) -> None:
     """
