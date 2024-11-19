@@ -17,6 +17,7 @@ from tests.utils import del_file
 
 TESTSDIR = os.path.dirname(os.path.realpath(__file__))
 EXAMPLESDIR = os.path.join(TESTSDIR, "examples")
+TEMPHUB = "zhong-al/x3d"
 
 
 def run():
@@ -85,9 +86,10 @@ class TestMiniscene2Behavior(unittest.TestCase):
     @patch("kabr_tools.miniscene2behavior.annotate_miniscene")
     def test_hub_checkpoint(self, annotate_miniscene, create_model):
         # annotate mini-scenes
+        self.hub = TEMPHUB
         sys.argv = [self.tool,
                     "--hub", self.hub,
-                    "--checkpoint", self.checkpoint_archive,
+                    "--checkpoint", self.checkpoint,
                     "--miniscene", self.miniscene,
                     "--video", self.video]
 
@@ -98,7 +100,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
         # check arguments to create_model
         config_path = create_model.call_args[0][0]
         checkpoint_path = create_model.call_args[0][1]
-        download_folder = f"{checkpoint_path.rsplit("/", 1)[0]}/"
+        download_folder = f"{checkpoint_path.rsplit('/', 1)[0]}/"
         self.assertEqual(self.checkpoint,
                          checkpoint_path.replace(download_folder, ""))
         self.assertEqual(self.config,
