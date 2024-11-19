@@ -10,4 +10,4 @@ ultralytics~=8.0.36
 pandas>=1.3.5
 pillow==10.4.0
 scikit-learn==1.5.1
-transformers
+hf_hub_download

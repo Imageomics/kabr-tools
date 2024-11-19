@@ -5,23 +5,32 @@ from lxml import etree
 import pandas as pd
 import cv2
 from tqdm import tqdm
-from transformers import AutoConfig, AutoModel
-from kabr_tools.utils.slowfast import get_input_clip
+from huggingface_hub import hf_hub_download
+from kabr_tools.utils.slowfast.utils import get_input_clip
+from kabr_tools.utils.slowfast.cfg import load_config, CfgNode
+from kabr_tools.utils.slowfast.x3d import build_model
+
+
+def get_cached_datafile(repo_id: str, filename: str):
+    return hf_hub_download(repo_id=repo_id, filename=filename)
 
 
 def parse_args() -> argparse.Namespace:
     local_parser = argparse.ArgumentParser()
     local_parser.add_argument(
+        "--hub",
+        type=str,
+        help="model hub name"
+    )
+    local_parser.add_argument(
         "--config",
         type=str,
-        help="model config.yml filepath",
-        default="config.yml"
+        help="model config.yml filepath"
     )
     local_parser.add_argument(
         "--checkpoint",
         type=str,
-        help="model checkpoint.pyth filepath",
-        required=True
+        help="model checkpoint.pyth filepath"
     )
     local_parser.add_argument(
         "--gpu_num",
@@ -51,14 +60,19 @@ def parse_args() -> argparse.Namespace:
     return local_parser.parse_args()
 
 
-def create_model(config_path: str, checkpoint_path: str, gpu_num: int) -> tuple[AutoConfig, torch.nn.Module]:
+def create_model(config_path: str, checkpoint_path: str, gpu_num: int) -> tuple[CfgNode, torch.nn.Module]:
     # load model config
-    config = AutoConfig.from_pretrained("zhong-al/x3d", trust_remote_code=True)
-    model = AutoModel.from_pretrained("zhong-al/x3d", trust_remote_code=True)
-    return config, model
+    cfg = load_config(config_path)
+    cfg.NUM_GPUS = gpu_num
+    model = build_model(cfg)
+    checkpoint = torch.load(checkpoint_path, weights_only=True,
+                            map_location=torch.device("cpu"))
+    model.load_state_dict(checkpoint["model_state"])
+
+    return cfg, model
 
 
-def annotate_miniscene(cfg: AutoConfig, model: torch.nn.Module,
+def annotate_miniscene(cfg: CfgNode, model: torch.nn.Module,
                        miniscene_path: str, video: str,
                        output_path: str) -> None:
     """
@@ -123,6 +137,19 @@ def main() -> None:
     # clear arguments to avoid slowfast parsing issues
     args = parse_args()
     sys.argv = [sys.argv[0]]
+
+    if args.hub:
+        args.checkpoint = get_cached_datafile(args.hub, args.checkpoint)
+
+        if args.checkpoint.rsplit(".", 1)[-1] == "zip":
+            print(args.checkpoint)
+            args.checkpoint = get_cached_datafile(args.hub, args.checkpoint)
+
+        if args.config:
+            args.config = get_cached_datafile(args.hub, args.config)
+        else:
+            pass
+
     cfg, model = create_model(args.config, args.checkpoint, args.gpu_num)
     annotate_miniscene(cfg, model, args.miniscene,
                        args.video, args.output)

@@ -55,10 +55,11 @@ class TestMiniscene2Behavior(unittest.TestCase):
 
     def setUp(self):
         self.tool = "miniscene2behavior.py"
+        self.hub = "zhong-al/x3d"
         self.checkpoint = "checkpoint_epoch_00075.pyth"
         self.miniscene = "mini-scenes/tests|detection_example|DJI_0068"
         self.video = "DJI_0068"
-        self.config = "special_config.yml"
+        self.config = "config.yml"
         self.gpu_num = "1"
         self.output = "DJI_0068.csv"
 
@@ -74,18 +75,16 @@ class TestMiniscene2Behavior(unittest.TestCase):
                     "--annotation", "tests/detection_example/DJI_0068.xml"]
         tracks_extractor.main()
 
-        # download model
-        self.download_model()
-
         # annotate mini-scenes
         sys.argv = [self.tool,
+                    "--hub", self.hub,
                     "--checkpoint", self.checkpoint,
                     "--miniscene", self.miniscene,
                     "--video", self.video]
         run()
 
-    @patch('kabr_tools.miniscene2behavior.process_cv2_inputs')
-    @patch('kabr_tools.miniscene2behavior.cv2.VideoCapture')
+    @patch('kabr_tools.utils.slowfast.utils.process_cv2_inputs')
+    @patch('kabr_tools.utils.slowfast.utils.cv2.VideoCapture')
     def test_matching_tracks(self, video_capture, process_cv2_inputs):
 
         # Create fake model that always returns a prediction of 1
@@ -121,8 +120,8 @@ class TestMiniscene2Behavior(unittest.TestCase):
                          "video", "track", "frame", "label"])
         self.assertGreater(len(df.index), 0)
 
-    @patch('kabr_tools.miniscene2behavior.process_cv2_inputs')
-    @patch('kabr_tools.miniscene2behavior.cv2.VideoCapture')
+    @patch('kabr_tools.utils.slowfast.utils.process_cv2_inputs')
+    @patch('kabr_tools.utils.slowfast.utils.cv2.VideoCapture')
     def test_nonmatching_tracks(self, video_capture, process_cv2_inputs):
 
         # Create fake model that always returns a prediction of 1
