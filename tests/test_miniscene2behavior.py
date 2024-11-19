@@ -29,7 +29,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
     def setUpClass(cls):
         cls.checkpoint = "checkpoint_epoch_00075.pyth"
         # Download the model from Imageomics HF before running tests
-        cls.download_model()
+        #cls.download_model()
 
     @classmethod
     def download_model(cls):
@@ -64,7 +64,8 @@ class TestMiniscene2Behavior(unittest.TestCase):
 
     def tearDown(self):
         # TODO: delete outputs
-        del_file(self.output)
+        # del_file(self.output)
+        pass
 
     def test_run(self):
         # run tracks_extractor
