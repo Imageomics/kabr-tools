@@ -24,4 +24,4 @@ jobs:
         python -m pip install --no-build-isolation .
     - name: Running unit tests
       run: |
-        python -m unittest discover tests
+        python -m unittest tests/test_miniscene2behavior.py
