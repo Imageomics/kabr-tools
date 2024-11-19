@@ -18,9 +18,6 @@ pip install git+https://github.com/Imageomics/kabr-tools
 
 **Notes:**
  - Refer to [pytorch.org](https://pytorch.org/get-started/locally/) to install specific versions of torch/CUDA
- - [detectron2](https://detectron2.readthedocs.io/en/latest/tutorials/install.html#requirements) requires Linux or MacOS.
- - If building detectron2's wheel fails, check gcc & g++ ≥ 5.4 (run `gcc --version` and `g++ --version`).
- - SlowFast's setup.py is outdated; our workaround is `pip install git+https://github.com/Imageomics/SlowFast@797a6f3ae81c49019d006296f1e0f84f431dc356`, which is included when installing `kabr_tools`.
 
 Each KABR tool can be run through the command line (as described below) or imported as a python module. They each have help information which can be accessed on the command line through `<tool-name> -h`.
 
@@ -95,17 +92,18 @@ tracks_extractor --video path_to_videos --annotation path_to_annotations [--trac
 ## Step 3: Label mini-scenes with behavior 
 You can use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics) to label the mini-scenes with behavior. See the [ethogram](ethogram) folder for the list of behaviors used to label the zebra videos.
 
-
-To use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics), download `checkpoint_epoch_00075.pyth.zip`, unzip `checkpoint_epoch_00075.pyth`, and install [SlowFast](https://github.com/facebookresearch/SlowFast). Then run [miniscene2behavior.py](miniscene2behavior.py).
-
 Label the mini-scenes:
 ```
-miniscene2behavior [--config path_to_config] --checkpoint path_to_checkpoint [--gpu_num number_of_gpus] --miniscene path_to_miniscene [--output path_to_output_csv]
+miniscene2behavior [--hub huggingface_hub] [--config path_to_config] --checkpoint path_to_checkpoint [--gpu_num number_of_gpus] --miniscene path_to_miniscene [--output path_to_output_csv]
 ```
 
 **Notes:**
- - If the config hasn't been extracted yet, the script will write it to `config`. 
- - `checkpoint` should be the path to `checkpoint_epoch_00075.pyth`. 
+ - ex: miniscene2behavior --hub imageomics/x3d-kabr-kinetics --checkpoint checkpoint_epoch_00075.pyth.zip --miniscene path_to_miniscene
+  - download checkpoint from huggingface and extract config
+ - ex: miniscene2behavior --hub imageomics/x3d-kabr-kinetics --config config.yml --checkpoint checkpoint_epoch_00075.pyth --miniscene path_to_miniscene
+  - download checkpoint and config from huggingface
+ - ex: miniscene2behavior --config config.yml --checkpoint checkpoint_epoch_00075.pyth --miniscene path_to_miniscene
+  - use local checkpoint and config
  - If `gpu_num` is 0, the model will use CPU. Using at least 1 GPU greatly increases inference speed. If you're using OSC, you can request a node with one GPU by running `sbatch -N 1 --gpus-per-node 1 -A [account] --time=[minutes] [bash script]`.
  - mini-scenes are clipped videos focused on individual animals and video is the raw video file from which mini-scenes have been extracted.
 
