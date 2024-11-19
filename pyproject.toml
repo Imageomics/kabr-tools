@@ -31,13 +31,13 @@ dependencies = [
     "lxml",
     "tqdm",
     "torch",
-    "pytorchvideo",
     "fvcore",
     "natsort",
     "ruamel.yaml",
     "ultralytics",
     "pandas",
-    "huggingface_hub"
+    "huggingface_hub",
+    "pytorchvideo @ git+https://github.com/facebookresearch/pytorchvideo.git@1fadaef40dd393ca09680f55582399f4679fc9b7"
 ]
 keywords = [
     "annotation",
