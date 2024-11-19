@@ -1,7 +1,8 @@
-import sys
 import argparse
+from zipfile import ZipFile
 import torch
 from lxml import etree
+import numpy as np
 import pandas as pd
 import cv2
 from tqdm import tqdm
@@ -30,7 +31,8 @@ def parse_args() -> argparse.Namespace:
     local_parser.add_argument(
         "--checkpoint",
         type=str,
-        help="model checkpoint.pyth filepath"
+        help="model checkpoint.pyth filepath",
+        required=True
     )
     local_parser.add_argument(
         "--gpu_num",
@@ -61,9 +63,20 @@ def parse_args() -> argparse.Namespace:
 
 
 def create_model(config_path: str, checkpoint_path: str, gpu_num: int) -> tuple[CfgNode, torch.nn.Module]:
-    # load model config
+    # check params
+    assert config_path is not None
+    assert checkpoint_path is not None
+    assert gpu_num >= 0
+
+    # load config
     cfg = load_config(config_path)
     cfg.NUM_GPUS = gpu_num
+
+    # set random seed
+    np.random.seed(cfg.RNG_SEED)
+    torch.manual_seed(cfg.RNG_SEED)
+
+    # load model
     model = build_model(cfg)
     checkpoint = torch.load(checkpoint_path, weights_only=True,
                             map_location=torch.device("cpu"))
@@ -133,22 +146,43 @@ def annotate_miniscene(cfg: CfgNode, model: torch.nn.Module,
     pd.DataFrame(label_data).to_csv(output_path, sep=" ", index=False)
 
 
+def download_model(args) -> None:
+    # download checkpoint from huggingface
+    args.checkpoint = get_cached_datafile(args.hub, args.checkpoint)
+    checkpoint_folder = args.checkpoint.rsplit("/", 1)[0]
+
+    # extract checkpoint archive
+    if args.checkpoint.rsplit(".", 1)[-1] == "zip":
+        print(args.checkpoint)
+        with ZipFile(args.checkpoint, "r") as zip_ref:
+            zip_ref.extractall(checkpoint_folder)
+        args.checkpoint = args.checkpoint.rsplit(".", 1)[0]
+
+    # download config from huggingface
+    if args.config:
+        args.config = get_cached_datafile(args.hub, args.config)
+
+
+def extract_config(args) -> None:
+    # extract config from checkpoint
+    checkpoint_folder = args.checkpoint.rsplit("/", 1)[0]
+    checkpoint = torch.load(args.checkpoint,
+                            map_location=torch.device("cpu"),
+                            weights_only=True)
+    config_path = f"{checkpoint_folder}/config.yml"
+    with open(config_path, "w", encoding="utf-8") as file:
+        file.write(checkpoint["cfg"])
+    args.config = config_path
+
+
 def main() -> None:
-    # clear arguments to avoid slowfast parsing issues
     args = parse_args()
-    sys.argv = [sys.argv[0]]
 
     if args.hub:
-        args.checkpoint = get_cached_datafile(args.hub, args.checkpoint)
+        download_model(args)
 
-        if args.checkpoint.rsplit(".", 1)[-1] == "zip":
-            print(args.checkpoint)
-            args.checkpoint = get_cached_datafile(args.hub, args.checkpoint)
-
-        if args.config:
-            args.config = get_cached_datafile(args.hub, args.config)
-        else:
-            pass
+    if not args.config:
+        extract_config(args)
 
     cfg, model = create_model(args.config, args.checkpoint, args.gpu_num)
     annotate_miniscene(cfg, model, args.miniscene,

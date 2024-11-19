@@ -27,36 +27,34 @@ class TestMiniscene2Behavior(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.checkpoint = "checkpoint_epoch_00075.pyth"
-        # Download the model from Imageomics HF before running tests
-        #cls.download_model()
+        cls.local_checkpoint = "checkpoint_epoch_00075.pyth"
 
     @classmethod
     def download_model(cls):
-        if not os.path.exists(cls.checkpoint):
+        if not os.path.exists(cls.local_checkpoint):
             url = "https://huggingface.co/imageomics/" \
                   + "x3d-kabr-kinetics/resolve/main/" \
-                  + f"{cls.checkpoint}.zip"
+                  + f"{cls.local_checkpoint}.zip"
             r = requests.get(url, allow_redirects=True, timeout=120)
-            with open(f"{cls.checkpoint}.zip", "wb") as f:
+            with open(f"{cls.local_checkpoint}.zip", "wb") as f:
                 f.write(r.content)
 
             # unzip model checkpoint
-            with zipfile.ZipFile(f"{cls.checkpoint}.zip", "r") as zip_ref:
+            with zipfile.ZipFile(f"{cls.local_checkpoint}.zip", "r") as zip_ref:
                 zip_ref.extractall(".")
 
     @classmethod
     def tearDownClass(cls):
         # Remove model files after all tests have been completed
-        if os.path.exists(f"{cls.checkpoint}.zip"):
-            os.remove(f"{cls.checkpoint}.zip")
-        if os.path.exists(cls.checkpoint):
-            os.remove(cls.checkpoint)
+        if os.path.exists(f"{cls.local_checkpoint}.zip"):
+            os.remove(f"{cls.local_checkpoint}.zip")
+        if os.path.exists(cls.local_checkpoint):
+            os.remove(cls.local_checkpoint)
 
     def setUp(self):
         self.tool = "miniscene2behavior.py"
-        self.hub = "zhong-al/x3d"
-        self.checkpoint = "checkpoint_epoch_00075.pyth"
+        self.hub = "imageomics/x3d-kabr-kinetics"
+        self.checkpoint = "checkpoint_epoch_00075.pyth.zip"
         self.miniscene = "mini-scenes/tests|detection_example|DJI_0068"
         self.video = "DJI_0068"
         self.config = "config.yml"
@@ -65,8 +63,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
 
     def tearDown(self):
         # TODO: delete outputs
-        # del_file(self.output)
-        pass
+        del_file(self.output)
 
     def test_run(self):
         # run tracks_extractor
@@ -171,13 +168,15 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.assertEqual(args.video, self.video)
 
         # check default argument values
-        self.assertEqual(args.config, "config.yml")
+        self.assertEqual(args.hub, None)
+        self.assertEqual(args.config, None)
         self.assertEqual(args.gpu_num, 0)
         self.assertEqual(args.output, "annotation_data.csv")
 
     def test_parse_arg_full(self):
         # parse arguments
         sys.argv = [self.tool,
+                    "--hub", self.hub,
                     "--config", self.config,
                     "--checkpoint", self.checkpoint,
                     "--gpu_num", self.gpu_num,
@@ -187,6 +186,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
         args = miniscene2behavior.parse_args()
 
         # check parsed argument values
+        self.assertEqual(args.hub, self.hub)
         self.assertEqual(args.config, self.config)
         self.assertEqual(args.checkpoint, self.checkpoint)
         self.assertEqual(args.gpu_num, 1)
