@@ -1,8 +1,11 @@
 import unittest
 import sys
 from kabr_tools import cvat2slowfast
-from tests.utils import del_dir
-
+from tests.utils import (
+    del_dir,
+    dir_exists,
+    file_exists
+)
 
 def run():
     cvat2slowfast.main()
@@ -29,7 +32,8 @@ class TestCvat2Slowfast(unittest.TestCase):
 
     def tearDown(self):
         # TODO: delete outputs
-        del_dir(self.dataset)
+        #del_dir(self.dataset)
+        pass
 
     def test_run(self):
         # run cvat2slowfast
@@ -38,6 +42,17 @@ class TestCvat2Slowfast(unittest.TestCase):
                     "--dataset", self.dataset,
                     "--classes", self.classes]
         run()
+
+        # check output dirs
+        self.assertTrue(dir_exists(self.dataset))
+        self.assertTrue(dir_exists(f"{self.dataset}/annotation"))
+        self.assertTrue(dir_exists(f"{self.dataset}/dataset"))
+        self.assertTrue(file_exists(f"{self.dataset}/annotation/classes.json"))
+        self.assertTrue(file_exists(f"{self.dataset}/annotation/data.csv"))
+
+        # check output files
+
+        # TODO: check output dataset
 
     def test_parse_arg_min(self):
         # parse arguments
