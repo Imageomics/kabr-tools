@@ -16,7 +16,11 @@ from kabr_tools.miniscene2behavior import (
     annotate_miniscene,
     extract_config
 )
-from tests.utils import (del_file, file_exists)
+from tests.utils import (
+    del_file,
+    file_exists,
+    same_path
+)
 
 
 TESTSDIR = os.path.dirname(os.path.realpath(__file__))
@@ -171,8 +175,8 @@ class TestMiniscene2Behavior(unittest.TestCase):
         checkpoint_path = create_mock.call_args[0][1]
         self.assertTrue(file_exists(config_path))
         self.assertTrue(file_exists(checkpoint_path))
-        self.assertEqual(self.checkpoint, checkpoint_path)
-        self.assertEqual(self.config, config_path)
+        self.assertTrue(same_path(self.checkpoint, checkpoint_path))
+        self.assertTrue(same_path(self.config, config_path))
 
     @patch("kabr_tools.miniscene2behavior.create_model")
     def test_local_checkpoint_config(self, create_mock):
@@ -205,18 +209,23 @@ class TestMiniscene2Behavior(unittest.TestCase):
         checkpoint_path = create_mock.call_args[0][1]
         self.assertTrue(file_exists(config_path))
         self.assertTrue(file_exists(checkpoint_path))
-        self.assertEqual(self.checkpoint, checkpoint_path)
-        self.assertEqual(self.config, config_path)
+        self.assertTrue(same_path(self.checkpoint, checkpoint_path))
+        self.assertTrue(same_path(self.config, config_path))
 
-    # def test_no_checkpoint(self):
-    #     # check for assertion error!
-    #     # annotate mini-scenes
-    #     sys.argv = [self.tool,
-    #                 "--hub", self.hub,
-    #                 "--checkpoint", self.checkpoint,
-    #                 "--miniscene", self.miniscene,
-    #                 "--video", self.video]
-    #     run()
+    def test_no_checkpoint(self):
+        # annotate mini-scenes
+        sys.argv = [self.tool,
+                    "--miniscene", self.miniscene,
+                    "--video", self.video]
+
+        with self.assertRaises(SystemExit):
+            run()
+
+        with self.assertRaises(AssertionError):
+            create_model(None, self.checkpoint, 0)
+
+        with self.assertRaises(AssertionError):
+            create_model(self.config, None, 0)
 
 # output tracks
 

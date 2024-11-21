@@ -16,3 +16,6 @@ def file_exists(path):
 
 def dir_exists(path):
     return Path(path).is_dir()
+
+def same_path(path1, path2):
+    return Path(path1).resolve() == Path(path2).resolve()
