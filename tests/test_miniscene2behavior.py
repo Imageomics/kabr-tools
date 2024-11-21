@@ -199,7 +199,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
 
         # check args
         self.assertTrue(same_path(self.config, args.config))
-        self.assertTrue(same_path(self.config, args.checkpoint))
+        self.assertTrue(same_path(self.checkpoint, args.checkpoint))
 
         # annotate mini-scenes
         run()
