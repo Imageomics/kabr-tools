@@ -81,6 +81,7 @@ def create_model(config_path: str, checkpoint_path: str, gpu_num: int) -> tuple[
     checkpoint = torch.load(checkpoint_path, weights_only=True,
                             map_location=torch.device("cpu"))
     model.load_state_dict(checkpoint["model_state"])
+    model.eval()
 
     return cfg, model
 
