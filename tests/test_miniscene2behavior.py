@@ -198,8 +198,8 @@ class TestMiniscene2Behavior(unittest.TestCase):
         extract_config(args)
 
         # check args
-        self.assertEqual(self.config, args.config)
-        self.assertEqual(self.config, args.checkpoint)
+        self.assertTrue(same_path(self.config, args.config))
+        self.assertTrue(same_path(self.config, args.checkpoint))
 
         # annotate mini-scenes
         run()
