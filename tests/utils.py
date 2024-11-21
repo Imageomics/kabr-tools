@@ -27,7 +27,7 @@ def same_path(path1, path2):
 
 
 def csv_equal(path1, path2):
-    df1 = pd.read_csv(path1, sep="")
-    df2 = pd.read_csv(path2, sep="")
+    df1 = pd.read_csv(path1, sep=" ")
+    df2 = pd.read_csv(path2, sep=" ")
 
     return df1.equals(df2)
