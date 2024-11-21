@@ -33,6 +33,6 @@ def text_equal(path1, path2):
         existing_data = f.read()
 
     from difflib import ndiff
-    print(ndiff(output_data, existing_data))
+    print(list(ndiff(output_data, existing_data)))
 
     return output_data == existing_data
