@@ -165,7 +165,11 @@ def download_model(args) -> None:
 
 def extract_config(args) -> None:
     # extract config from checkpoint
-    checkpoint_folder = args.checkpoint.rsplit("/", 1)[0]
+    if len(args.checkpoint.rsplit("/", 1)) > 1:
+        checkpoint_folder = args.checkpoint.rsplit("/", 1)[0]
+    else:
+        checkpoint_folder = "."
+
     checkpoint = torch.load(args.checkpoint,
                             map_location=torch.device("cpu"),
                             weights_only=True)

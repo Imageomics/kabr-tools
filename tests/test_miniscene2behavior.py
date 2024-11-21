@@ -2,8 +2,8 @@ import unittest
 import zipfile
 import sys
 import os
-import requests
 from unittest.mock import Mock, patch
+import requests
 import torch
 import numpy as np
 import pandas as pd
@@ -11,8 +11,12 @@ from kabr_tools import (
     miniscene2behavior,
     tracks_extractor
 )
-from kabr_tools.miniscene2behavior import annotate_miniscene
-from tests.utils import del_file
+from kabr_tools.miniscene2behavior import (
+    create_model,
+    annotate_miniscene,
+    extract_config
+)
+from tests.utils import (del_file, file_exists)
 
 
 TESTSDIR = os.path.dirname(os.path.realpath(__file__))
@@ -73,7 +77,13 @@ class TestMiniscene2Behavior(unittest.TestCase):
         # TODO: delete outputs
         del_file(self.output)
 
-    def test_hub_checkpoint_archive(self):
+# load model + run
+
+    @patch("kabr_tools.miniscene2behavior.create_model")
+    def test_hub_checkpoint_archive(self, create_mock):
+        # patch create_model
+        create_mock.side_effect = create_model
+
         # annotate mini-scenes
         sys.argv = [self.tool,
                     "--hub", self.hub,
@@ -82,9 +92,17 @@ class TestMiniscene2Behavior(unittest.TestCase):
                     "--video", self.video]
         run()
 
+        # check arguments to create_model
+        config_path = create_mock.call_args[0][0]
+        checkpoint_path = create_mock.call_args[0][1]
+        self.assertTrue(file_exists(config_path))
+        self.assertTrue(file_exists(checkpoint_path))
+
     @patch("kabr_tools.miniscene2behavior.create_model")
-    @patch("kabr_tools.miniscene2behavior.annotate_miniscene")
-    def test_hub_checkpoint(self, annotate_miniscene, create_model):
+    def test_hub_checkpoint(self, create_mock):
+        # patch create_model
+        create_mock.side_effect = create_model
+
         # annotate mini-scenes
         self.hub = TEMPHUB
         sys.argv = [self.tool,
@@ -92,19 +110,115 @@ class TestMiniscene2Behavior(unittest.TestCase):
                     "--checkpoint", self.checkpoint,
                     "--miniscene", self.miniscene,
                     "--video", self.video]
-
-        # patch create_model
-        create_model.return_value = (Mock(), Mock())
         run()
 
         # check arguments to create_model
-        config_path = create_model.call_args[0][0]
-        checkpoint_path = create_model.call_args[0][1]
+        config_path = create_mock.call_args[0][0]
+        checkpoint_path = create_mock.call_args[0][1]
+        self.assertTrue(file_exists(config_path))
+        self.assertTrue(file_exists(checkpoint_path))
+
         download_folder = f"{checkpoint_path.rsplit('/', 1)[0]}/"
         self.assertEqual(self.checkpoint,
                          checkpoint_path.replace(download_folder, ""))
         self.assertEqual(self.config,
                          config_path.replace(download_folder, ""))
+
+    @patch("kabr_tools.miniscene2behavior.create_model")
+    def test_hub_checkpoint_config(self, create_mock):
+        # patch create_model
+        create_mock.side_effect = create_model
+
+        # annotate mini-scenes
+        self.hub = TEMPHUB
+        sys.argv = [self.tool,
+                    "--hub", self.hub,
+                    "--checkpoint", self.checkpoint,
+                    "--config", self.config,
+                    "--miniscene", self.miniscene,
+                    "--video", self.video]
+        run()
+
+        # check arguments to create_model
+        config_path = create_mock.call_args[0][0]
+        checkpoint_path = create_mock.call_args[0][1]
+        self.assertTrue(file_exists(config_path))
+        self.assertTrue(file_exists(checkpoint_path))
+
+        download_folder = f"{checkpoint_path.rsplit('/', 1)[0]}/"
+        self.assertEqual(self.checkpoint,
+                         checkpoint_path.replace(download_folder, ""))
+        self.assertEqual(self.config,
+                         config_path.replace(download_folder, ""))
+
+    @patch("kabr_tools.miniscene2behavior.create_model")
+    def test_local_checkpoint(self, create_mock):
+        # patch create_model
+        create_mock.side_effect = create_model
+
+        # download model
+        self.download_model()
+
+        # annotate mini-scenes
+        sys.argv = [self.tool,
+                    "--checkpoint", self.checkpoint,
+                    "--miniscene", self.miniscene,
+                    "--video", self.video]
+        run()
+
+        # check arguments to create_model
+        config_path = create_mock.call_args[0][0]
+        checkpoint_path = create_mock.call_args[0][1]
+        self.assertTrue(file_exists(config_path))
+        self.assertTrue(file_exists(checkpoint_path))
+        self.assertEqual(self.checkpoint, checkpoint_path)
+        self.assertEqual(self.config, config_path)
+
+    @patch("kabr_tools.miniscene2behavior.create_model")
+    def test_local_checkpoint_config(self, create_mock):
+        # patch create_model
+        create_mock.side_effect = create_model
+
+        # set args
+        sys.argv = [self.tool,
+                    "--checkpoint", self.checkpoint,
+                    "--config", self.config,
+                    "--miniscene", self.miniscene,
+                    "--video", self.video]
+        args = miniscene2behavior.parse_args()
+
+        # download model
+        self.download_model()
+
+        # extract config
+        extract_config(args)
+
+        # check args
+        self.assertEqual(self.config, args.config)
+        self.assertEqual(self.config, args.checkpoint)
+
+        # annotate mini-scenes
+        run()
+
+        # check arguments to create_model
+        config_path = create_mock.call_args[0][0]
+        checkpoint_path = create_mock.call_args[0][1]
+        self.assertTrue(file_exists(config_path))
+        self.assertTrue(file_exists(checkpoint_path))
+        self.assertEqual(self.checkpoint, checkpoint_path)
+        self.assertEqual(self.config, config_path)
+
+    # def test_no_checkpoint(self):
+    #     # check for assertion error!
+    #     # annotate mini-scenes
+    #     sys.argv = [self.tool,
+    #                 "--hub", self.hub,
+    #                 "--checkpoint", self.checkpoint,
+    #                 "--miniscene", self.miniscene,
+    #                 "--video", self.video]
+    #     run()
+
+# output tracks
 
     @patch('kabr_tools.utils.slowfast.utils.process_cv2_inputs')
     @patch('kabr_tools.utils.slowfast.utils.cv2.VideoCapture')
@@ -179,6 +293,10 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.assertEqual(list(df.columns), [
                          "video", "track", "frame", "label"])
         self.assertGreater(len(df.index), 0)
+
+
+# parse_args
+
 
     def test_parse_arg_min(self):
         # parse arguments
