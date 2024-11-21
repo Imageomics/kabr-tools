@@ -1,6 +1,7 @@
 import os
 import shutil
 from pathlib import Path
+import pandas as pd
 
 
 def del_dir(path):
@@ -25,14 +26,8 @@ def same_path(path1, path2):
     return Path(path1).resolve() == Path(path2).resolve()
 
 
-def text_equal(path1, path2):
-    with open(path1, "r", encoding="utf-8") as f:
-        output_data = f.read()
+def csv_equal(path1, path2):
+    df1 = pd.read_csv(path1, sep="")
+    df2 = pd.read_csv(path2, sep="")
 
-    with open(path2, "r", encoding="utf-8") as f:
-        existing_data = f.read()
-
-    from difflib import ndiff
-    print(list(ndiff(output_data, existing_data)))
-
-    return output_data == existing_data
+    return df1.equals(df2)

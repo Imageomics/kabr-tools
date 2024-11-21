@@ -20,7 +20,7 @@ from tests.utils import (
     del_file,
     file_exists,
     same_path,
-    text_equal
+    csv_equal
 )
 
 
@@ -106,7 +106,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.assertTrue(file_exists(checkpoint_path))
 
         # check output
-        self.assertTrue(text_equal(self.output, f"{self.example}/{self.output}"))
+        self.assertTrue(csv_equal(self.output, f"{self.example}/{self.output}"))
 
     @patch("kabr_tools.miniscene2behavior.create_model")
     def test_hub_checkpoint(self, create_mock):
@@ -136,7 +136,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
                          config_path.replace(download_folder, ""))
 
         # check output
-        self.assertTrue(text_equal(self.output, f"{self.example}/{self.output}"))
+        self.assertTrue(csv_equal(self.output, f"{self.example}/{self.output}"))
 
     @patch("kabr_tools.miniscene2behavior.create_model")
     def test_hub_checkpoint_config(self, create_mock):
@@ -167,7 +167,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
                          config_path.replace(download_folder, ""))
 
         # check output
-        self.assertTrue(text_equal(self.output, f"{self.example}/{self.output}"))
+        self.assertTrue(csv_equal(self.output, f"{self.example}/{self.output}"))
 
     @patch("kabr_tools.miniscene2behavior.create_model")
     def test_local_checkpoint(self, create_mock):
@@ -194,7 +194,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.assertTrue(same_path(self.config, config_path))
 
         # check output
-        self.assertTrue(text_equal(self.output, f"{self.example}/{self.output}"))
+        self.assertTrue(csv_equal(self.output, f"{self.example}/{self.output}"))
 
     @patch("kabr_tools.miniscene2behavior.create_model")
     def test_local_checkpoint_config(self, create_mock):
@@ -232,7 +232,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.assertTrue(same_path(self.config, config_path))
 
         # check output
-        self.assertTrue(text_equal(self.output, f"{self.example}/{self.output}"))
+        self.assertTrue(csv_equal(self.output, f"{self.example}/{self.output}"))
 
     def test_no_checkpoint(self):
         # annotate mini-scenes
