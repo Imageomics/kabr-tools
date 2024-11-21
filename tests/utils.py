@@ -32,4 +32,7 @@ def text_equal(path1, path2):
     with open(path2, "r", encoding="utf-8") as f:
         existing_data = f.read()
 
+    from difflib import ndiff
+    print(ndiff(output_data, existing_data))
+
     return output_data == existing_data
