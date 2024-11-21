@@ -154,7 +154,6 @@ def download_model(args) -> None:
 
     # extract checkpoint archive
     if args.checkpoint.rsplit(".", 1)[-1] == "zip":
-        print(args.checkpoint)
         with ZipFile(args.checkpoint, "r") as zip_ref:
             zip_ref.extractall(checkpoint_folder)
         args.checkpoint = args.checkpoint.rsplit(".", 1)[0]
