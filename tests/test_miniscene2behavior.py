@@ -19,7 +19,8 @@ from kabr_tools.miniscene2behavior import (
 from tests.utils import (
     del_file,
     file_exists,
-    same_path
+    same_path,
+    text_equal
 )
 
 
@@ -76,6 +77,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.config = "config.yml"
         self.gpu_num = "1"
         self.output = "DJI_0068.csv"
+        self.example = "tests/detection_example"
 
     def tearDown(self):
         # TODO: delete outputs
@@ -93,7 +95,8 @@ class TestMiniscene2Behavior(unittest.TestCase):
                     "--hub", self.hub,
                     "--checkpoint", self.checkpoint_archive,
                     "--miniscene", self.miniscene,
-                    "--video", self.video]
+                    "--video", self.video,
+                    "--output", self.output]
         run()
 
         # check arguments to create_model
@@ -101,6 +104,9 @@ class TestMiniscene2Behavior(unittest.TestCase):
         checkpoint_path = create_mock.call_args[0][1]
         self.assertTrue(file_exists(config_path))
         self.assertTrue(file_exists(checkpoint_path))
+
+        # check output
+        self.assertTrue(text_equal(self.output, f"{self.example}/{self.output}"))
 
     @patch("kabr_tools.miniscene2behavior.create_model")
     def test_hub_checkpoint(self, create_mock):
@@ -113,7 +119,8 @@ class TestMiniscene2Behavior(unittest.TestCase):
                     "--hub", self.hub,
                     "--checkpoint", self.checkpoint,
                     "--miniscene", self.miniscene,
-                    "--video", self.video]
+                    "--video", self.video,
+                    "--output", self.output]
         run()
 
         # check arguments to create_model
@@ -127,6 +134,9 @@ class TestMiniscene2Behavior(unittest.TestCase):
                          checkpoint_path.replace(download_folder, ""))
         self.assertEqual(self.config,
                          config_path.replace(download_folder, ""))
+
+        # check output
+        self.assertTrue(text_equal(self.output, f"{self.example}/{self.output}"))
 
     @patch("kabr_tools.miniscene2behavior.create_model")
     def test_hub_checkpoint_config(self, create_mock):
@@ -140,7 +150,8 @@ class TestMiniscene2Behavior(unittest.TestCase):
                     "--checkpoint", self.checkpoint,
                     "--config", self.config,
                     "--miniscene", self.miniscene,
-                    "--video", self.video]
+                    "--video", self.video,
+                    "--output", self.output]
         run()
 
         # check arguments to create_model
@@ -155,6 +166,9 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.assertEqual(self.config,
                          config_path.replace(download_folder, ""))
 
+        # check output
+        self.assertTrue(text_equal(self.output, f"{self.example}/{self.output}"))
+
     @patch("kabr_tools.miniscene2behavior.create_model")
     def test_local_checkpoint(self, create_mock):
         # patch create_model
@@ -167,7 +181,8 @@ class TestMiniscene2Behavior(unittest.TestCase):
         sys.argv = [self.tool,
                     "--checkpoint", self.checkpoint,
                     "--miniscene", self.miniscene,
-                    "--video", self.video]
+                    "--video", self.video,
+                    "--output", self.output]
         run()
 
         # check arguments to create_model
@@ -177,6 +192,9 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.assertTrue(file_exists(checkpoint_path))
         self.assertTrue(same_path(self.checkpoint, checkpoint_path))
         self.assertTrue(same_path(self.config, config_path))
+
+        # check output
+        self.assertTrue(text_equal(self.output, f"{self.example}/{self.output}"))
 
     @patch("kabr_tools.miniscene2behavior.create_model")
     def test_local_checkpoint_config(self, create_mock):
@@ -188,7 +206,8 @@ class TestMiniscene2Behavior(unittest.TestCase):
                     "--checkpoint", self.checkpoint,
                     "--config", self.config,
                     "--miniscene", self.miniscene,
-                    "--video", self.video]
+                    "--video", self.video,
+                    "--output", self.output]
         args = miniscene2behavior.parse_args()
 
         # download model
@@ -211,6 +230,9 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.assertTrue(file_exists(checkpoint_path))
         self.assertTrue(same_path(self.checkpoint, checkpoint_path))
         self.assertTrue(same_path(self.config, config_path))
+
+        # check output
+        self.assertTrue(text_equal(self.output, f"{self.example}/{self.output}"))
 
     def test_no_checkpoint(self):
         # annotate mini-scenes
