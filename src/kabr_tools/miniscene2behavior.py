@@ -1,4 +1,5 @@
 import argparse
+import random
 from zipfile import ZipFile
 import torch
 from lxml import etree
@@ -73,8 +74,10 @@ def create_model(config_path: str, checkpoint_path: str, gpu_num: int) -> tuple[
     cfg.NUM_GPUS = gpu_num
 
     # set random seed
+    random.seed(cfg.RNG_SEED)
     np.random.seed(cfg.RNG_SEED)
     torch.manual_seed(cfg.RNG_SEED)
+    torch.use_deterministic_algorithms(True)
 
     # load model
     model = build_model(cfg)
