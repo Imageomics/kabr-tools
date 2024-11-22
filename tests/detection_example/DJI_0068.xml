@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<annotations>
+  <version>1.1</version>
+    <meta>
+    <task>
+      <id>136</id>
+      <name>18_01_2023_session_7-DJI_0068.MP4</name>
+      <size>21</size>
+      <mode>interpolation</mode>
+      <overlap>5</overlap>
+      <bugtracker></bugtracker>
+      <created>2024-07-09 02:29:08.127152+00:00</created>
+      <updated>2024-07-16 18:47:40.431196+00:00</updated>
+      <subset>default</subset>
+      <start_frame>0</start_frame>
+      <stop_frame>20</stop_frame>
+      <frame_filter></frame_filter>
+      <segments>
+        <segment>
+          <id>104</id>
+          <start>0</start>
+          <stop>20</stop>
+          <url>http://localhost:8080/api/jobs/104</url>
+        </segment>
+      </segments>
+      <owner>
+        <username>jennamkline</username>
+        <email>jennamkline@gmail.com</email>
+      </owner>
+      <assignee>
+        <username>jennamkline</username>
+        <email>jennamkline@gmail.com</email>
+      </assignee>
+      <labels>
+        <label>
+          <name>Giraffe</name>
+          <color>#f59331</color>
+          <type>any</type>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>Plains Zebra</name>
+          <color>#fa32b7</color>
+          <type>any</type>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>Onager</name>
+          <color>#2a7dd1</color>
+          <type>rectangle</type>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>Przewalski's horse</name>
+          <color>#ddff33</color>
+          <type>rectangle</type>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>Grevys Zebra</name>
+          <color>#966dac</color>
+          <type>any</type>
+          <attributes>
+          </attributes>
+        </label>
+      </labels>
+      <original_size>
+        <width>1824</width>
+        <height>1026</height>
+      </original_size>
+      <source>downgraded-kabr_videos-18_01_2023_session_7-DJI_0068.MP4</source>
+    </task>
+    <dumped>2024-07-16 18:48:43.411027+00:00</dumped>
+  </meta>
+  <track id="0" label="Grevy" source="manual">
+    <box frame="0" outside="0" occluded="0" keyframe="1" xtl="2011.00" ytl="1883.00" xbr="2133.00" ybr="1978.00" z_order="0"/>
+    <box frame="1" outside="0" occluded="0" keyframe="0" xtl="2011.00" ytl="1883.00" xbr="2133.00" ybr="1978.00" z_order="0"/>
+    <box frame="2" outside="0" occluded="0" keyframe="0" xtl="2011.00" ytl="1883.00" xbr="2133.00" ybr="1978.00" z_order="0"/>
+    <box frame="3" outside="0" occluded="0" keyframe="0" xtl="2011.00" ytl="1883.00" xbr="2133.00" ybr="1978.00" z_order="0"/>
+    <box frame="4" outside="0" occluded="0" keyframe="0" xtl="2011.00" ytl="1883.00" xbr="2134.00" ybr="1978.00" z_order="0"/>
+    <box frame="5" outside="0" occluded="0" keyframe="0" xtl="2011.00" ytl="1883.00" xbr="2134.00" ybr="1978.00" z_order="0"/>
+    <box frame="6" outside="0" occluded="0" keyframe="0" xtl="2011.00" ytl="1883.00" xbr="2134.00" ybr="1978.00" z_order="0"/>
+    <box frame="7" outside="0" occluded="0" keyframe="0" xtl="2012.00" ytl="1883.00" xbr="2134.00" ybr="1978.00" z_order="0"/>
+    <box frame="8" outside="0" occluded="0" keyframe="0" xtl="2012.00" ytl="1883.00" xbr="2134.00" ybr="1978.00" z_order="0"/>
+    <box frame="9" outside="0" occluded="0" keyframe="0" xtl="2012.00" ytl="1883.00" xbr="2134.00" ybr="1978.00" z_order="0"/>
+    <box frame="10" outside="0" occluded="0" keyframe="0" xtl="2012.00" ytl="1882.00" xbr="2134.00" ybr="1978.00" z_order="0"/>
+    <box frame="11" outside="0" occluded="0" keyframe="0" xtl="2012.00" ytl="1882.00" xbr="2134.00" ybr="1978.00" z_order="0"/>
+    <box frame="12" outside="0" occluded="0" keyframe="0" xtl="2012.00" ytl="1882.00" xbr="2134.00" ybr="1978.00" z_order="0"/>
+    <box frame="13" outside="0" occluded="0" keyframe="0" xtl="2012.00" ytl="1882.00" xbr="2135.00" ybr="1978.00" z_order="0"/>
+    <box frame="14" outside="0" occluded="0" keyframe="0" xtl="2012.00" ytl="1882.00" xbr="2135.00" ybr="1977.00" z_order="0"/>
+    <box frame="15" outside="0" occluded="0" keyframe="0" xtl="2012.00" ytl="1882.00" xbr="2135.00" ybr="1977.00" z_order="0"/>
+    <box frame="16" outside="0" occluded="0" keyframe="0" xtl="2013.00" ytl="1882.00" xbr="2135.00" ybr="1977.00" z_order="0"/>
+    <box frame="17" outside="0" occluded="0" keyframe="0" xtl="2013.00" ytl="1882.00" xbr="2135.00" ybr="1977.00" z_order="0"/>
+    <box frame="18" outside="0" occluded="0" keyframe="0" xtl="2013.00" ytl="1882.00" xbr="2135.00" ybr="1977.00" z_order="0"/>
+    <box frame="19" outside="0" occluded="0" keyframe="0" xtl="2013.00" ytl="1882.00" xbr="2135.00" ybr="1977.00" z_order="0"/>
+    <box frame="20" outside="0" occluded="0" keyframe="0" xtl="2013.00" ytl="1882.00" xbr="2135.00" ybr="1977.00" z_order="0"/>
+  </track>
+  <track id="1" label="Grevy" source="manual">
+    <box frame="0" outside="0" occluded="0" keyframe="1" xtl="2513.00" ytl="1921.00" xbr="2615.00" ybr="1991.00" z_order="0"/>
+    <box frame="1" outside="0" occluded="0" keyframe="0" xtl="2513.00" ytl="1921.00" xbr="2615.00" ybr="1991.00" z_order="0"/>
+    <box frame="2" outside="0" occluded="0" keyframe="0" xtl="2512.00" ytl="1921.00" xbr="2614.00" ybr="1991.00" z_order="0"/>
+    <box frame="3" outside="0" occluded="0" keyframe="0" xtl="2512.00" ytl="1921.00" xbr="2613.00" ybr="1991.00" z_order="0"/>
+    <box frame="4" outside="0" occluded="0" keyframe="0" xtl="2511.00" ytl="1921.00" xbr="2613.00" ybr="1991.00" z_order="0"/>
+    <box frame="5" outside="0" occluded="0" keyframe="0" xtl="2510.00" ytl="1921.00" xbr="2612.00" ybr="1991.00" z_order="0"/>
+    <box frame="6" outside="0" occluded="0" keyframe="0" xtl="2510.00" ytl="1921.00" xbr="2612.00" ybr="1991.00" z_order="0"/>
+    <box frame="7" outside="0" occluded="0" keyframe="0" xtl="2509.00" ytl="1921.00" xbr="2611.00" ybr="1991.00" z_order="0"/>
+    <box frame="8" outside="0" occluded="0" keyframe="0" xtl="2508.00" ytl="1921.00" xbr="2610.00" ybr="1991.00" z_order="0"/>
+    <box frame="9" outside="0" occluded="0" keyframe="0" xtl="2508.00" ytl="1921.00" xbr="2610.00" ybr="1991.00" z_order="0"/>
+    <box frame="10" outside="0" occluded="0" keyframe="0" xtl="2507.00" ytl="1921.00" xbr="2609.00" ybr="1991.00" z_order="0"/>
+    <box frame="11" outside="0" occluded="0" keyframe="0" xtl="2507.00" ytl="1921.00" xbr="2608.00" ybr="1991.00" z_order="0"/>
+    <box frame="12" outside="0" occluded="0" keyframe="0" xtl="2506.00" ytl="1921.00" xbr="2608.00" ybr="1991.00" z_order="0"/>
+    <box frame="13" outside="0" occluded="0" keyframe="0" xtl="2505.00" ytl="1921.00" xbr="2607.00" ybr="1991.00" z_order="0"/>
+    <box frame="14" outside="0" occluded="0" keyframe="0" xtl="2505.00" ytl="1921.00" xbr="2607.00" ybr="1991.00" z_order="0"/>
+    <box frame="15" outside="0" occluded="0" keyframe="0" xtl="2504.00" ytl="1920.00" xbr="2606.00" ybr="1991.00" z_order="0"/>
+    <box frame="16" outside="0" occluded="0" keyframe="0" xtl="2503.00" ytl="1920.00" xbr="2605.00" ybr="1991.00" z_order="0"/>
+    <box frame="17" outside="0" occluded="0" keyframe="0" xtl="2503.00" ytl="1920.00" xbr="2605.00" ybr="1991.00" z_order="0"/>
+    <box frame="18" outside="0" occluded="0" keyframe="0" xtl="2502.00" ytl="1920.00" xbr="2604.00" ybr="1991.00" z_order="0"/>
+    <box frame="19" outside="0" occluded="0" keyframe="0" xtl="2502.00" ytl="1920.00" xbr="2603.00" ybr="1990.00" z_order="0"/>
+    <box frame="20" outside="0" occluded="0" keyframe="0" xtl="2501.00" ytl="1920.00" xbr="2603.00" ybr="1990.00" z_order="0"/>
+  </track>
+</annotations>
