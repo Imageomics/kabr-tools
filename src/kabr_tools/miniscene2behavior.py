@@ -132,6 +132,8 @@ def annotate_miniscene(cfg: CfgNode, model: torch.nn.Module,
                     inputs = inputs.cuda(non_blocking=True)
 
             preds = model(inputs)
+            if frame == 1:
+                print(preds)
             preds = preds.detach()
 
             if cfg.NUM_GPUS:
