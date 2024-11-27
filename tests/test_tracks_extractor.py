@@ -2,8 +2,15 @@ import unittest
 import sys
 from unittest.mock import patch
 from kabr_tools import tracks_extractor
-from tests.utils import del_dir
+from tests.utils import (
+    get_cached_datafile,
+    del_dir,
+    del_file
+)
 
+DATA_HUB = "imageomics/kabr_testing"
+VIDEO = "DJI_0068/DJI_0068.mp4"
+ANNOTATION = "DJI_0068/DJI_0068.xml"
 
 def run():
     tracks_extractor.main()
@@ -13,18 +20,18 @@ class TestTracksExtractor(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        # TODO: download data
-        pass
+        cls.video = get_cached_datafile(DATA_HUB, VIDEO, "dataset")
+        cls.annotation = get_cached_datafile(DATA_HUB, ANNOTATION, "dataset")
 
     @classmethod
     def tearDownClass(cls):
-        # TODO: delete data
-        pass
+        del_file(cls.video)
+        del_file(cls.annotation)
 
     def setUp(self):
         self.tool = "tracks_extractor.py"
-        self.video = "tests/detection_example/DJI_0068.mp4"
-        self.annotation = "tests/detection_example/DJI_0068.xml"
+        self.video = TestTracksExtractor.video
+        self.annotation = TestTracksExtractor.annotation
 
         # remove output directory before test
         del_dir("mini-scenes")
