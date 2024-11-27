@@ -12,11 +12,18 @@ from kabr_tools import (
     tracks_extractor
 )
 from kabr_tools.miniscene2behavior import annotate_miniscene
-from tests.utils import del_file
+from tests.utils import (
+    del_file,
+    del_dir,
+    get_cached_datafile
+)
 
 
 TESTSDIR = os.path.dirname(os.path.realpath(__file__))
 EXAMPLESDIR = os.path.join(TESTSDIR, "examples")
+DATA_HUB = "imageomics/kabr_testing"
+VIDEO = "DJI_0068/DJI_0068.mp4"
+ANNOTATION = "DJI_0068/DJI_0068.xml"
 
 
 def run():
@@ -27,9 +34,20 @@ class TestMiniscene2Behavior(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        # Download the model from Imageomics HF
         cls.checkpoint = "checkpoint_epoch_00075.pyth"
-        # Download the model from Imageomics HF before running tests
         cls.download_model()
+
+        # Download data
+        cls.video = get_cached_datafile(DATA_HUB, VIDEO, "dataset")
+        cls.annotation = get_cached_datafile(DATA_HUB, ANNOTATION, "dataset")
+
+        # Extract mini-scene
+        sys.argv = ["tracks_extractor.py",
+                    "--video", cls.video,
+                    "--annotation", cls.annotation]
+        tracks_extractor.main()
+        cls.miniscene = f'mini-scenes/{os.path.splitext("|".join(cls.video.split("/")[-3:]))[0]}'
 
     @classmethod
     def download_model(cls):
@@ -52,11 +70,14 @@ class TestMiniscene2Behavior(unittest.TestCase):
             os.remove(f"{cls.checkpoint}.zip")
         if os.path.exists(cls.checkpoint):
             os.remove(cls.checkpoint)
+        del_file(cls.video)
+        del_file(cls.annotation)
+        del_dir(cls.miniscene)
 
     def setUp(self):
         self.tool = "miniscene2behavior.py"
         self.checkpoint = "checkpoint_epoch_00075.pyth"
-        self.miniscene = "mini-scenes/tests|detection_example|DJI_0068"
+        self.miniscene = TestMiniscene2Behavior.miniscene
         self.video = "DJI_0068"
         self.config = "special_config.yml"
         self.gpu_num = "1"
@@ -67,12 +88,6 @@ class TestMiniscene2Behavior(unittest.TestCase):
         del_file(self.output)
 
     def test_run(self):
-        # run tracks_extractor
-        sys.argv = ["tracks_extractor.py",
-                    "--video", "tests/detection_example/DJI_0068.mp4",
-                    "--annotation", "tests/detection_example/DJI_0068.xml"]
-        tracks_extractor.main()
-
         # download model
         self.download_model()
 
