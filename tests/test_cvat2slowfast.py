@@ -29,7 +29,7 @@ class TestCvat2Slowfast(unittest.TestCase):
         cls.miniscene = get_cached_datafile(DATA_HUB, MINISCENE, "dataset")
         cls.annotation = get_cached_datafile(DATA_HUB, ANNOTATION, "dataset")
         cls.metadata = get_cached_datafile(DATA_HUB, METADATA, "dataset")
-        cls.dir = os.path.dirname(cls.video)
+        cls.dir = os.path.dirname(os.path.dirname(cls.video))
 
     @classmethod
     def tearDownClass(cls):
@@ -38,6 +38,7 @@ class TestCvat2Slowfast(unittest.TestCase):
         del_file(cls.miniscene)
         del_file(cls.annotation)
         del_file(cls.metadata)
+        del_dir(cls.dir)
 
     def setUp(self):
         # set params
@@ -49,8 +50,7 @@ class TestCvat2Slowfast(unittest.TestCase):
 
     def tearDown(self):
         # delete outputs
-        pass
-        #del_dir(self.dataset)
+        del_dir(self.dataset)
 
     def test_run(self):
         # run cvat2slowfast
