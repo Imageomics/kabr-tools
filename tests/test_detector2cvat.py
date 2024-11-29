@@ -1,32 +1,46 @@
 import unittest
 import sys
-from unittest.mock import patch
+import os
 from kabr_tools import detector2cvat
-from tests.utils import del_dir
+from tests.utils import (
+    del_dir,
+    del_file,
+    get_cached_datafile
+)
+
+
+VIDEO = "DJI_0068/DJI_0068.mp4"
+ANNOTATION = "DJI_0068/DJI_0068.xml"
 
 
 def run():
     detector2cvat.main()
 
+
 class TestDetector2Cvat(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        # TODO: download data
-        pass
+        # download data
+        cls.video = get_cached_datafile(VIDEO)
+        cls.annotation = get_cached_datafile(ANNOTATION)
+        cls.dir = os.path.dirname(cls.video)
 
     @classmethod
     def tearDownClass(cls):
-        # TODO: delete data
-        pass
+        # delete data
+        del_file(cls.video)
+        del_file(cls.annotation)
+        del_dir(cls.dir)
 
     def setUp(self):
+        # set params
         self.tool = "detector2cvat.py"
-        self.video = "tests/detection_example"
-        self.save = "tests/detection_example/output"
+        self.video = TestDetector2Cvat.dir
+        self.save = "tests/detector2cvat"
 
     def tearDown(self):
-        # TODO: delete outputs
+        # delete outputs
         del_dir(self.save)
 
     def test_run(self):
@@ -46,12 +60,9 @@ class TestDetector2Cvat(unittest.TestCase):
         # check parsed argument values
         self.assertEqual(args.video, self.video)
         self.assertEqual(args.save, self.save)
+        self.assertEqual(args.imshow, False)
 
-        # run detector2cvat
-        run()
-
-    @patch('kabr_tools.detector2cvat.cv2.imshow')
-    def test_parse_arg_full(self, imshow):
+    def test_parse_arg_full(self):
         # parse arguments
         sys.argv = [self.tool,
                     "--video", self.video,
@@ -62,6 +73,4 @@ class TestDetector2Cvat(unittest.TestCase):
         # check parsed argument values
         self.assertEqual(args.video, self.video)
         self.assertEqual(args.save, self.save)
-
-        # run detector2cvat
-        run()
+        self.assertEqual(args.imshow, True)
