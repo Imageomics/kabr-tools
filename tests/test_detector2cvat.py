@@ -9,10 +9,6 @@ from tests.utils import (
 )
 
 
-VIDEO = "DJI_0068/DJI_0068.mp4"
-ANNOTATION = "DJI_0068/DJI_0068.xml"
-
-
 def run():
     detector2cvat.main()
 

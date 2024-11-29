@@ -21,8 +21,6 @@ from tests.utils import (
 
 TESTSDIR = os.path.dirname(os.path.realpath(__file__))
 EXAMPLESDIR = os.path.join(TESTSDIR, "examples")
-VIDEO = "DJI_0068/DJI_0068.mp4"
-ANNOTATION = "DJI_0068/DJI_0068.xml"
 
 
 def run():

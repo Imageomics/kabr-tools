@@ -8,8 +8,6 @@ from tests.utils import (
     del_file
 )
 
-VIDEO = "DJI_0068/DJI_0068.mp4"
-ANNOTATION = "DJI_0068/DJI_0068.xml"
 
 def run():
     tracks_extractor.main()
