@@ -8,7 +8,6 @@ from tests.utils import (
     del_file
 )
 
-DATA_HUB = "imageomics/kabr_testing"
 VIDEO = "DJI_0068/DJI_0068.mp4"
 ANNOTATION = "DJI_0068/DJI_0068.xml"
 
@@ -21,8 +20,8 @@ class TestTracksExtractor(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         # download data
-        cls.video = get_cached_datafile(DATA_HUB, VIDEO, "dataset")
-        cls.annotation = get_cached_datafile(DATA_HUB, ANNOTATION, "dataset")
+        cls.video = get_cached_datafile(VIDEO)
+        cls.annotation = get_cached_datafile(ANNOTATION)
 
     @classmethod
     def tearDownClass(cls):

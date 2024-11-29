@@ -9,7 +9,6 @@ from tests.utils import (
 )
 
 
-DATA_HUB = "imageomics/kabr_testing"
 VIDEO = "DJI_0001/DJI_0001.mp4"
 MINISCENE = "DJI_0001/43.mp4"
 ANNOTATION = "DJI_0001/actions/43.xml"
@@ -25,10 +24,10 @@ class TestCvat2Slowfast(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         # download data
-        cls.video = get_cached_datafile(DATA_HUB, VIDEO, "dataset")
-        cls.miniscene = get_cached_datafile(DATA_HUB, MINISCENE, "dataset")
-        cls.annotation = get_cached_datafile(DATA_HUB, ANNOTATION, "dataset")
-        cls.metadata = get_cached_datafile(DATA_HUB, METADATA, "dataset")
+        cls.video = get_cached_datafile(VIDEO)
+        cls.miniscene = get_cached_datafile(MINISCENE)
+        cls.annotation = get_cached_datafile(ANNOTATION)
+        cls.metadata = get_cached_datafile(METADATA)
         cls.dir = os.path.dirname(os.path.dirname(cls.video))
 
     @classmethod

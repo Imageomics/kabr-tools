@@ -21,7 +21,6 @@ from tests.utils import (
 
 TESTSDIR = os.path.dirname(os.path.realpath(__file__))
 EXAMPLESDIR = os.path.join(TESTSDIR, "examples")
-DATA_HUB = "imageomics/kabr_testing"
 VIDEO = "DJI_0068/DJI_0068.mp4"
 ANNOTATION = "DJI_0068/DJI_0068.xml"
 
@@ -34,15 +33,15 @@ class TestMiniscene2Behavior(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        # Download the model from Imageomics HF
+        # download the model from Imageomics HF
         cls.checkpoint = "checkpoint_epoch_00075.pyth"
         cls.download_model()
 
-        # Download data
-        cls.video = get_cached_datafile(DATA_HUB, VIDEO, "dataset")
-        cls.annotation = get_cached_datafile(DATA_HUB, ANNOTATION, "dataset")
+        # download data
+        cls.video = get_cached_datafile(VIDEO)
+        cls.annotation = get_cached_datafile(ANNOTATION)
 
-        # Extract mini-scene
+        # extract mini-scene
         sys.argv = ["tracks_extractor.py",
                     "--video", cls.video,
                     "--annotation", cls.annotation]
@@ -65,7 +64,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        # Remove model files after all tests have been completed
+        # remove model files after tests
         if os.path.exists(f"{cls.checkpoint}.zip"):
             os.remove(f"{cls.checkpoint}.zip")
         if os.path.exists(cls.checkpoint):
@@ -84,7 +83,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.output = "DJI_0068.csv"
 
     def tearDown(self):
-        # TODO: delete outputs
+        # delete outputs
         del_file(self.output)
 
     def test_run(self):
