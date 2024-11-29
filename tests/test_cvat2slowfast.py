@@ -1,7 +1,19 @@
 import unittest
 import sys
+import os
 from kabr_tools import cvat2slowfast
-from tests.utils import del_dir
+from tests.utils import (
+    get_cached_datafile,
+    del_dir,
+    del_file
+)
+
+
+DATA_HUB = "imageomics/kabr_testing"
+VIDEO = "DJI_0001/DJI_0001.mp4"
+MINISCENE = "DJI_0001/43.mp4"
+ANNOTATION = "DJI_0001/actions/43.xml"
+METADATA = "DJI_0001/metadata/DJI_0001_metadata.json"
 
 
 def run():
@@ -12,24 +24,33 @@ class TestCvat2Slowfast(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        # TODO: download data
-        pass
+        # download data
+        cls.video = get_cached_datafile(DATA_HUB, VIDEO, "dataset")
+        cls.miniscene = get_cached_datafile(DATA_HUB, MINISCENE, "dataset")
+        cls.annotation = get_cached_datafile(DATA_HUB, ANNOTATION, "dataset")
+        cls.metadata = get_cached_datafile(DATA_HUB, METADATA, "dataset")
+        cls.dir = os.path.dirname(cls.video)
 
     @classmethod
     def tearDownClass(cls):
-        # TODO: delete data
-        pass
+        # delete data
+        del_file(cls.video)
+        del_file(cls.miniscene)
+        del_file(cls.annotation)
+        del_file(cls.metadata)
 
     def setUp(self):
+        # set params
         self.tool = "cvat2slowfast.py"
-        self.miniscene = "tests/behavior_example"
+        self.miniscene = TestCvat2Slowfast.dir
         self.dataset = "tests/slowfast"
         self.classes = "ethogram/classes.json"
         self.old2new = "ethogram/old2new.json"
 
     def tearDown(self):
-        # TODO: delete outputs
-        del_dir(self.dataset)
+        # delete outputs
+        pass
+        #del_dir(self.dataset)
 
     def test_run(self):
         # run cvat2slowfast
