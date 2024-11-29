@@ -3,7 +3,7 @@ import sys
 from unittest.mock import patch
 from kabr_tools import tracks_extractor
 from tests.utils import (
-    get_cached_datafile,
+    get_detection,
     del_dir,
     del_file
 )
@@ -20,8 +20,7 @@ class TestTracksExtractor(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         # download data
-        cls.video = get_cached_datafile(VIDEO)
-        cls.annotation = get_cached_datafile(ANNOTATION)
+        cls.video, cls.annotation = get_detection()
 
     @classmethod
     def tearDownClass(cls):

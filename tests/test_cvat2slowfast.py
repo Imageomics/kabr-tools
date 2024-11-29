@@ -3,16 +3,10 @@ import sys
 import os
 from kabr_tools import cvat2slowfast
 from tests.utils import (
-    get_cached_datafile,
+    get_behavior,
     del_dir,
     del_file
 )
-
-
-VIDEO = "DJI_0001/DJI_0001.mp4"
-MINISCENE = "DJI_0001/43.mp4"
-ANNOTATION = "DJI_0001/actions/43.xml"
-METADATA = "DJI_0001/metadata/DJI_0001_metadata.json"
 
 
 def run():
@@ -24,10 +18,7 @@ class TestCvat2Slowfast(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         # download data
-        cls.video = get_cached_datafile(VIDEO)
-        cls.miniscene = get_cached_datafile(MINISCENE)
-        cls.annotation = get_cached_datafile(ANNOTATION)
-        cls.metadata = get_cached_datafile(METADATA)
+        cls.video, cls.miniscene, cls.annotation, cls.metadata = get_behavior()
         cls.dir = os.path.dirname(os.path.dirname(cls.video))
 
     @classmethod

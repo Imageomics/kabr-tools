@@ -5,7 +5,7 @@ from kabr_tools import detector2cvat
 from tests.utils import (
     del_dir,
     del_file,
-    get_cached_datafile
+    get_detection
 )
 
 
@@ -22,8 +22,7 @@ class TestDetector2Cvat(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         # download data
-        cls.video = get_cached_datafile(VIDEO)
-        cls.annotation = get_cached_datafile(ANNOTATION)
+        cls.video, cls.annotation = get_detection()
         cls.dir = os.path.dirname(cls.video)
 
     @classmethod

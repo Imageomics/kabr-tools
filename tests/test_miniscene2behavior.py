@@ -15,7 +15,7 @@ from kabr_tools.miniscene2behavior import annotate_miniscene
 from tests.utils import (
     del_file,
     del_dir,
-    get_cached_datafile
+    get_detection
 )
 
 
@@ -38,8 +38,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
         cls.download_model()
 
         # download data
-        cls.video = get_cached_datafile(VIDEO)
-        cls.annotation = get_cached_datafile(ANNOTATION)
+        cls.video, cls.annotation = get_detection()
 
         # extract mini-scene
         sys.argv = ["tracks_extractor.py",
