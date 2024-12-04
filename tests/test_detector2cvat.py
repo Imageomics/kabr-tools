@@ -7,6 +7,8 @@ from kabr_tools import detector2cvat
 from tests.utils import (
     del_dir,
     del_file,
+    file_exists,
+    dir_exists,
     get_detection
 )
 
@@ -35,38 +37,49 @@ class TestDetector2Cvat(unittest.TestCase):
         self.tool = "detector2cvat.py"
         self.video = TestDetector2Cvat.dir
         self.save = "tests/detector2cvat"
+        self.dir = "/".join(os.path.splitext(self.video)[0].split('/')[-2:])
 
     def tearDown(self):
         # delete outputs
         del_dir(self.save)
 
     def test_run(self):
-        # Check if tool runs on real data
+        # check if tool runs on real data
+        save = f"{self.save}/run"
         sys.argv = [self.tool,
                     "--video", self.video,
-                    "--save", f"{self.save}/run"]
+                    "--save", save]
         detector2cvat.main()
+
+        # check output exists
+        output_path = f"{save}/{self.dir}/DJI_0068.xml"
+        self.assertTrue(file_exists(output_path))
+        demo_path = f"{save}/{self.dir}/DJI_0068_demo.mp4"
+        self.assertTrue(file_exists(demo_path))
 
     @patch('kabr_tools.detector2cvat.YOLOv8')
     def test_mock_yolo(self, yolo):
-        # Create fake YOLO
+        # create fake YOLO
         yolo_instance = MagicMock()
         yolo_instance.forward.return_value = [[[0, 0, 0, 0], 0.95, 'Grevy']]
         yolo.get_centroid.return_value = (50, 50)
         yolo.return_value = yolo_instance
 
-        # Run detector2cvat
+        # run detector2cvat
+        print(self.video)
         save = f"{self.save}/mock/0"
         sys.argv = [self.tool,
                     "--video", self.video,
                     "--save", save]
         detector2cvat.main()
 
-        # Check output exists
-        output_path = f"{save}/{self.video}/DJI_0068.xml"
-        self.assertTrue(os.path.exists(output_path))
+        # check output exists
+        output_path = f"{save}/{self.dir}/DJI_0068.xml"
+        self.assertTrue(file_exists(output_path))
+        demo_path = f"{save}/{self.dir}/DJI_0068_demo.mp4"
+        self.assertTrue(file_exists(demo_path))
 
-        # Check output content
+        # check output content
         xml_content = etree.parse(output_path).getroot()
         self.assertEqual(xml_content.tag, "annotations")
         for i, track in enumerate(xml_content.findall("track")):
@@ -91,11 +104,11 @@ class TestDetector2Cvat(unittest.TestCase):
                     self.assertEqual(box.get("outside"), "0")
 
     def test_mock_with_data(self):
-        # TODO: Mock outputs CVAT data
+        # TODO: mock outputs CVAT data
         pass
 
     def test_mock_noncontiguous(self):
-        # TODO: Mock outputs non-contiguous frame detections
+        # TODO: mock outputs non-contiguous frame detections
         pass
 
     def test_parse_arg_min(self):
