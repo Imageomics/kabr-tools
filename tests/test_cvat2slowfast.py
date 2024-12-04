@@ -6,7 +6,7 @@ from tests.utils import (
     del_dir,
     del_file,
     dir_exists,
-    file_exists
+    file_exists,
     get_behavior
 )
 
