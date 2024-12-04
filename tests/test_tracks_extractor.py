@@ -52,7 +52,7 @@ class TestTracksExtractor(unittest.TestCase):
         run()
 
         # check output exists
-        mini_folder = "tests|detection_example|DJI_0068"
+        mini_folder = os.path.splitext("|".join(self.video.split("/")[-3:]))[0]
         video_name = "DJI_0068"
         self.assertTrue(os.path.exists(f"mini-scenes/{mini_folder}"))
         self.assertTrue(os.path.exists(f"mini-scenes/{mini_folder}/actions"))
