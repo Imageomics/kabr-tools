@@ -1,6 +1,9 @@
 import unittest
 import sys
 import os
+import json
+import pandas as pd
+from lxml import etree
 from kabr_tools import cvat2slowfast
 from tests.utils import (
     del_dir,
@@ -42,7 +45,8 @@ class TestCvat2Slowfast(unittest.TestCase):
 
     def tearDown(self):
         # delete outputs
-        del_dir(self.dataset)
+        pass
+        #del_dir(self.dataset)
 
     def test_run(self):
         # run cvat2slowfast
@@ -59,9 +63,27 @@ class TestCvat2Slowfast(unittest.TestCase):
         self.assertTrue(file_exists(f"{self.dataset}/annotation/classes.json"))
         self.assertTrue(file_exists(f"{self.dataset}/annotation/data.csv"))
 
-        # check output files
+        # check classes.json
+        with open(f"{self.dataset}/annotation/classes.json", "r", encoding="utf-8") as f:
+            classes = json.load(f)
+        with open(self.classes, "r", encoding="utf-8") as f:
+            ethogram = json.load(f)
+        self.assertEqual(classes, ethogram)
 
-        # TODO: check output dataset
+        with open(f"{self.dataset}/annotation/data.csv", "r", encoding="utf-8") as f:
+            df = pd.read_csv(f, sep=" ")
+
+        # check data.csv
+        video_id = 1
+        for i, row in df.iterrows():
+            self.assertEqual(row["original_vido_id"], f"Z{video_id:04d}")
+            self.assertEqual(row["video_id"], video_id)
+            self.assertEqual(row["frame_id"], i+1)
+            self.assertEqual(row["path"], f"Z{video_id:04d}/{i+1}.jpg")
+            self.assertEqual(row["labels"], 1)
+
+
+        # TODO: check dataset
 
     def test_parse_arg_min(self):
         # parse arguments
