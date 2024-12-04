@@ -3,7 +3,6 @@ import sys
 import os
 import json
 import pandas as pd
-from lxml import etree
 from kabr_tools import cvat2slowfast
 from tests.utils import (
     del_dir,
@@ -46,7 +45,7 @@ class TestCvat2Slowfast(unittest.TestCase):
     def tearDown(self):
         # delete outputs
         pass
-        #del_dir(self.dataset)
+        del_dir(self.dataset)
 
     def test_run(self):
         # run cvat2slowfast
