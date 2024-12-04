@@ -1,11 +1,15 @@
 import unittest
 import sys
+import os
 from kabr_tools import cvat2slowfast
 from tests.utils import (
     del_dir,
+    del_file,
     dir_exists,
     file_exists
+    get_behavior
 )
+
 
 def run():
     cvat2slowfast.main()
@@ -15,25 +19,30 @@ class TestCvat2Slowfast(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        # TODO: download data
-        pass
+        # download data
+        cls.video, cls.miniscene, cls.annotation, cls.metadata = get_behavior()
+        cls.dir = os.path.dirname(os.path.dirname(cls.video))
 
     @classmethod
     def tearDownClass(cls):
-        # TODO: delete data
-        pass
+        # delete data
+        del_file(cls.video)
+        del_file(cls.miniscene)
+        del_file(cls.annotation)
+        del_file(cls.metadata)
+        del_dir(cls.dir)
 
     def setUp(self):
+        # set params
         self.tool = "cvat2slowfast.py"
-        self.miniscene = "tests/behavior_example"
+        self.miniscene = TestCvat2Slowfast.dir
         self.dataset = "tests/slowfast"
         self.classes = "ethogram/classes.json"
         self.old2new = "ethogram/old2new.json"
 
     def tearDown(self):
-        # TODO: delete outputs
-        #del_dir(self.dataset)
-        pass
+        # delete outputs
+        del_dir(self.dataset)
 
     def test_run(self):
         # run cvat2slowfast

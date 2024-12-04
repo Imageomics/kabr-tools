@@ -7,7 +7,11 @@ from kabr_tools import tracks_extractor
 from kabr_tools.utils.tracker import Tracker
 from unittest.mock import patch
 from kabr_tools import tracks_extractor
-from tests.utils import del_dir
+from tests.utils import (
+    get_detection,
+    del_dir,
+    del_file
+)
 
 
 def run():
@@ -18,24 +22,26 @@ class TestTracksExtractor(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        # TODO: download data
-        pass
+        # download data
+        cls.video, cls.annotation = get_detection()
 
     @classmethod
     def tearDownClass(cls):
-        # TODO: delete data
-        pass
+        # delete data
+        del_file(cls.video)
+        del_file(cls.annotation)
 
     def setUp(self):
+        # set params
         self.tool = "tracks_extractor.py"
-        self.video = "tests/detection_example/DJI_0068.mp4"
-        self.annotation = "tests/detection_example/DJI_0068.xml"
+        self.video = TestTracksExtractor.video
+        self.annotation = TestTracksExtractor.annotation
 
-        # remove output directory before test
+        # remove output directory
         del_dir("mini-scenes")
 
     def tearDown(self):
-        # remove output directory after test
+        # remove output directory
         del_dir("mini-scenes")
 
     def test_run(self):

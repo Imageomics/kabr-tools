@@ -1,8 +1,13 @@
 import unittest
 import sys
+import os
 from unittest.mock import patch
 from kabr_tools import player
-from tests.utils import del_file
+from tests.utils import (
+    del_file,
+    del_dir,
+    get_behavior
+)
 
 
 def run():
@@ -13,22 +18,30 @@ class TestPlayer(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        # TODO: download data
-        pass
+        # download data
+        cls.video, cls.miniscene, cls.annotation, cls.metadata = get_behavior()
+        cls.dir = os.path.dirname(cls.video)
 
     @classmethod
     def tearDownClass(cls):
-        # TODO: delete data
-        pass
+        # delete data
+        del_file(cls.video)
+        del_file(cls.miniscene)
+        del_file(cls.annotation)
+        del_file(cls.metadata)
+        del_dir(cls.dir)
 
     def setUp(self):
+        # set params
         self.tool = "player.py"
-        self.folder = "tests/behavior_example/DJI_0001"
+        self.folder = TestPlayer.dir
         self.video = self.folder.rsplit("/", maxsplit=1)[-1]
+
+        # delete output
         del_file(f"{self.folder}/{self.video}_demo.mp4")
 
     def tearDown(self):
-        # TODO: delete outputs
+        # delete output
         del_file(f"{self.folder}/{self.video}_demo.mp4")
 
     @patch('kabr_tools.player.cv2.imshow')
