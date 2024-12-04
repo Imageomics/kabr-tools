@@ -5,7 +5,8 @@ from kabr_tools import cvat2ultralytics
 from tests.utils import (
     del_dir,
     del_file,
-    get_detection
+    get_detection,
+    dir_exists
 )
 
 
@@ -32,7 +33,7 @@ class TestCvat2Ultralytics(unittest.TestCase):
         self.video = TestCvat2Ultralytics.dir
         self.annotation = TestCvat2Ultralytics.dir
         self.dataset = "tests/ultralytics"
-        self.skip = "5"
+        self.skip = "1"
         self.label2index = "ethogram/label2index.json"
 
     def tearDown(self):
@@ -46,6 +47,16 @@ class TestCvat2Ultralytics(unittest.TestCase):
                     "--annotation", self.annotation,
                     "--dataset", "tests/ultralytics"]
         run()
+
+        # check for output dirs
+        self.assertTrue(dir_exists(self.dataset))
+        self.assertTrue(dir_exists(f"{self.dataset}/images/test"))
+        self.assertTrue(dir_exists(f"{self.dataset}/images/train"))
+        self.assertTrue(dir_exists(f"{self.dataset}/images/val"))
+        self.assertTrue(dir_exists(f"{self.dataset}/labels/test"))
+        self.assertTrue(dir_exists(f"{self.dataset}/labels/train"))
+        self.assertTrue(dir_exists(f"{self.dataset}/labels/val"))
+
 
     def test_parse_arg_min(self):
         # parse arguments
@@ -81,7 +92,7 @@ class TestCvat2Ultralytics(unittest.TestCase):
         self.assertEqual(args.video, self.video)
         self.assertEqual(args.annotation, self.annotation)
         self.assertEqual(args.dataset, self.dataset)
-        self.assertEqual(args.skip, 5)
+        self.assertEqual(args.skip, int(self.skip))
         self.assertEqual(args.label2index, self.label2index)
 
         # run cvat2ultralytics

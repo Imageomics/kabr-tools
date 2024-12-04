@@ -44,7 +44,6 @@ class TestCvat2Slowfast(unittest.TestCase):
 
     def tearDown(self):
         # delete outputs
-        pass
         del_dir(self.dataset)
 
     def test_run(self):
@@ -100,9 +99,6 @@ class TestCvat2Slowfast(unittest.TestCase):
         # check default argument values
         self.assertEqual(args.old2new, None)
 
-        # run cvat2slowfast
-        run()
-
     def test_parse_arg_full(self):
         # parse arguments
         sys.argv = ["cvat2slowfast.py",
@@ -117,6 +113,3 @@ class TestCvat2Slowfast(unittest.TestCase):
         self.assertEqual(args.dataset, self.dataset)
         self.assertEqual(args.classes, self.classes)
         self.assertEqual(args.old2new, self.old2new)
-
-        # run cvat2slowfast
-        run()
