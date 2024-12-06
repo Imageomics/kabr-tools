@@ -155,6 +155,14 @@ class TestTracksExtractor(unittest.TestCase):
             track.release()
 
         # check DJI_0068.mp4
+        copy = cv2.VideoCapture(f"mini-scenes/{mini_folder}/{video_name}.mp4")
+        self.assertTrue(copy.isOpened())
+        self.assertEqual(copy.get(cv2.CAP_PROP_FRAME_COUNT),
+                         original.get(cv2.CAP_PROP_FRAME_COUNT))
+        self.assertEqual(copy.get(cv2.CAP_PROP_FRAME_WIDTH),
+                         original.get(cv2.CAP_PROP_FRAME_WIDTH))
+        self.assertEqual(copy.get(cv2.CAP_PROP_FRAME_HEIGHT),
+                         original.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
         original.release()
 
