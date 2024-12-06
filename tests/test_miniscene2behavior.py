@@ -118,7 +118,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
         # create fake video capture
         vc = video_capture.return_value
         vc.read.return_value = True, np.zeros((8, 8, 3), np.uint8)
-        vc.get.return_value = 1
+        vc.get.return_value = 21
 
         self.output = '/tmp/annotation_data.csv'
         miniscene_dir = os.path.join(EXAMPLESDIR, "MINISCENE1")
@@ -165,7 +165,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
         # Create fake video capture
         vc = video_capture.return_value
         vc.read.return_value = True, np.zeros((8, 8, 3), np.uint8)
-        vc.get.return_value = 1
+        vc.get.return_value = 21
 
         self.output = '/tmp/annotation_data.csv'
         miniscene_dir = os.path.join(EXAMPLESDIR, "MINISCENE2")
@@ -188,7 +188,6 @@ class TestMiniscene2Behavior(unittest.TestCase):
         for track in root.iterfind("track"):
             track_id = int(track.get("id"))
             for box in track.iterfind("box"):
-                print(box.get("frame"))
                 row_val = [video_name, track_id, int(box.get("frame")), 0]
                 self.assertEqual(list(df.loc[row_ct]), row_val)
                 row_ct += 1
