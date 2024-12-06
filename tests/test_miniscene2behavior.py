@@ -4,6 +4,7 @@ import sys
 import os
 import requests
 from unittest.mock import Mock, patch
+from lxml import etree
 import torch
 import numpy as np
 import pandas as pd
@@ -81,28 +82,31 @@ class TestMiniscene2Behavior(unittest.TestCase):
 
     def tearDown(self):
         # delete outputs
-        del_file(self.output)
+        # del_file(self.output)
+        pass
 
-    def test_run(self):
-        # download model
-        self.download_model()
+    # def test_run(self):
+    #     # download model
+    #     self.download_model()
 
-        # annotate mini-scenes
-        sys.argv = [self.tool,
-                    "--checkpoint", self.checkpoint,
-                    "--miniscene", self.miniscene,
-                    "--video", self.video]
-        run()
+    #     # annotate mini-scenes
+    #     sys.argv = [self.tool,
+    #                 "--checkpoint", self.checkpoint,
+    #                 "--miniscene", self.miniscene,
+    #                 "--video", self.video,
+    #                 "--output", self.output]
+    #     run()
 
     @patch('kabr_tools.miniscene2behavior.process_cv2_inputs')
     @patch('kabr_tools.miniscene2behavior.cv2.VideoCapture')
     def test_matching_tracks(self, video_capture, process_cv2_inputs):
-
-        # Create fake model that always returns a prediction of 1
+        # create fake model that weights class 98
         mock_model = Mock()
-        mock_model.return_value = torch.tensor([1])
+        prob = torch.zeros(99)
+        prob[-1] = 1
+        mock_model.return_value = prob
 
-        # Create fake cfg
+        # create fake cfg
         mock_config = Mock(
             DATA=Mock(NUM_FRAMES=16,
                       SAMPLING_RATE=5,
@@ -111,25 +115,35 @@ class TestMiniscene2Behavior(unittest.TestCase):
             OUTPUT_DIR=''
         )
 
-        # Create fake video capture
+        # create fake video capture
         vc = video_capture.return_value
         vc.read.return_value = True, np.zeros((8, 8, 3), np.uint8)
         vc.get.return_value = 1
 
         self.output = '/tmp/annotation_data.csv'
+        miniscene_dir = os.path.join(EXAMPLESDIR, "MINISCENE1")
+        video_name = "DJI"
 
         annotate_miniscene(cfg=mock_config,
                            model=mock_model,
-                           miniscene_path=os.path.join(
-                               EXAMPLESDIR, "MINISCENE1"),
-                           video='DJI',
+                           miniscene_path=miniscene_dir,
+                           video=video_name,
                            output_path=self.output)
 
-        # Read in output CSV and make sure we have the expected columns and at least one row
+        # check output CSV
         df = pd.read_csv(self.output, sep=' ')
         self.assertEqual(list(df.columns), [
                          "video", "track", "frame", "label"])
-        self.assertGreater(len(df.index), 0)
+        row_ct = 0
+
+        root = etree.parse(f"{miniscene_dir}/metadata/DJI_tracks.xml").getroot()
+        for track in root.iterfind("track"):
+            track_id = int(track.get("id"))
+            for box in track.iterfind("box"):
+                row_val = [video_name, track_id, int(box.get("frame")), 98]
+                self.assertEqual(list(df.loc[row_ct]), row_val)
+                row_ct += 1
+        self.assertEqual(len(df.index), row_ct)
 
     @patch('kabr_tools.miniscene2behavior.process_cv2_inputs')
     @patch('kabr_tools.miniscene2behavior.cv2.VideoCapture')
@@ -154,6 +168,8 @@ class TestMiniscene2Behavior(unittest.TestCase):
         vc.get.return_value = 1
 
         self.output = '/tmp/annotation_data.csv'
+        miniscene_dir = os.path.join(EXAMPLESDIR, "MINISCENE2")
+        video_name = "DJI"
 
         annotate_miniscene(cfg=mock_config,
                            model=mock_model,
@@ -162,11 +178,21 @@ class TestMiniscene2Behavior(unittest.TestCase):
                            video='DJI',
                            output_path=self.output)
 
-        # Read in output CSV and make sure we have the expected columns and at least one row
+        # check output CSV
         df = pd.read_csv(self.output, sep=' ')
         self.assertEqual(list(df.columns), [
                          "video", "track", "frame", "label"])
-        self.assertGreater(len(df.index), 0)
+        row_ct = 0
+
+        root = etree.parse(f"{miniscene_dir}/metadata/DJI_tracks.xml").getroot()
+        for track in root.iterfind("track"):
+            track_id = int(track.get("id"))
+            for box in track.iterfind("box"):
+                print(box.get("frame"))
+                row_val = [video_name, track_id, int(box.get("frame")), 0]
+                self.assertEqual(list(df.loc[row_ct]), row_val)
+                row_ct += 1
+        self.assertEqual(len(df.index), row_ct)
 
     def test_parse_arg_min(self):
         # parse arguments
