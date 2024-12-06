@@ -94,6 +94,7 @@ class TestPlayer(unittest.TestCase):
         # check parsed arguments
         self.assertEqual(args.folder, self.folder)
         self.assertEqual(args.save, True)
+        self.assertEqual(args.imshow, True)
 
         # run player
         run()
