@@ -49,8 +49,7 @@ class TestTracksExtractor(unittest.TestCase):
 
     def tearDown(self):
         # remove output directory
-        # del_dir("mini-scenes")
-        pass
+        del_dir("mini-scenes")
 
     def test_run(self):
         # run tracks_extractor
