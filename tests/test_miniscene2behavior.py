@@ -82,20 +82,38 @@ class TestMiniscene2Behavior(unittest.TestCase):
 
     def tearDown(self):
         # delete outputs
-        # del_file(self.output)
-        pass
+        del_file(self.output)
 
-    # def test_run(self):
-    #     # download model
-    #     self.download_model()
+    def test_run(self):
+        # download model
+        self.download_model()
 
-    #     # annotate mini-scenes
-    #     sys.argv = [self.tool,
-    #                 "--checkpoint", self.checkpoint,
-    #                 "--miniscene", self.miniscene,
-    #                 "--video", self.video,
-    #                 "--output", self.output]
-    #     run()
+        # annotate mini-scenes
+        sys.argv = [self.tool,
+                    "--checkpoint", self.checkpoint,
+                    "--miniscene", self.miniscene,
+                    "--video", self.video,
+                    "--output", self.output]
+        run()
+
+        # check output CSV
+        df = pd.read_csv(self.output, sep=' ')
+        self.assertEqual(list(df.columns), [
+                         "video", "track", "frame", "label"])
+        row_ct = 0
+
+        root = etree.parse(f"{self.miniscene}/metadata/{self.video}_tracks.xml").getroot()
+        for track in root.iterfind("track"):
+            track_id = int(track.get("id"))
+            for box in track.iterfind("box"):
+                row = list(df.loc[row_ct])
+                self.assertEqual(row[0], self.video)
+                self.assertEqual(row[1], track_id)
+                self.assertEqual(row[2], int(box.get("frame")))
+                self.assertTrue(row[3] >= 0)
+                self.assertTrue(row[3] <= 7)
+                row_ct += 1
+        self.assertEqual(len(df.index), row_ct)
 
     @patch('kabr_tools.miniscene2behavior.process_cv2_inputs')
     @patch('kabr_tools.miniscene2behavior.cv2.VideoCapture')
