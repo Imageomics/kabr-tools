@@ -3,7 +3,7 @@ from typing import Optional
 import argparse
 import json
 import cv2
-import ruamel.yaml as yaml
+from ruamel.yaml import YAML
 from lxml import etree
 from collections import OrderedDict
 from tqdm import tqdm
@@ -39,8 +39,10 @@ def cvat2ultralytics(video_path: str, annotation_path: str,
         shutil.rmtree(f"{dataset}")
 
     with open(f"{dataset}.yaml", "w") as file:
-        yaml.dump(yaml.load(dataset_file, Loader=yaml.RoundTripLoader, preserve_quotes=True),
-                  file, Dumper=yaml.RoundTripDumper)
+        yaml = YAML(typ='rt')
+        yaml.preserve_quotes = True
+        data = yaml.load(dataset_file)
+        yaml.dump(data, file)
 
     if not os.path.exists(f"{dataset}/images/train"):
         os.makedirs(f"{dataset}/images/train")
@@ -57,6 +59,7 @@ def cvat2ultralytics(video_path: str, annotation_path: str,
 
     if label2index is None:
         label2index = {
+            "Grevy": 0,
             "Zebra": 0,
             "Baboon": 1,
             "Giraffe": 2
@@ -69,19 +72,22 @@ def cvat2ultralytics(video_path: str, annotation_path: str,
     for root, dirs, files in os.walk(annotation_path):
         for file in files:
             video_name = os.path.join(video_path + root[len(annotation_path):], os.path.splitext(file)[0])
-
-            if os.path.exists(video_name + ".MP4"):
-                videos.append(video_name + ".MP4")
-            else:
-                videos.append(video_name + ".mp4")
-
-            annotations.append(os.path.join(root, file))
+            if file.endswith(".xml"):
+                if os.path.exists(video_name + ".MP4"):
+                    videos.append(video_name + ".MP4")
+                else:
+                    videos.append(video_name + ".mp4")
+                annotations.append(os.path.join(root, file))
 
     for i, (video, annotation) in enumerate(zip(videos, annotations)):
-        print(f"{i + 1}/{len(annotations)}:")
+        print(f"{i + 1}/{len(annotations)}:", flush=True)
 
         if not os.path.exists(video):
             print(f"Path {video} does not exist.")
+            continue
+
+        if not os.path.exists(annotation):
+            print(f"Path {annotation} does not exist.")
             continue
 
         # Parse CVAT for video 1.1 annotation file.
