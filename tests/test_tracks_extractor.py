@@ -149,11 +149,6 @@ class TestTracksExtractor(unittest.TestCase):
                 original_frame = get_scene(
                     original_frame, mock, scene_width, scene_height)
 
-                cv2.imshow("a", original_frame)
-                cv2.waitKey(0)
-                cv2.imshow("a", track_frame)
-                cv2.waitKey(0)
-
                 # encoding seems to add some noise to frames, allow for that
                 self.assertTrue(
                     cv2.norm(original_frame - track_frame) < 1e6)
