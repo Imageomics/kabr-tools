@@ -75,6 +75,7 @@ class TestPlayer(unittest.TestCase):
 
         # check default arguments
         self.assertEqual(args.save, False)
+        self.assertEqual(args.imshow, False)
 
         # run player
         run()
