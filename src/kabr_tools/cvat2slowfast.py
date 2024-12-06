@@ -1,7 +1,6 @@
 import os
 import sys
 from typing import Optional
-from typing import Optional
 import argparse
 import json
 from lxml import etree
