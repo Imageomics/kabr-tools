@@ -108,6 +108,7 @@ class TestCvat2Slowfast(unittest.TestCase):
 
         # check default argument values
         self.assertEqual(args.old2new, None)
+        self.assertTrue(not args.no_images)
 
     def test_parse_arg_full(self):
         # parse arguments
@@ -115,7 +116,8 @@ class TestCvat2Slowfast(unittest.TestCase):
                     "--miniscene", self.miniscene,
                     "--dataset", self.dataset,
                     "--classes", self.classes,
-                    "--old2new", self.old2new]
+                    "--old2new", self.old2new,
+                    "--no_images"]
         args = cvat2slowfast.parse_args()
 
         # check parsed argument values
@@ -123,3 +125,4 @@ class TestCvat2Slowfast(unittest.TestCase):
         self.assertEqual(args.dataset, self.dataset)
         self.assertEqual(args.classes, self.classes)
         self.assertEqual(args.old2new, self.old2new)
+        self.assertTrue(args.no_images)
