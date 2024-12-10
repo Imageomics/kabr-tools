@@ -51,7 +51,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
                     "--video", "tests/detection_example/DJI_0068.mp4",
                     "--annotation", "tests/detection_example/DJI_0068.xml"]
         tracks_extractor.main()
-        cls.miniscene = f"mini-scenes/{os.path.splitext(" | ".join(cls.video.split("/")[-3:]))[0]}"
+        cls.miniscene = f'mini-scenes/{os.path.splitext("|".join(cls.video.split("/")[-3:]))[0]}'
 
     @classmethod
     def download_model(cls):
