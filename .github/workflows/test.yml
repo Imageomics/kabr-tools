@@ -28,7 +28,7 @@ jobs:
       run: |
         python -m unittest tests/test_cvat2slowfast.py
         python -m unittest tests/test_cvat2ultralytics.py
-        python -m unittest src/kabr_tools/detector2cvat.py
+        python -m unittest tests/test_detector2cvat.py
         python -m unittest tests/test_miniscene2behavior.py
         python -m unittest tests/test_player.py
         python -m unittest tests/test_tracks_extractor.py
