@@ -94,9 +94,9 @@ class TestMiniscene2Behavior(unittest.TestCase):
                     "--video", self.video]
         run()
 
-    @patch('kabr_tools.miniscene2behavior.process_cv2_inputs')
+    @patch('kabr_tools.miniscene2behavior.get_input_clip')
     @patch('kabr_tools.miniscene2behavior.cv2.VideoCapture')
-    def test_matching_tracks(self, video_capture, process_cv2_inputs):
+    def test_matching_tracks(self, video_capture, get_input_clip):
 
         # Create fake model that always returns a prediction of 1
         mock_model = Mock()
@@ -131,9 +131,9 @@ class TestMiniscene2Behavior(unittest.TestCase):
                          "video", "track", "frame", "label"])
         self.assertGreater(len(df.index), 0)
 
-    @patch('kabr_tools.miniscene2behavior.process_cv2_inputs')
+    @patch('kabr_tools.miniscene2behavior.get_input_clip')
     @patch('kabr_tools.miniscene2behavior.cv2.VideoCapture')
-    def test_nonmatching_tracks(self, video_capture, process_cv2_inputs):
+    def test_nonmatching_tracks(self, video_capture, get_input_clip):
 
         # Create fake model that always returns a prediction of 1
         mock_model = Mock()
