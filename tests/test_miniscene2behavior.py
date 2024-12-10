@@ -18,8 +18,10 @@ from kabr_tools.miniscene2behavior import (
 )
 from tests.utils import (
     del_file,
+    del_dir,
     file_exists,
     same_path,
+    get_detection,
     csv_equal
 )
 
@@ -37,13 +39,19 @@ class TestMiniscene2Behavior(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        # download the model from Imageomics HF
         cls.local_checkpoint = "checkpoint_epoch_00075.pyth"
+        cls.download_model()
+
+        # download data
+        cls.video, cls.annotation = get_detection()
 
         # run tracks_extractor
         sys.argv = ["tracks_extractor.py",
                     "--video", "tests/detection_example/DJI_0068.mp4",
                     "--annotation", "tests/detection_example/DJI_0068.xml"]
         tracks_extractor.main()
+        cls.miniscene = f"mini-scenes/{os.path.splitext(" | ".join(cls.video.split("/")[-3:]))[0]}"
 
     @classmethod
     def download_model(cls):
@@ -66,15 +74,18 @@ class TestMiniscene2Behavior(unittest.TestCase):
             os.remove(f"{cls.local_checkpoint}.zip")
         if os.path.exists(cls.local_checkpoint):
             os.remove(cls.local_checkpoint)
+        del_file(cls.video)
+        del_file(cls.annotation)
+        del_dir(cls.miniscene)
 
     def setUp(self):
         self.tool = "miniscene2behavior.py"
         self.hub = "imageomics/x3d-kabr-kinetics"
         self.checkpoint = "checkpoint_epoch_00075.pyth"
         self.checkpoint_archive = "checkpoint_epoch_00075.pyth.zip"
-        self.miniscene = "mini-scenes/tests|detection_example|DJI_0068"
+        self.miniscene = TestMiniscene2Behavior.miniscene
         self.video = "DJI_0068"
-        self.config = "config.yml"
+        self.config = "special_config.yml"
         self.gpu_num = "1"
         self.output = "DJI_0068.csv"
         self.example = "tests/detection_example"

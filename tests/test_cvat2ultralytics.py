@@ -1,7 +1,12 @@
 import unittest
 import sys
+import os
 from kabr_tools import cvat2ultralytics
-from tests.utils import del_dir
+from tests.utils import (
+    del_dir,
+    del_file,
+    get_detection
+)
 
 
 def run():
@@ -12,24 +17,26 @@ class TestCvat2Ultralytics(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        # TODO: download data
-        pass
+        # download data
+        cls.video, cls.annotation = get_detection()
+        cls.dir = os.path.dirname(os.path.dirname(cls.video))
 
     @classmethod
     def tearDownClass(cls):
-        # TODO: delete data
-        pass
+        # delete data
+        del_file(cls.video)
+        del_file(cls.annotation)
 
     def setUp(self):
         self.tool = "cvat2ultralytics.py"
-        self.video = "tests/detection_example"
-        self.annotation = "tests/detection_example"
+        self.video = TestCvat2Ultralytics.dir
+        self.annotation = TestCvat2Ultralytics.dir
         self.dataset = "tests/ultralytics"
         self.skip = "5"
         self.label2index = "ethogram/label2index.json"
 
     def tearDown(self):
-        # TODO: delete outputs
+        # delete outputs
         del_dir(self.dataset)
 
     def test_run(self):
