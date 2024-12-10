@@ -36,16 +36,17 @@ class TestCvat2Ultralytics(unittest.TestCase):
         self.skip = "1"
         self.label2index = "ethogram/label2index.json"
 
-    def tearDown(self):
-        # delete outputs
-        del_dir(self.dataset)
+    # def tearDown(self):
+    #     # delete outputs
+    #     del_dir(self.dataset)
 
     def test_run(self):
         # run cvat2ultralytics
         sys.argv = [self.tool,
                     "--video", self.video,
                     "--annotation", self.annotation,
-                    "--dataset", "tests/ultralytics"]
+                    "--dataset", "tests/ultralytics",
+                    "--skip", self.skip]
         run()
 
         # check for output dirs
@@ -56,6 +57,17 @@ class TestCvat2Ultralytics(unittest.TestCase):
         self.assertTrue(dir_exists(f"{self.dataset}/labels/test"))
         self.assertTrue(dir_exists(f"{self.dataset}/labels/train"))
         self.assertTrue(dir_exists(f"{self.dataset}/labels/val"))
+
+        # check output
+        train_images = 16
+        test_images = 3
+        val_images = 2
+        self.assertEqual(len(os.listdir(f"{self.dataset}/images/test")), test_images)
+        self.assertEqual(len(os.listdir(f"{self.dataset}/labels/test")), test_images)
+        self.assertEqual(len(os.listdir(f"{self.dataset}/images/train")), train_images)
+        self.assertEqual(len(os.listdir(f"{self.dataset}/labels/train")), train_images)
+        self.assertEqual(len(os.listdir(f"{self.dataset}/images/val")), val_images)
+        self.assertEqual(len(os.listdir(f"{self.dataset}/labels/val")), val_images)
 
 
     def test_parse_arg_min(self):
