@@ -3,7 +3,12 @@ import sys
 import os
 import json
 import pandas as pd
+import cv2
 from kabr_tools import cvat2slowfast
+from tests.test_tracks_extractor import (
+    scene_width,
+    scene_height
+)
 from tests.utils import (
     del_dir,
     del_file,
@@ -57,7 +62,7 @@ class TestCvat2Slowfast(unittest.TestCase):
         # check output dirs
         self.assertTrue(dir_exists(self.dataset))
         self.assertTrue(dir_exists(f"{self.dataset}/annotation"))
-        self.assertTrue(dir_exists(f"{self.dataset}/dataset"))
+        self.assertTrue(dir_exists(f"{self.dataset}/dataset/image"))
         self.assertTrue(file_exists(f"{self.dataset}/annotation/classes.json"))
         self.assertTrue(file_exists(f"{self.dataset}/annotation/data.csv"))
 
@@ -68,10 +73,10 @@ class TestCvat2Slowfast(unittest.TestCase):
             ethogram = json.load(f)
         self.assertEqual(classes, ethogram)
 
+        # check data.csv
         with open(f"{self.dataset}/annotation/data.csv", "r", encoding="utf-8") as f:
             df = pd.read_csv(f, sep=" ")
 
-        # check data.csv
         video_id = 1
         for i, row in df.iterrows():
             self.assertEqual(row["original_vido_id"], f"Z{video_id:04d}")
@@ -79,9 +84,14 @@ class TestCvat2Slowfast(unittest.TestCase):
             self.assertEqual(row["frame_id"], i+1)
             self.assertEqual(row["path"], f"Z{video_id:04d}/{i+1}.jpg")
             self.assertEqual(row["labels"], 1)
+        self.assertEqual(i, 90)
 
-
-        # TODO: check dataset
+        # check dataset
+        for i in range(1, 92):
+            data_im = f"{self.dataset}/dataset/image/Z{video_id:04d}/{i}.jpg"
+            self.assertTrue(file_exists(data_im))
+            data_im = cv2.imread(data_im)
+            self.assertEqual(data_im.shape, (scene_height, scene_width, 3))
 
     def test_parse_arg_min(self):
         # parse arguments
