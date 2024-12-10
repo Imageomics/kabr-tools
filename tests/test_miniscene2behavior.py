@@ -48,8 +48,8 @@ class TestMiniscene2Behavior(unittest.TestCase):
 
         # run tracks_extractor
         sys.argv = ["tracks_extractor.py",
-                    "--video", "tests/detection_example/DJI_0068.mp4",
-                    "--annotation", "tests/detection_example/DJI_0068.xml"]
+                    "--video", cls.video,
+                    "--annotation", cls.annotation]
         tracks_extractor.main()
         cls.miniscene = f'mini-scenes/{os.path.splitext("|".join(cls.video.split("/")[-3:]))[0]}'
 
@@ -91,7 +91,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.example = "tests/detection_example"
 
     def tearDown(self):
-        # TODO: delete outputs
+        # delete output
         del_file(self.output)
 
 # load model + run
