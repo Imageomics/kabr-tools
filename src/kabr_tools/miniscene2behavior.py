@@ -111,6 +111,16 @@ def create_model(config_path: str, checkpoint_path: str, gpu_num: int) -> tuple[
 def annotate_miniscene(cfg: CfgNode, model: torch.nn.Module,
                        miniscene_path: str, video: str,
                        output_path: str) -> None:
+    """
+    Label the mini-scenes.
+
+    Parameters:
+    cfg - CfgNode. Slowfast model configuration.
+    model - torch.nn.Module. Slowfast model to use for behavior labeling.
+    miniscene_path - str. Path to mini-scene folder.
+    video - str. Name of video that miniscenes were extracted from.
+    output_path - str. Path to save output csv.
+    """
     label_data = []
     track_file = f"{miniscene_path}/metadata/{video}_tracks.xml"
     root = etree.parse(track_file).getroot()
@@ -123,22 +133,17 @@ def annotate_miniscene(cfg: CfgNode, model: torch.nn.Module,
         tracks.append(track_id)
         frames[track_id] = []
 
-        # find all frames
-        for box in track.iterfind("box"):
-            frames[track_id].append(int(box.attrib["frame"]))
+    # find all frames
+    frames = []
+    for box in track.iterfind("box"):
+        frames.append(int(box.attrib['frame']))
 
     # run model on miniscene
     for track in tracks:
         video_file = f"{miniscene_path}/{track}.mp4"
         cap = cv2.VideoCapture(video_file)
-        index = 0
-        for frame in tqdm(frames[track], desc=f"{track} frames"):
-            try:
-                inputs = get_input_clip(cap, cfg, index)
-            except AssertionError as e:
-                print(e)
-                break
-            index += 1
+        for frame in tqdm(frames, desc=f'{track} frames'):
+            inputs = get_input_clip(cap, cfg, frame)
 
             if cfg.NUM_GPUS:
                 # transfer the data to the current GPU device.
