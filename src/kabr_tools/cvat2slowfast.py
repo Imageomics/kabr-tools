@@ -11,7 +11,7 @@ import cv2
 
 
 def cvat2slowfast(path_to_mini_scenes: str, path_to_new_dataset: str,
-                  label2number: dict, old2new: Optional[dict]) -> None:
+                  label2number: dict, old2new: Optional[dict], no_images: bool) -> None:
     """
     Convert CVAT annotations to the dataset in Charades format.
 
@@ -20,6 +20,7 @@ def cvat2slowfast(path_to_mini_scenes: str, path_to_new_dataset: str,
     path_to_new_dataset - str. Path to the folder to output dataset files.
     label2number - dict. Mapping of ethogram labels to integers.
     old2new - dict [optional]. Mapping of old ethogram labels to new ethogram labels.
+    no_images - bool. Flag to stop image output.
     """
     if not os.path.exists(path_to_new_dataset):
         os.makedirs(path_to_new_dataset)
@@ -38,7 +39,7 @@ def cvat2slowfast(path_to_mini_scenes: str, path_to_new_dataset: str,
     charades_df = pd.DataFrame(data=headers)
     video_id = 1
     folder_name = 1
-    flag = False
+    flag = not no_images
 
     for i, folder in enumerate(natsorted(os.listdir(path_to_mini_scenes))):
         if os.path.exists(f"{path_to_mini_scenes}/{folder}/actions"):
@@ -178,6 +179,11 @@ def parse_args() -> argparse.Namespace:
         help="path to old to new ethogram labels json",
         required=False
     )
+    local_parser.add_argument(
+        "--no_images",
+        action="store_true",
+        help="flag to stop image output"
+    )
     return local_parser.parse_args()
 
 
@@ -194,7 +200,7 @@ def main() -> None:
     else:
         old2new = None
 
-    cvat2slowfast(args.miniscene, args.dataset, label2number, old2new)
+    cvat2slowfast(args.miniscene, args.dataset, label2number, old2new, args.no_images)
 
 
 if __name__ == "__main__":
