@@ -287,6 +287,12 @@ def player(folder: str, save: bool, show: bool) -> None:
 def parse_args() -> argparse.Namespace:
     local_parser = argparse.ArgumentParser()
     local_parser.add_argument(
+        "--folder",
+        type=str,
+        help="path to folder with metadata and actions",
+        required=True
+    )
+    local_parser.add_argument(
         "--save",
         action="store_true",
         help="flag to save video"
