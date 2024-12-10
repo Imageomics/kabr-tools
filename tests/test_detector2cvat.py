@@ -12,6 +12,7 @@ from tests.utils import (
 def run():
     detector2cvat.main()
 
+
 class TestDetector2Cvat(unittest.TestCase):
 
     @classmethod
