@@ -181,6 +181,15 @@ def extract(video_path: str, annotation_path: str, tracking: bool, show: bool) -
     cv2.destroyAllWindows()
 
 def tracks_extractor(video: str, annotation: str, tracking: bool, show: bool) -> None:
+    """
+    Extract mini-scenes from CVAT tracks.
+
+    Parameters:
+    video - str. Path to the folder containing video files.
+    annotation - str. Path to the folder containing annotation files.
+    tracking - bool. Flag to use external tracker instead of CVAT tracks.
+    show - bool. Flag to display tracks' visualization.
+    """
     if os.path.isdir(annotation):
         videos = []
         annotations = []

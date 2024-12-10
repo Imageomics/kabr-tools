@@ -116,6 +116,16 @@ def create_model(config_path: str, checkpoint_path: str, gpu_num: int) -> tuple[
 def annotate_miniscene(cfg: CfgNode, model: torch.nn.Module,
                        miniscene_path: str, video: str,
                        output_path: str) -> None:
+    """
+    Label the mini-scenes.
+
+    Parameters:
+    cfg - CfgNode. Slowfast model configuration.
+    model - torch.nn.Module. Slowfast model to use for behavior labeling.
+    miniscene_path - str. Path to mini-scene folder.
+    video - str. Name of video that miniscenes were extracted from.
+    output_path - str. Path to save output csv.
+    """
     label_data = []
     track_file = f"{miniscene_path}/metadata/{video}_tracks.xml"
     root = etree.parse(track_file).getroot()

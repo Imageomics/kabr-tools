@@ -12,6 +12,15 @@ import cv2
 
 def cvat2slowfast(path_to_mini_scenes: str, path_to_new_dataset: str,
                   label2number: dict, old2new: Optional[dict]) -> None:
+    """
+    Convert CVAT annotations to the dataset in Charades format.
+
+    Parameters:
+    path_to_mini_scenes - str. Path to the folder containing mini-scene files.
+    path_to_new_dataset - str. Path to the folder to output dataset files.
+    label2number - dict. Mapping of ethogram labels to integers.
+    old2new - dict [optional]. Mapping of old ethogram labels to new ethogram labels.
+    """
     if not os.path.exists(path_to_new_dataset):
         os.makedirs(path_to_new_dataset)
 
@@ -146,27 +155,27 @@ def cvat2slowfast(path_to_mini_scenes: str, path_to_new_dataset: str,
 def parse_args() -> argparse.Namespace:
     local_parser = argparse.ArgumentParser()
     local_parser.add_argument(
-        '--miniscene',
+        "--miniscene",
         type=str,
-        help='path to folder containing mini-scene files',
+        help="path to folder containing mini-scene files",
         required=True
     )
     local_parser.add_argument(
-        '--dataset',
+        "--dataset",
         type=str,
-        help='path to output dataset files',
+        help="path to output dataset files",
         required=True
     )
     local_parser.add_argument(
-        '--classes',
+        "--classes",
         type=str,
-        help='path to ethogram class labels json',
+        help="path to ethogram class labels json",
         required=True
     )
     local_parser.add_argument(
-        '--old2new',
+        "--old2new",
         type=str,
-        help='path to old to new ethogram labels json',
+        help="path to old to new ethogram labels json",
         required=False
     )
     return local_parser.parse_args()
@@ -175,11 +184,11 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
 
-    with open(args.classes, mode='r', encoding='utf-8') as file:
+    with open(args.classes, mode="r", encoding="utf-8") as file:
         label2number = json.load(file)
 
     if args.old2new:
-        with open(args.old2new, mode='r', encoding='utf-8') as file:
+        with open(args.old2new, mode="r", encoding="utf-8") as file:
             old2new = json.load(file)
             old2new[None] = None
     else:
