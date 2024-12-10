@@ -32,6 +32,10 @@ def get_detection():
     annotation = get_cached_datafile(DETECTION_ANNOTATION)
     return video, annotation
 
+def clean_dir(path):
+    if os.path.exists(path):
+        os.removedirs(path)
+
 def del_dir(path):
     if os.path.exists(path):
         shutil.rmtree(path)

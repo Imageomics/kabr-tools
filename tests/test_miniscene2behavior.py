@@ -5,6 +5,7 @@ import os
 import requests
 from unittest.mock import Mock, patch
 from lxml import etree
+from ruamel.yaml import YAML
 import torch
 import numpy as np
 import pandas as pd
@@ -16,6 +17,7 @@ from kabr_tools.miniscene2behavior import annotate_miniscene
 from tests.utils import (
     del_file,
     del_dir,
+    clean_dir,
     get_detection
 )
 
@@ -34,6 +36,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
     def setUpClass(cls):
         # download the model from Imageomics HF
         cls.checkpoint = "checkpoint_epoch_00075.pyth"
+        cls.model_output = None
         cls.download_model()
 
         # download data
@@ -49,9 +52,10 @@ class TestMiniscene2Behavior(unittest.TestCase):
     @classmethod
     def download_model(cls):
         if not os.path.exists(cls.checkpoint):
+            # download checkpoint archive
             url = "https://huggingface.co/imageomics/" \
-                  + "x3d-kabr-kinetics/resolve/main/" \
-                  + f"{cls.checkpoint}.zip"
+                + "x3d-kabr-kinetics/resolve/main/" \
+                + f"{cls.checkpoint}.zip"
             r = requests.get(url, allow_redirects=True, timeout=120)
             with open(f"{cls.checkpoint}.zip", "wb") as f:
                 f.write(r.content)
@@ -60,13 +64,25 @@ class TestMiniscene2Behavior(unittest.TestCase):
             with zipfile.ZipFile(f"{cls.checkpoint}.zip", "r") as zip_ref:
                 zip_ref.extractall(".")
 
+            # get checkpoint directory
+            try:
+                cfg = torch.load(cls.checkpoint,
+                                 weights_only=True,
+                                 map_location=torch.device("cpu"))["cfg"]
+                yaml = YAML(typ="rt")
+                cls.model_output = f"{yaml.load(cfg)['OUTPUT_DIR']}/checkpoints"
+            except Exception:
+                pass
+
     @classmethod
     def tearDownClass(cls):
         # remove model files after tests
-        if os.path.exists(f"{cls.checkpoint}.zip"):
-            os.remove(f"{cls.checkpoint}.zip")
-        if os.path.exists(cls.checkpoint):
-            os.remove(cls.checkpoint)
+        del_file(f"{cls.checkpoint}.zip")
+        del_file(cls.checkpoint)
+        if cls.model_output:
+            clean_dir(cls.model_output)
+
+        # remove data after tests
         del_file(cls.video)
         del_file(cls.annotation)
         del_dir(cls.miniscene)
@@ -102,7 +118,8 @@ class TestMiniscene2Behavior(unittest.TestCase):
                          "video", "track", "frame", "label"])
         row_ct = 0
 
-        root = etree.parse(f"{self.miniscene}/metadata/{self.video}_tracks.xml").getroot()
+        root = etree.parse(
+            f"{self.miniscene}/metadata/{self.video}_tracks.xml").getroot()
         for track in root.iterfind("track"):
             track_id = int(track.get("id"))
             for box in track.iterfind("box"):
@@ -154,7 +171,8 @@ class TestMiniscene2Behavior(unittest.TestCase):
                          "video", "track", "frame", "label"])
         row_ct = 0
 
-        root = etree.parse(f"{miniscene_dir}/metadata/DJI_tracks.xml").getroot()
+        root = etree.parse(
+            f"{miniscene_dir}/metadata/DJI_tracks.xml").getroot()
         for track in root.iterfind("track"):
             track_id = int(track.get("id"))
             for box in track.iterfind("box"):
@@ -202,7 +220,8 @@ class TestMiniscene2Behavior(unittest.TestCase):
                          "video", "track", "frame", "label"])
         row_ct = 0
 
-        root = etree.parse(f"{miniscene_dir}/metadata/DJI_tracks.xml").getroot()
+        root = etree.parse(
+            f"{miniscene_dir}/metadata/DJI_tracks.xml").getroot()
         for track in root.iterfind("track"):
             track_id = int(track.get("id"))
             for box in track.iterfind("box"):
