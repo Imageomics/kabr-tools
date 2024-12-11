@@ -1,12 +1,16 @@
 import unittest
 import sys
 import os
+from lxml import etree
+import pandas as pd
+import cv2
 from kabr_tools import cvat2ultralytics
 from tests.utils import (
     del_dir,
     del_file,
     get_detection,
-    dir_exists
+    dir_exists,
+    file_exists
 )
 
 
@@ -59,15 +63,59 @@ class TestCvat2Ultralytics(unittest.TestCase):
         self.assertTrue(dir_exists(f"{self.dataset}/labels/val"))
 
         # check output
-        train_images = 16
-        test_images = 3
-        val_images = 2
-        self.assertEqual(len(os.listdir(f"{self.dataset}/images/test")), test_images)
-        self.assertEqual(len(os.listdir(f"{self.dataset}/labels/test")), test_images)
-        self.assertEqual(len(os.listdir(f"{self.dataset}/images/train")), train_images)
-        self.assertEqual(len(os.listdir(f"{self.dataset}/labels/train")), train_images)
-        self.assertEqual(len(os.listdir(f"{self.dataset}/images/val")), val_images)
-        self.assertEqual(len(os.listdir(f"{self.dataset}/labels/val")), val_images)
+        annotations = etree.parse(TestCvat2Ultralytics.annotation).getroot()
+        tracks = [list(track.findall("box")) for track in annotations.findall("track")]
+        self.assertEqual(len(tracks[0]), 21)
+        self.assertEqual(len(tracks[0]), len(tracks[1]))
+        original_size = annotations.find("meta").find("task").find("original_size")
+        height = int(original_size.find("height").text)
+        width = int(original_size.find("width").text)
+        for i in range(len(tracks[0])):
+            # check existence
+            if i < 16:
+                data_im = f"{self.dataset}/images/train/DJI_0068_{i}.jpg"
+                self.assertTrue(file_exists(data_im))
+                data_label = f"{self.dataset}/labels/train/DJI_0068_{i}.txt"
+                self.assertTrue(file_exists(data_label))
+            elif i < 18:
+                data_im = f"{self.dataset}/images/val/DJI_0068_{i}.jpg"
+                self.assertTrue(file_exists(data_im))
+                data_label = f"{self.dataset}/labels/val/DJI_0068_{i}.txt"
+                self.assertTrue(file_exists(data_label))
+            else:
+                data_im = f"{self.dataset}/images/test/DJI_0068_{i}.jpg"
+                self.assertTrue(file_exists(data_im))
+                data_label = f"{self.dataset}/labels/test/DJI_0068_{i}.txt"
+                self.assertTrue(file_exists(data_label))
+
+            # check image
+            data_im = cv2.imread(data_im)
+            self.assertEqual(data_im.shape, (height, width, 3))
+
+            # check label
+            data_label = pd.read_csv(data_label, sep = " ", header = None)
+            annotation_label = []
+            for track in tracks:
+                box = track[i]
+                x_start = float(box.attrib["xtl"])
+                y_start = float(box.attrib["ytl"])
+                x_end = float(box.attrib["xbr"])
+                y_end = float(box.attrib["ybr"])
+                x_center = (x_start + (x_end - x_start) / 2) / width
+                y_center = (y_start + (y_end - y_start) / 2) / height
+                w = (x_end - x_start) / width
+                h = (y_end - y_start) / height
+                annotation_label.append(
+                    [0, x_center, y_center, w, h]
+                )
+            self.assertEqual(len(data_label.index), len(annotation_label))
+
+            for i, label in enumerate(annotation_label):
+                self.assertEqual(label[0], annotation_label[i][0])
+                self.assertAlmostEqual(label[1], annotation_label[i][1], places=4)
+                self.assertAlmostEqual(label[2], annotation_label[i][2], places=4)
+                self.assertAlmostEqual(label[3], annotation_label[i][3], places=4)
+                self.assertAlmostEqual(label[4], annotation_label[i][4], places=4)
 
 
     def test_parse_arg_min(self):
