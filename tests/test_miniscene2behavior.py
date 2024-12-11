@@ -85,10 +85,11 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.checkpoint_archive = "checkpoint_epoch_00075.pyth.zip"
         self.miniscene = TestMiniscene2Behavior.miniscene
         self.video = "DJI_0068"
-        self.config = "special_config.yml"
+        self.config = "config.yml"
+        self.test_config = "special_config.yml"
         self.gpu_num = "1"
         self.output = "DJI_0068.csv"
-        self.example = "tests/detection_example"
+        self.example = "tests/examples"
 
     def tearDown(self):
         # delete output
@@ -363,7 +364,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
         # parse arguments
         sys.argv = [self.tool,
                     "--hub", self.hub,
-                    "--config", self.config,
+                    "--config", self.test_config,
                     "--checkpoint", self.checkpoint,
                     "--gpu_num", self.gpu_num,
                     "--miniscene", self.miniscene,
@@ -373,7 +374,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
 
         # check parsed argument values
         self.assertEqual(args.hub, self.hub)
-        self.assertEqual(args.config, self.config)
+        self.assertEqual(args.config, self.test_config)
         self.assertEqual(args.checkpoint, self.checkpoint)
         self.assertEqual(args.gpu_num, 1)
         self.assertEqual(args.miniscene, self.miniscene)
