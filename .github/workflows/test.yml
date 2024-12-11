@@ -26,9 +26,12 @@ jobs:
       env:
         HF_TOKEN: ${{ secrets.HF_TOKEN_TESTING }}
       run: |
-        python -m unittest tests/test_cvat2slowfast.py
-        python -m unittest tests/test_cvat2ultralytics.py
-        python -m unittest tests/test_detector2cvat.py
-        python -m unittest tests/test_miniscene2behavior.py
-        python -m unittest tests/test_player.py
-        python -m unittest tests/test_tracks_extractor.py
+        cd ..
+        mkdir test
+        cd test
+        python -m unittest ../kabr-tools/tests/test_cvat2slowfast.py
+        python -m unittest ../kabr-tools/tests/test_cvat2ultralytics.py
+        python -m unittest ../kabr-tools/tests/test_detector2cvat.py
+        python -m unittest ../kabr-tools/tests/test_miniscene2behavior.py
+        python -m unittest ../kabr-tools/tests/test_player.py
+        python -m unittest ../kabr-tools/tests/test_tracks_extractor.py
