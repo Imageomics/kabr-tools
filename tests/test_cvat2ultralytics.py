@@ -40,9 +40,9 @@ class TestCvat2Ultralytics(unittest.TestCase):
         self.skip = "1"
         self.label2index = "ethogram/label2index.json"
 
-    # def tearDown(self):
-    #     # delete outputs
-    #     del_dir(self.dataset)
+    def tearDown(self):
+        # delete outputs
+        del_dir(self.dataset)
 
     def test_run(self):
         # run cvat2ultralytics
