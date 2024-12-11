@@ -6,13 +6,27 @@ from lxml import etree
 import cv2
 from cv2.typing import MatLike
 
+index: int = 0
+vcs: dict = {}
+metadata: dict = {}
+letter2hotkey: dict = {13: "main", 48: "0", 49: "1", 50: "2", 51: "3",
+                       52: "4", 53: "5", 54: "6", 55: "7", 56: "8",
+                       57: "9", 41: "10", 33: "11", 64: "12", 35: "13",
+                       36: "14", 37: "15", 94: "16", 38: "17",
+                       42: "18", 40: "19"}
+current: str = "main"
+trackbar_position: int = 0
+paused: bool = False
+updated: bool = False
+
 
 def on_slider_change(value: int) -> None:
     global index, vcs, current, trackbar_position, paused, updated
     index = value
 
     if abs(trackbar_position - index) > 10:
-        vcs[current].set(cv2.CAP_PROP_POS_FRAMES, metadata["tracks"][current][index])
+        vcs[current].set(cv2.CAP_PROP_POS_FRAMES,
+                         metadata["tracks"][current][index])
 
         if paused:
             updated = True
@@ -24,13 +38,17 @@ def pad(image: MatLike, width: int, height: int) -> MatLike:
     if shape_0 < shape_1:
         new_width = int((height / shape_0) * shape_1)
         pad_size = (width - new_width) // 2
-        image = cv2.resize(image, (new_width, height), interpolation=cv2.INTER_AREA)
-        padded = cv2.copyMakeBorder(image, 0, 0, pad_size, pad_size, cv2.BORDER_CONSTANT, value=(0, 0, 0))
+        image = cv2.resize(image, (new_width, height),
+                           interpolation=cv2.INTER_AREA)
+        padded = cv2.copyMakeBorder(
+            image, 0, 0, pad_size, pad_size, cv2.BORDER_CONSTANT, value=(0, 0, 0))
     else:
         new_height = int((width / shape_1) * shape_0)
         pad_size = (height - new_height) // 2
-        image = cv2.resize(image, (width, new_height), interpolation=cv2.INTER_AREA)
-        padded = cv2.copyMakeBorder(image, pad_size, pad_size, 0, 0, cv2.BORDER_CONSTANT, value=(0, 0, 0))
+        image = cv2.resize(image, (width, new_height),
+                           interpolation=cv2.INTER_AREA)
+        padded = cv2.copyMakeBorder(
+            image, pad_size, pad_size, 0, 0, cv2.BORDER_CONSTANT, value=(0, 0, 0))
 
     return padded
 
@@ -59,13 +77,19 @@ def draw_id(current: str, image: MatLike,
 
     thickness_in = 4
     size = 1.5
-    label_length = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, size, thickness_in)
+    label_length = cv2.getTextSize(
+        label, cv2.FONT_HERSHEY_SIMPLEX, size, thickness_in)
 
     copied = image.copy()
     cv2.rectangle(image, (width // 2 - label_length[0][0] // 2 - 50, 95),
                   (width // 2 + label_length[0][0] // 2 + 50, 180), (255, 255, 255), -1)
-    cv2.putText(image, label, ((width - label_length[0][0]) // 2, 150),
-                cv2.FONT_HERSHEY_SIMPLEX, size, tuple([i - 50 for i in color]), thickness_in, cv2.LINE_AA)
+    cv2.putText(image, label,
+                ((width - label_length[0][0]) // 2, 150),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                size,
+                tuple([i - 50 for i in color]),
+                thickness_in,
+                cv2.LINE_AA)
 
     return cv2.addWeighted(image, 0.4, copied, 0.6, 0.0)
 
@@ -78,7 +102,7 @@ def draw_actions(current: str, index: int,
 
     if actions.get(current) is None:
         return image
-    elif actions[current].get(str(metadata["tracks"][current][index])) is None:
+    if actions[current].get(str(metadata["tracks"][current][index])) is None:
         return image
 
     color = metadata["colors"][current]
@@ -132,24 +156,27 @@ def hotkey(key: int) -> None:
                         current = "main"
                         vc = vcs[current]
 
-                    vc.set(cv2.CAP_PROP_POS_FRAMES, metadata["tracks"][current][index])
+                    vc.set(cv2.CAP_PROP_POS_FRAMES,
+                           metadata["tracks"][current][index])
 
 
 def player(folder: str, save: bool, show: bool) -> None:
     """
-    Player for tracking and behavior observation. Runs video with bounding boxes overlaid on the animals.
+    Player for tracking and behavior observation.
+    Runs video with bounding boxes overlaid on the animals.
 
     Parameters:
     folder - str. Path to folder with metadata and actions.
     save - bool. Flag to save video.
     show - bool. Flag to display player's visualization.
     """
+    global index, vcs, current, trackbar_position, paused, updated
     name = folder.split("/")[-1].split('|')[-1]
 
     metadata_path = f"{folder}/metadata/{name}_metadata.json"
     actions_path = f"{folder}/actions"
 
-    with open(metadata_path, "r") as file:
+    with open(metadata_path, "r", encoding="utf-8") as file:
         metadata = json.load(file)
 
     vcs = OrderedDict()
@@ -158,7 +185,8 @@ def player(folder: str, save: bool, show: bool) -> None:
     for file in os.listdir(folder):
         if os.path.splitext(file)[-1] == ".mp4":
             if not os.path.splitext(file)[0].startswith(name):
-                vcs[os.path.splitext(file)[0]] = cv2.VideoCapture(f"{folder}/{file}")
+                vcs[os.path.splitext(file)[0]] = cv2.VideoCapture(
+                    f"{folder}/{file}")
 
     actions = OrderedDict()
 
@@ -187,14 +215,11 @@ def player(folder: str, save: bool, show: bool) -> None:
 
     index = 0
     cv2.namedWindow("TrackPlayer")
-    cv2.createTrackbar(name, "TrackPlayer", index, len(metadata["tracks"]["main"]) - 1, on_slider_change)
+    cv2.createTrackbar(name, "TrackPlayer", index, 1, on_slider_change)
     current = "main"
     vc = vcs[current]
     target_width = int(vc.get(cv2.CAP_PROP_FRAME_WIDTH))
     target_height = int(vc.get(cv2.CAP_PROP_FRAME_HEIGHT))
-    letter2hotkey = {13: "main", 48: "0", 49: "1", 50: "2", 51: "3", 52: "4", 53: "5", 54: "6", 55: "7", 56: "8",
-                     57: "9", 41: "10", 33: "11", 64: "12", 35: "13", 36: "14", 37: "15", 94: "16", 38: "17",
-                     42: "18", 40: "19"}
     paused, updated = False, False
 
     if save:
@@ -206,7 +231,8 @@ def player(folder: str, save: bool, show: bool) -> None:
             if metadata["tracks"][current][index] < 0:
                 current = "main"
                 vc = vcs[current]
-                vc.set(cv2.CAP_PROP_POS_FRAMES, metadata["tracks"][current][index])
+                vc.set(cv2.CAP_PROP_POS_FRAMES,
+                       metadata["tracks"][current][index])
 
         returned, frame = vc.read()
 
@@ -218,8 +244,10 @@ def player(folder: str, save: bool, show: bool) -> None:
                 visualization = pad(visualization, target_width, target_height)
 
             visualization = draw_aim(current, visualization)
-            visualization = draw_id(current, visualization, metadata, target_width)
-            visualization = draw_actions(current, index, visualization, actions, metadata, target_width, target_height)
+            visualization = draw_id(
+                current, visualization, metadata, target_width)
+            visualization = draw_actions(
+                current, index, visualization, actions, metadata, target_width, target_height)
             visualization = draw_info(visualization, target_width)
             trackbar_position = cv2.getTrackbarPos(name, "TrackPlayer")
             cv2.setTrackbarPos(name, "TrackPlayer", index)
@@ -228,13 +256,15 @@ def player(folder: str, save: bool, show: bool) -> None:
             if show:
                 cv2.imshow("TrackPlayer",
                            cv2.resize(visualization,
-                                      (int(target_width // 2.5), int(target_height // 2.5)),
+                                      (int(target_width // 2.5),
+                                       int(target_height // 2.5)),
                                       interpolation=cv2.INTER_AREA))
 
             if save:
                 vw.write(visualization)
 
             key = cv2.waitKey(1)
+            print(key)
 
             if key == 27:
                 break
