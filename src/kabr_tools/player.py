@@ -6,6 +6,20 @@ from lxml import etree
 import cv2
 from cv2.typing import MatLike
 
+index: int = 0
+vcs: dict = {}
+vc: cv2.VideoCapture = None
+metadata: dict = {}
+letter2hotkey: dict = {13: "main", 48: "0", 49: "1", 50: "2", 51: "3",
+                       52: "4", 53: "5", 54: "6", 55: "7", 56: "8",
+                       57: "9", 41: "10", 33: "11", 64: "12", 35: "13",
+                       36: "14", 37: "15", 94: "16", 38: "17",
+                       42: "18", 40: "19"}
+current: str = "main"
+trackbar_position: int = 0
+paused: bool = False
+updated: bool = False
+
 
 def on_slider_change(value: int) -> None:
     global index, vcs, current, trackbar_position, paused, updated
@@ -78,7 +92,8 @@ def draw_actions(current: str, index: int,
 
     if actions.get(current) is None:
         return image
-    elif actions[current].get(str(metadata["tracks"][current][index])) is None:
+
+    if actions[current].get(str(metadata["tracks"][current][index])) is None:
         return image
 
     color = metadata["colors"][current]
@@ -137,19 +152,21 @@ def hotkey(key: int) -> None:
 
 def player(folder: str, save: bool, show: bool) -> None:
     """
-    Player for tracking and behavior observation. Runs video with bounding boxes overlaid on the animals.
+    Player for tracking and behavior observation.
+    Runs video with bounding boxes overlaid on the animals.
 
     Parameters:
     folder - str. Path to folder with metadata and actions.
     save - bool. Flag to save video.
     show - bool. Flag to display player's visualization.
     """
+    global index, vcs, vc, current, metadata, trackbar_position, paused, updated
     name = folder.split("/")[-1].split('|')[-1]
 
     metadata_path = f"{folder}/metadata/{name}_metadata.json"
     actions_path = f"{folder}/actions"
 
-    with open(metadata_path, "r") as file:
+    with open(metadata_path, "r", encoding="utf-8") as file:
         metadata = json.load(file)
 
     vcs = OrderedDict()
@@ -192,9 +209,6 @@ def player(folder: str, save: bool, show: bool) -> None:
     vc = vcs[current]
     target_width = int(vc.get(cv2.CAP_PROP_FRAME_WIDTH))
     target_height = int(vc.get(cv2.CAP_PROP_FRAME_HEIGHT))
-    letter2hotkey = {13: "main", 48: "0", 49: "1", 50: "2", 51: "3", 52: "4", 53: "5", 54: "6", 55: "7", 56: "8",
-                     57: "9", 41: "10", 33: "11", 64: "12", 35: "13", 36: "14", 37: "15", 94: "16", 38: "17",
-                     42: "18", 40: "19"}
     paused, updated = False, False
 
     if save:
