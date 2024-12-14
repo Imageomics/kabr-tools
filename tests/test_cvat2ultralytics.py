@@ -33,7 +33,7 @@ class TestCvat2Ultralytics(unittest.TestCase):
         self.annotation = TestCvat2Ultralytics.dir
         self.dataset = "tests/ultralytics"
         self.skip = "5"
-        self.label2index = "ethogram/label2index.json"
+        self.label2index = "data/label2index.json"
 
     def tearDown(self):
         # delete outputs

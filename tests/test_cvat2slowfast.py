@@ -35,8 +35,8 @@ class TestCvat2Slowfast(unittest.TestCase):
         self.tool = "cvat2slowfast.py"
         self.miniscene = TestCvat2Slowfast.dir
         self.dataset = "tests/slowfast"
-        self.classes = "ethogram/classes.json"
-        self.old2new = "ethogram/old2new.json"
+        self.classes = "data/classes.json"
+        self.old2new = "data/old2new.json"
 
     def tearDown(self):
         # delete outputs
