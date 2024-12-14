@@ -1,6 +1,7 @@
 import unittest
 import sys
 import os
+from unittest.mock import patch
 from kabr_tools import detector2cvat
 from tests.utils import (
     del_dir,
@@ -60,8 +61,9 @@ class TestDetector2Cvat(unittest.TestCase):
         # check default argument values
         self.assertEqual(args.yolo, "yolov8x.pt")
         self.assertEqual(args.imshow, False)
-
-    def test_parse_arg_full(self):
+    
+    @patch('kabr_tools.detector2cvat.cv2.imshow')
+    def test_parse_arg_full(self, imshow):
         # parse arguments
         sys.argv = [self.tool,
                     "--video", self.video,
