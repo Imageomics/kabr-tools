@@ -98,12 +98,20 @@ miniscene2behavior [--hub huggingface_hub] [--config path_to_config] --checkpoin
 ```
 
 **Notes:**
- - ex: miniscene2behavior --hub imageomics/x3d-kabr-kinetics --checkpoint checkpoint_epoch_00075.pyth.zip --miniscene path_to_miniscene
-  - download checkpoint from huggingface and extract config
- - ex: miniscene2behavior --hub imageomics/x3d-kabr-kinetics --config config.yml --checkpoint checkpoint_epoch_00075.pyth --miniscene path_to_miniscene
-  - download checkpoint and config from huggingface
- - ex: miniscene2behavior --config config.yml --checkpoint checkpoint_epoch_00075.pyth --miniscene path_to_miniscene
-  - use local checkpoint and config
+**Examples:**
+ - download checkpoint from huggingface and extract config ex: 
+ ```
+miniscene2behavior --hub imageomics/x3d-kabr-kinetics --checkpoint checkpoint_epoch_00075.pyth.zip --miniscene path_to_miniscene
+ ```
+ - download checkpoint and config from huggingface ex: 
+```
+miniscene2behavior --hub imageomics/x3d-kabr-kinetics --config config.yml --checkpoint checkpoint_epoch_00075.pyth --miniscene path_to_miniscene
+```
+ - use local checkpoint and config ex: 
+```
+miniscene2behavior --config config.yml --checkpoint checkpoint_epoch_00075.pyth --miniscene path_to_miniscene
+```
+**Notes:**
  - If `gpu_num` is 0, the model will use CPU. Using at least 1 GPU greatly increases inference speed. If you're using OSC, you can request a node with one GPU by running `sbatch -N 1 --gpus-per-node 1 -A [account] --time=[minutes] [bash script]`.
  - mini-scenes are clipped videos focused on individual animals and video is the raw video file from which mini-scenes have been extracted.
 
