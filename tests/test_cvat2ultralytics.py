@@ -2,7 +2,7 @@ import unittest
 import sys
 import os
 from kabr_tools import cvat2ultralytics
-from tests.utils import (
+from tests.helpers import (
     del_dir,
     del_file,
     get_detection

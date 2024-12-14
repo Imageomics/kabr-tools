@@ -2,7 +2,7 @@ import unittest
 import sys
 import os
 from kabr_tools import cvat2slowfast
-from tests.utils import (
+from tests.helpers import (
     get_behavior,
     del_dir,
     del_file

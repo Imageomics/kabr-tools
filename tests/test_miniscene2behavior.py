@@ -12,7 +12,7 @@ from kabr_tools import (
     tracks_extractor
 )
 from kabr_tools.miniscene2behavior import annotate_miniscene
-from tests.utils import (
+from tests.helpers import (
     del_file,
     del_dir,
     get_detection
