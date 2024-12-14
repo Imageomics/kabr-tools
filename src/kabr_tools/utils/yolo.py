@@ -9,7 +9,7 @@ class YOLOv8:
         self.conf = conf
         self.imgsz = imgsz
         self.model = YOLO(weights)
-        self.names = self.model.names
+        self.names: dict = self.model.names
 
         if target_labels:
             self.target_labels = target_labels
@@ -38,9 +38,10 @@ class YOLOv8:
                     box = box.astype(np.int32)
                     confidence = float(f"{confidence:.2f}")
 
-                    if self.names[label] in self.label_map:
-                        label = self.label_map[self.names[label]]
-                    label = self.names[label].capitalize()
+                    label = self.names[label]
+                    if label in self.label_map:
+                        label = self.label_map[label]
+                    label = label.capitalize()
 
                     filtered.append(([box[0], box[1], box[2], box[3]], confidence, label))
 
