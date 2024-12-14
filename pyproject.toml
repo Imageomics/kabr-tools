@@ -1,0 +1,70 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/kabr_tools"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[project]
+name = "kabr_tools"
+dynamic = ["version"]
+authors = [
+  { name="Maksim Kholiavchenko", email="kholim@rpi.edu" },
+  { name="Alison Zhong", email="zhong.568@osu.edu" },
+  { name="Elizabeth Campolongo", email="e.campolongo479@gmail.com" },
+  { name="Jenna Kline", email="kline.377@osu.edu" },
+]
+description = "Tools for working with data for annotating animal behavior. These were specifically designed during construction of the KABR dataset."
+readme = "README.md"
+requires-python = ">=3.10, <3.11"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+]
+dependencies = [
+    "numpy",
+    "opencv-python",
+    "scipy",
+    "lxml",
+    "tqdm",
+    "torch",
+    "natsort",
+    "ruamel.yaml",
+    "ultralytics",
+    "pandas",
+    "detectron2 @ git+https://github.com/facebookresearch/detectron2.git@2a420edb307c9bdf640f036d3b196bed474b8593",
+    "pytorchvideo @ git+https://github.com/facebookresearch/pytorchvideo.git@1fadaef40dd393ca09680f55582399f4679fc9b7",
+    "slowfast @ git+https://github.com/Imageomics/SlowFast@797a6f3ae81c49019d006296f1e0f84f431dc356"
+]
+keywords = [
+    "annotation",
+    "cv",
+    "cvat",
+    "videos",
+    "drone videos",
+    "video classification",
+    "behavior recognition",
+    "animal behavior recognition",
+    "animal behavior",
+    "mini-scenes",
+]
+
+[project.urls]
+Documentation = "https://github.com/Imageomics/kabr-tools/blob/master/README.md"
+Issues = "https://github.com/Imageomics/kabr-tools/issues"
+Source = "https://github.com/Imageomics/kabr-tools"
+
+[project.scripts]
+cvat2slowfast = "kabr_tools.cvat2slowfast:main"
+cvat2ultralytics = "kabr_tools.cvat2ultralytics:main"
+detector2cvat = "kabr_tools.detector2cvat:main"
+player = "kabr_tools.player:main"
+tracks_extractor = "kabr_tools.tracks_extractor:main"
+miniscene2behavior = "kabr_tools.miniscene2behavior:main"
+
+
+[tool.hatch.version]
+path = "src/kabr_tools/__about__.py"
