@@ -1,5 +1,7 @@
 import os
 import sys
+from typing import Optional
+import argparse
 import json
 from lxml import etree
 from collections import OrderedDict
@@ -7,49 +9,19 @@ import pandas as pd
 from natsort import natsorted
 import cv2
 
-if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("python cvat2slowfast.py path_to_mini_scenes")
-        exit(0)
-    elif len(sys.argv) == 3:
-        path_to_mini_scenes = sys.argv[1]
-        path_to_new_dataset = sys.argv[2]
 
-    label2number = {"Walk": 0,
-                    "Graze": 1,
-                    "Browse": 2,
-                    "Head Up": 3,
-                    "Auto-Groom": 4,
-                    "Trot": 5,
-                    "Run": 6,
-                    "Occluded": 7}
+def cvat2slowfast(path_to_mini_scenes: str, path_to_new_dataset: str,
+                  label2number: dict, old2new: Optional[dict], no_images: bool) -> None:
+    """
+    Convert CVAT annotations to the dataset in Charades format.
 
-    number2label = {value: key for key, value in label2number.items()}
-
-    old2new = {"Walk": "Walk",
-               "Walking": "Walk",
-               "Graze": "Graze",
-               "Browsing": "Browse",
-               "Head Up": "Head Up",
-               "Auto-Groom": "Auto-Groom",
-               "Mutual Grooming": "Mutual Grooming",
-               "Trotting": "Trot",
-               "Running": "Run",
-               "Drinking": "Drinking",
-               "Herding": "Herding",
-               "Lying Down": "Lying Down",
-               "Mounting-Mating": "Mounting-Mating",
-               "Sniff": "Sniff",
-               "Urinating": "Urinating",
-               "Defecating": "Defecating",
-               "Dusting": "Dusting",
-               "Fighting": "Fighting",
-               "Chasing": "Chasing",
-               "Occluded": "Occluded",
-               "Out of Focus": "Out of Focus",
-               "Out of Frame": "Out of Frame",
-               None: None}
-
+    Parameters:
+    path_to_mini_scenes - str. Path to the folder containing mini-scene files.
+    path_to_new_dataset - str. Path to the folder to output dataset files.
+    label2number - dict. Mapping of ethogram labels to integers.
+    old2new - dict [optional]. Mapping of old ethogram labels to new ethogram labels.
+    no_images - bool. Flag to stop image output.
+    """
     if not os.path.exists(path_to_new_dataset):
         os.makedirs(path_to_new_dataset)
 
@@ -62,12 +34,13 @@ if __name__ == "__main__":
     with open(f"{path_to_new_dataset}/annotation/classes.json", "w") as file:
         json.dump(label2number, file)
 
-    headers = {"original_vido_id": [], "video_id": pd.Series(dtype="int"), "frame_id": pd.Series(dtype="int"),
-               "path": [], "labels": []}
+    headers = ["original_vido_id", "video_id", "frame_id", "path", "labels"]
+    charades_data = []
+
     charades_df = pd.DataFrame(data=headers)
     video_id = 1
     folder_name = 1
-    flag = False
+    flag = not no_images
 
     for i, folder in enumerate(natsorted(os.listdir(path_to_mini_scenes))):
         if os.path.exists(f"{path_to_mini_scenes}/{folder}/actions"):
@@ -108,7 +81,10 @@ if __name__ == "__main__":
                     counter = 0
 
                     for value in annotated.values():
-                        if old2new[value] in label2number.keys():
+                        if old2new:
+                            if old2new[value] in label2number:
+                                counter += 1
+                        elif (value in label2number):
                             counter += 1
 
                     if counter < 90:
@@ -145,19 +121,19 @@ if __name__ == "__main__":
                                 os.makedirs(output_folder)
 
                             behavior = annotated.get(str(index))
-                            behavior = old2new[behavior]
+
+                            if old2new:
+                                behavior = old2new[behavior]
 
                             if behavior in label2number.keys():
                                 if flag:
                                     cv2.imwrite(f"{output_folder}/{adjusted_index}.jpg", frame)
 
-                                # TODO: Major slow down here. Add to a list rather than dataframe,
-                                #  and create dataframe at the end.
-                                charades_df.loc[len(charades_df.index)] = [f"{folder_code}",
-                                                                           video_id,
-                                                                           adjusted_index,
-                                                                           f"{folder_code}/{adjusted_index}.jpg",
-                                                                           str(label2number[behavior])]
+                                charades_data.append([f"{folder_code}",
+                                                        video_id,
+                                                        adjusted_index,
+                                                        f"{folder_code}/{adjusted_index}.jpg",
+                                                        str(label2number[behavior])])
 
                                 adjusted_index += 1
 
@@ -169,6 +145,64 @@ if __name__ == "__main__":
                     video_id += 1
 
                     if video_id % 10 == 0:
-                        charades_df.to_csv(f"{path_to_new_dataset}/annotation/data.csv", sep=" ", index=False)
+                        charades_df = pd.DataFrame(charades_data, columns=headers)
+                        charades_df.to_csv(
+                            f"{path_to_new_dataset}/annotation/data.csv", sep=" ", index=False)
 
-    charades_df.to_csv(f"{path_to_new_dataset}/annotation/data.csv", sep=" ", index=False)
+    charades_df = pd.DataFrame(charades_data, columns=headers)
+    charades_df.to_csv(
+        f"{path_to_new_dataset}/annotation/data.csv", sep=" ", index=False)
+
+
+def parse_args() -> argparse.Namespace:
+    local_parser = argparse.ArgumentParser()
+    local_parser.add_argument(
+        "--miniscene",
+        type=str,
+        help="path to folder containing mini-scene files",
+        required=True
+    )
+    local_parser.add_argument(
+        "--dataset",
+        type=str,
+        help="path to output dataset files",
+        required=True
+    )
+    local_parser.add_argument(
+        "--classes",
+        type=str,
+        help="path to ethogram class labels json",
+        required=True
+    )
+    local_parser.add_argument(
+        "--old2new",
+        type=str,
+        help="path to old to new ethogram labels json",
+        required=False
+    )
+    local_parser.add_argument(
+        "--no_images",
+        action="store_true",
+        help="flag to stop image output"
+    )
+    return local_parser.parse_args()
+
+
+def main() -> None:
+    args = parse_args()
+
+    with open(args.classes, mode="r", encoding="utf-8") as file:
+        label2number = json.load(file)
+
+    if args.old2new:
+        with open(args.old2new, mode="r", encoding="utf-8") as file:
+            old2new = json.load(file)
+            old2new[None] = None
+    else:
+        old2new = None
+
+    cvat2slowfast(args.miniscene, args.dataset, label2number, old2new, args.no_images)
+
+
+if __name__ == "__main__":
+    main()
