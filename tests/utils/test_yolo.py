@@ -99,9 +99,37 @@ class TestYolo(unittest.TestCase):
             self.assertEqual(pred[1], probs[index])
             self.assertEqual(pred[2], expect_labels[index])
             index += 1
+    
+    @patch("kabr_tools.utils.yolo.YOLO")
+    def test_yolo_with_params(self, yolo_mock):
+        im = TestYolo.im
+        yolo_model = MagicMock()
+        yolo_model.predict.return_value.__getitem__ = lambda x, _: x
+        yolo_model.names = YOLO("yolov8x.pt").names
+        yolo_mock.return_value = yolo_model
 
-    def test_yolo_with_params(self):
-        pass
+        points = [[i] * 4 for i in range(8)]
+        labels = ["bear", "horse", "zebra", "giraffe", "bear", "horse", "zebra", "giraffe"]
+        expect_labels = ["Panda", "Fish", None, None, None, None, None, "Giraffe"]
+        probs = [0.91, 0.99, 0.92, 0.55, 0.9, 0.89, 0.85, 0.93]
+        yolo_boxes = MockBox().mock(points, labels, probs)
+        yolo_model.predict.return_value.boxes.cpu.return_value = yolo_boxes
+
+        yolo = YOLOv8(weights="yolov8x.pt",
+                imgsz=640, conf=0.9,
+                target_labels=["bear", "horse", "giraffe"],
+                label_map={"bear": "panda", "horse": "fish"})
+        preds = yolo.forward(im)
+
+        self.assertEqual(len(preds), 3)
+        index = 0
+        for pred in preds:
+            while expect_labels[index] is None:
+                index += 1
+            self.assertEqual(pred[0], rescale(points[index], im.shape[1], im.shape[0]))
+            self.assertEqual(pred[1], probs[index])
+            self.assertEqual(pred[2], expect_labels[index])
+            index += 1
 
     def test_get_centroid(self):
         box = TestYolo.box
