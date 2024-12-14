@@ -1,11 +1,11 @@
-name: Test
+name: macos test
 
 on:
   push:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     strategy:
       matrix:
         python-version: ["3.10"]
