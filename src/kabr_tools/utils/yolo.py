@@ -3,11 +3,23 @@ from ultralytics import YOLO
 
 
 class YOLOv8:
-    def __init__(self, weights="yolov8x.pt", imgsz=640, conf=0.5):
+    def __init__(self, weights="yolov8x.pt",
+                 imgsz=640, conf=0.5,
+                 target_labels=None, label_map=None):
         self.conf = conf
         self.imgsz = imgsz
         self.model = YOLO(weights)
-        self.names = self.model.names
+        self.names: dict = self.model.names
+
+        if target_labels:
+            self.target_labels = target_labels
+        else:
+            self.target_labels = ["zebra", "horse", "giraffe"]
+
+        if label_map:
+            self.label_map = label_map
+        else:
+            self.label_map = {"horse" : "zebra"}
 
     def forward(self, image):
         width = image.shape[1]
@@ -18,7 +30,7 @@ class YOLOv8:
 
         for box, label, confidence in zip(boxes.xyxyn.numpy(), boxes.cls.numpy(), boxes.conf.numpy()):
             if confidence > self.conf:
-                if self.names[label] in ["zebra", "horse", "giraffe"]:
+                if self.names[label] in self.target_labels:
                     box[0] = int(box[0] * width)
                     box[1] = int(box[1] * height)
                     box[2] = int(box[2] * width)
@@ -26,10 +38,10 @@ class YOLOv8:
                     box = box.astype(np.int32)
                     confidence = float(f"{confidence:.2f}")
 
-                    if self.names[label] == "horse":
-                        label = "Zebra"
-                    else:
-                        label = self.names[label].capitalize()
+                    label = self.names[label]
+                    if label in self.label_map:
+                        label = self.label_map[label]
+                    label = label.capitalize()
 
                     filtered.append(([box[0], box[1], box[2], box[3]], confidence, label))
 

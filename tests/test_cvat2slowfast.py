@@ -2,7 +2,7 @@ import unittest
 import sys
 import os
 from kabr_tools import cvat2slowfast
-from tests.utils import (
+from tests.helpers import (
     get_behavior,
     del_dir,
     del_file
@@ -35,8 +35,8 @@ class TestCvat2Slowfast(unittest.TestCase):
         self.tool = "cvat2slowfast.py"
         self.miniscene = TestCvat2Slowfast.dir
         self.dataset = "tests/slowfast"
-        self.classes = "ethogram/classes.json"
-        self.old2new = "ethogram/old2new.json"
+        self.classes = "data/classes.json"
+        self.old2new = "data/old2new.json"
 
     def tearDown(self):
         # delete outputs

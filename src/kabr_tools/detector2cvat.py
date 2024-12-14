@@ -1,4 +1,5 @@
 import os
+import json
 import argparse
 import cv2
 from tqdm import tqdm
@@ -8,13 +9,16 @@ from kabr_tools.utils.object import Object
 from kabr_tools.utils.draw import Draw
 
 
-def detector2cvat(path_to_videos: str, path_to_save: str, show: bool) -> None:
+def detector2cvat(path_to_videos: str, path_to_save: str,
+                  target_labels: list, label_map: dict, show: bool) -> None:
     """
     Detect objects with Ultralytics YOLO detections, apply SORT tracking and convert tracks to CVAT format.
 
     Parameters:
     path_to_videos - str. Path to the folder containing videos.
     path_to_save - str. Path to the folder to save output xml & mp4 files.
+    target_labels - list. List of target labels to detect.
+    label_map - dict. Dictionary to rename labels.
     show - bool. Flag to display detector's visualization.
     """
     videos = []
@@ -29,7 +33,7 @@ def detector2cvat(path_to_videos: str, path_to_save: str, show: bool) -> None:
 
                 videos.append(f"{root}/{file}")
 
-    yolo = YOLOv8(weights="yolov8x.pt", imgsz=3840, conf=0.5)
+    yolo = YOLOv8(weights="yolov8x.pt", imgsz=3840, conf=0.5, target_labels=target_labels, label_map=label_map)
 
     for i, video in enumerate(videos):
         try:
@@ -121,16 +125,33 @@ def parse_args() -> argparse.Namespace:
         required=True
     )
     local_parser.add_argument(
+        "--target_labels",
+        type=str,
+        help="path to target labels json"
+    )
+    local_parser.add_argument(
+        "--label_map",
+        type=str,
+        help="path to label map json"
+    )
+    local_parser.add_argument(
         "--imshow",
         action="store_true",
         help="flag to display detector's visualization"
     )
     return local_parser.parse_args()
 
+def load_json(file: str) -> dict:
+    if file:
+        with open(file, mode="r", encoding="utf-8") as file:
+            return json.load(file)
+    return None
 
 def main() -> None:
     args = parse_args()
-    detector2cvat(args.video, args.save, args.imshow)
+    target_labels = load_json(args.target_labels)
+    label_map = load_json(args.label_map)
+    detector2cvat(args.video, args.save, target_labels, label_map, args.imshow)
 
 
 if __name__ == "__main__":

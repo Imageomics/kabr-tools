@@ -3,7 +3,7 @@ import sys
 import os
 from unittest.mock import patch
 from kabr_tools import player
-from tests.utils import (
+from tests.helpers import (
     del_file,
     del_dir,
     get_behavior
