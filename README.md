@@ -52,8 +52,7 @@ See the Wiki [CVAT User Guide](https://github.com/Imageomics/kabr-tools/wiki/CVA
 
 ![](images/im_mini-scenes.jpg)
 **Figure 3:** A mini-scene is a sub-image cropped from the drone video footage centered on and surrounding a single animal. Mini-scenes simulate the camera as well-aligned with each animal in
-the frame, compensating for the drone's movement and ignoring everything in the large field of
-view but the animal’s immediate surroundings. The KABR dataset consists of mini-scenes and their
+the frame, compensating for the drone's movement by focusing on just the animal and its immediate surroundings. The KABR dataset consists of mini-scenes and their
 frame-by-frame behavior annotation.
 
 #### To create mini-scenes, we first must perform the detection step, by drawing bounding boxes around each animal in frame. 
