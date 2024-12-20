@@ -2,6 +2,7 @@ import sys
 import argparse
 import torch
 from lxml import etree
+import numpy as np
 import pandas as pd
 import cv2
 from tqdm import tqdm
@@ -99,6 +100,10 @@ def create_model(config_path: str, checkpoint_path: str, gpu_num: int) -> tuple[
     cfg.NUM_GPUS = gpu_num
     cfg.OUTPUT_DIR = ""
     model = build.build_model(cfg)
+
+    # set random seeds
+    np.random.seed(cfg.RNG_SEED)
+    torch.manual_seed(cfg.RNG_SEED)
 
     # load model checkpoint
     cu.load_checkpoint(checkpoint_path, model, data_parallel=False)
