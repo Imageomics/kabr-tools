@@ -3,7 +3,7 @@
 <!-- TO DO: add new DOI -->
 
 
-#### This repository contains tools to calculate time budget analysis  from drone videos of zebras and giraffes, using the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics) to automatically label behavior.
+#### This repository contains tools to calculate time budget analysis  from drone videos of zebras and giraffes, using the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics) to label behavior automatically.
 
 ![](images/pipeline.jpg)
 **Figure 1:** Overview of the pipeline for KABR dataset preparation.
@@ -24,7 +24,7 @@ pip install git+https://github.com/Imageomics/kabr-tools
 
 Each KABR tool can be run through the command line (as described below) or imported as a python module. They each have help information which can be accessed on the command line through `<tool-name> -h`.
 
-Please refer to our [KABR Project Page](https://kabrdata.xyz/) for additional details.
+Please refer to our [KABR Project Page](https://kabrdata.xyz/) for additional details on the dataset and original paper.
 
 
 ## Step 1: Video Data Collection with Drones
@@ -34,9 +34,9 @@ Please refer to our [KABR Project Page](https://kabrdata.xyz/) for additional de
 
 The drone videos for the [KABR dataset](https://huggingface.co/datasets/imageomics/KABR) were collected at the Mpala Research Centre in January 2023. The missions were flown manually, using a DJI 2S Air drone. 
 
-We collaborated with expert ecologists to ensure the disturbance to the animals was minimal. We launched the drone approximately 200 meters horizontal distance from the animals and an altitude of 30 meters. We gradually approached the herd from the side by reducing the altitude and horizontal distance, monitoring the animals for signs of vigilance.
+We collaborated with expert ecologists to ensure minimal disturbance to the animals. We launched the drone approximately 200 meters horizontally from the animals and at an altitude of 30-40 meters. We gradually approached the herd from the side by reducing the altitude and horizontal distance and monitoring the animals for signs of vigilance.
 
-Note, the vigilance exhibited by wildlife varies widely by species, habitat, sex, and the level to which animals may be habituated to anthropogenic noise. Therefore, we recommend tailoring your approach to your particular species and setting.
+Note that the vigilance exhibited by wildlife varies widely by species, habitat, sex, and the level to which animals may be habituated to anthropogenic noise. So, we recommend that you tailor your approach to your particular species and setting.
 
 Please refer to our papers for details on the data collection process:
 - [KABR: In-Situ Dataset for Kenyan Animal Behavior
@@ -51,10 +51,11 @@ Recognition from Drone Videos](https://openaccess.thecvf.com/content/WACV2024W/C
 
 In order to automatically label the animal videos with behavior, we must first create *mini-scenes* of each individual animal captured in the frame, illustrated below.
 
+See the Wiki [CVAT User Guide](https://github.com/Imageomics/kabr-tools/wiki/CVAT-User-Guide) and [Data Management Tips](https://github.com/Imageomics/kabr-tools/wiki/Data-Management-Tips) for detailed instructions and recommendations.
+
 ![](images/im_mini-scenes.jpg)
-**Figure 3:** A mini-scene is a sub-image cropped from the drone video footage centered on and surrounding a single animal. Mini-scenes simulate the camera as well-aligned with each individual animal in
-the frame, compensating for the movement of the drone and ignoring everything in the large field of
-view but the animal’s immediate surroundings. The KABR dataset consists of mini-scenes and their
+**Figure 3:** A mini-scene is a sub-image cropped from the drone video footage centered on and surrounding a single animal. Mini-scenes simulate the camera as well-aligned with each animal in
+the frame, compensating for the drone's movement by focusing on just the animal and its immediate surroundings. The KABR dataset consists of mini-scenes and their
 frame-by-frame behavior annotation.
 
 #### To create mini-scenes, we first must perform the detection step, by drawing bounding boxes around each animal in frame. 
