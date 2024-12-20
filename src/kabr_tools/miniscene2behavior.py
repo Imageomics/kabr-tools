@@ -19,12 +19,15 @@ def get_input_clip(cap: cv2.VideoCapture, cfg: CfgNode, keyframe_idx: int) -> li
     # https://github.com/facebookresearch/SlowFast/blob/bac7b672f40d44166a84e8c51d1a5ba367ace816/slowfast/visualization/ava_demo_precomputed_boxes.py
     seq_length = cfg.DATA.NUM_FRAMES * cfg.DATA.SAMPLING_RATE
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    assert keyframe_idx < total_frames, f"keyframe_idx: {keyframe_idx}" \
+        f" >= total_frames: {total_frames}"
     seq = get_sequence(
         keyframe_idx,
         seq_length // 2,
         cfg.DATA.SAMPLING_RATE,
         total_frames,
     )
+
     clip = []
     for frame_idx in seq:
         cap.set(cv2.CAP_PROP_POS_FRAMES, frame_idx)
@@ -124,29 +127,34 @@ def annotate_miniscene(cfg: CfgNode, model: torch.nn.Module,
 
     # find all tracks
     tracks = []
+    frames = {}
     for track in root.iterfind("track"):
         track_id = track.attrib["id"]
         tracks.append(track_id)
+        frames[track_id] = []
 
-    # find all frames
-    # TODO: rewrite - some tracks may have different frames
-    assert len(tracks) > 0, "No tracks found in track file"
-    frames = []
-    for box in track.iterfind("box"):
-        frames.append(int(box.attrib["frame"]))
+        # find all frames
+        for box in track.iterfind("box"):
+            frames[track_id].append(int(box.attrib["frame"]))
 
     # run model on miniscene
     for track in tracks:
         video_file = f"{miniscene_path}/{track}.mp4"
         cap = cv2.VideoCapture(video_file)
-        for frame in tqdm(frames, desc=f"{track} frames"):
-            inputs = get_input_clip(cap, cfg, frame)
+        index = 0
+        for frame in tqdm(frames[track], desc=f"{track} frames"):
+            try:
+                inputs = get_input_clip(cap, cfg, index)
+            except AssertionError as e:
+                print(e)
+                break
+            index += 1
 
             if cfg.NUM_GPUS:
                 # transfer the data to the current GPU device.
                 if isinstance(inputs, (list,)):
-                    for i in range(len(inputs)):
-                        inputs[i] = inputs[i].cuda(non_blocking=True)
+                    for i, input_clip in enumerate(inputs):
+                        inputs[i] = input_clip.cuda(non_blocking=True)
                 else:
                     inputs = inputs.cuda(non_blocking=True)
 
@@ -163,6 +171,7 @@ def annotate_miniscene(cfg: CfgNode, model: torch.nn.Module,
             if frame % 20 == 0:
                 pd.DataFrame(label_data).to_csv(
                     output_path, sep=" ", index=False)
+        cap.release()
     pd.DataFrame(label_data).to_csv(output_path, sep=" ", index=False)
 
 
