@@ -147,7 +147,7 @@ def annotate_miniscene(cfg: CfgNode, model: torch.nn.Module,
         video_file = f"{miniscene_path}/{track}.mp4"
         cap = cv2.VideoCapture(video_file)
         index = 0
-        for frame in tqdm(frames[track], desc=f'{track} frames'):
+        for frame in tqdm(frames[track], desc=f"{track} frames"):
             try:
                 inputs = get_input_clip(cap, cfg, index)
             except AssertionError as e:
