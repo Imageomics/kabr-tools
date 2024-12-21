@@ -1,4 +1,6 @@
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
+# add code from https://github.com/facebookresearch/SlowFast/blob/bac7b672f40d44166a84e8c51d1a5ba367ace816/slowfast/config/defaults.py except custom_config
+# add + simplify load_config function from https://github.com/facebookresearch/SlowFast/blob/88bb4c9cf03fd97fce403f8b475543cb8e8ca5ea/slowfast/utils/parser.py
 
 """Configs."""
 import math
@@ -1282,10 +1284,16 @@ def assert_and_infer_cfg(cfg):
 
 
 def get_cfg():
+    """
+    Get a copy of the default config.
+    """
     return _C.clone()
 
 
 def load_config(path_to_config=None):
+    """
+    Given the arguemnts, load and initialize the configs.
+    """
     # Setup cfg.
     cfg = get_cfg()
 

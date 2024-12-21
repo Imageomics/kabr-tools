@@ -1,4 +1,5 @@
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
+# X3DHead from https://github.com/facebookresearch/SlowFast/blob/88bb4c9cf03fd97fce403f8b475543cb8e8ca5ea/slowfast/models/head_helper.py
 
 """ResNe(X)t Head helper."""
 
@@ -65,7 +66,6 @@ class X3DHead(nn.Module):
         self._construct_head(dim_in, dim_inner, dim_out, norm_module)
 
     def _construct_head(self, dim_in, dim_inner, dim_out, norm_module):
-
         self.conv_5 = nn.Conv3d(
             dim_in,
             dim_inner,
@@ -111,8 +111,7 @@ class X3DHead(nn.Module):
             self.act = nn.Sigmoid()
         else:
             raise NotImplementedError(
-                "{} is not supported as an activation" "function.".format(
-                    self.act_func)
+                "{} is not supported as an activation" "function.".format(self.act_func)
             )
 
     def forward(self, inputs):
