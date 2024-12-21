@@ -69,10 +69,6 @@ def create_model(config_path: str, checkpoint_path: str, gpu_num: int) -> tuple[
     assert checkpoint_path is not None
     assert gpu_num >= 0
 
-    # load config
-    cfg = load_config(config_path)
-    cfg.NUM_GPUS = gpu_num
-
     # set random seed
     random.seed(cfg.RNG_SEED)
     np.random.seed(cfg.RNG_SEED)
@@ -108,29 +104,34 @@ def annotate_miniscene(cfg: CfgNode, model: torch.nn.Module,
 
     # find all tracks
     tracks = []
+    frames = {}
     for track in root.iterfind("track"):
         track_id = track.attrib["id"]
         tracks.append(track_id)
+        frames[track_id] = []
 
-    # find all frames
-    # TODO: rewrite - some tracks may have different frames
-    assert len(tracks) > 0, "No tracks found in track file"
-    frames = []
-    for box in track.iterfind("box"):
-        frames.append(int(box.attrib["frame"]))
+        # find all frames
+        for box in track.iterfind("box"):
+            frames[track_id].append(int(box.attrib["frame"]))
 
     # run model on miniscene
     for track in tracks:
         video_file = f"{miniscene_path}/{track}.mp4"
         cap = cv2.VideoCapture(video_file)
-        for frame in tqdm(frames, desc=f"{track} frames"):
-            inputs = get_input_clip(cap, cfg, frame)
+        index = 0
+        for frame in tqdm(frames[track], desc=f"{track} frames"):
+            try:
+                inputs = get_input_clip(cap, cfg, index)
+            except AssertionError as e:
+                print(e)
+                break
+            index += 1
 
             if cfg.NUM_GPUS:
                 # transfer the data to the current GPU device.
                 if isinstance(inputs, (list,)):
-                    for i in range(len(inputs)):
-                        inputs[i] = inputs[i].cuda(non_blocking=True)
+                    for i, input_clip in enumerate(inputs):
+                        inputs[i] = input_clip.cuda(non_blocking=True)
                 else:
                     inputs = inputs.cuda(non_blocking=True)
 
@@ -149,6 +150,7 @@ def annotate_miniscene(cfg: CfgNode, model: torch.nn.Module,
             if frame % 20 == 0:
                 pd.DataFrame(label_data).to_csv(
                     output_path, sep=" ", index=False)
+        cap.release()
     pd.DataFrame(label_data).to_csv(output_path, sep=" ", index=False)
 
 
