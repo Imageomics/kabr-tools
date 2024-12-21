@@ -69,6 +69,10 @@ def create_model(config_path: str, checkpoint_path: str, gpu_num: int) -> tuple[
     assert checkpoint_path is not None
     assert gpu_num >= 0
 
+    # load config
+    cfg = load_config(config_path)
+    cfg.NUM_GPUS = gpu_num
+
     # set random seed
     random.seed(cfg.RNG_SEED)
     np.random.seed(cfg.RNG_SEED)
