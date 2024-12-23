@@ -8,6 +8,7 @@ from collections import OrderedDict
 import pandas as pd
 from natsort import natsorted
 import cv2
+from utils.path import join_paths
 
 
 def cvat2slowfast(path_to_mini_scenes: str, path_to_new_dataset: str,
@@ -24,13 +25,16 @@ def cvat2slowfast(path_to_mini_scenes: str, path_to_new_dataset: str,
     if not os.path.exists(path_to_new_dataset):
         os.makedirs(path_to_new_dataset)
 
-    if not os.path.exists(f"{path_to_new_dataset}/annotation"):
-        os.makedirs(f"{path_to_new_dataset}/annotation")
+    annotation_path = join_paths(path_to_new_dataset, "annotation")
+    if not os.path.exists(annotation_path):
+        os.makedirs(annotation_path)
 
-    if not os.path.exists(f"{path_to_new_dataset}/dataset/image"):
-        os.makedirs(f"{path_to_new_dataset}/dataset/image")
+    image_path = join_paths(path_to_new_dataset, "dataset", "image")
+    if not os.path.exists(image_path):
+        os.makedirs(image_path)
 
-    with open(f"{path_to_new_dataset}/annotation/classes.json", "w") as file:
+    classes_path = join_paths(annotation_path, "classes.json")
+    with open(classes_path, "w", encoding="utf-8") as file:
         json.dump(label2number, file)
 
     headers = {"original_vido_id": [], "video_id": pd.Series(dtype="int"), "frame_id": pd.Series(dtype="int"),
@@ -41,11 +45,12 @@ def cvat2slowfast(path_to_mini_scenes: str, path_to_new_dataset: str,
     flag = False
 
     for i, folder in enumerate(natsorted(os.listdir(path_to_mini_scenes))):
-        if os.path.exists(f"{path_to_mini_scenes}/{folder}/actions"):
-            for j, file in enumerate(natsorted(os.listdir(f"{path_to_mini_scenes}/{folder}/actions"))):
+        actions_path = join_paths(path_to_mini_scenes, folder, "actions")
+        if os.path.exists(actions_path):
+            for j, file in enumerate(natsorted(os.listdir(actions_path))):
                 if os.path.splitext(file)[1] == ".xml":
-                    annotation_file = f"{path_to_mini_scenes}/{folder}/actions/{file}"
-                    video_file = f"{path_to_mini_scenes}/{folder}/{os.path.splitext(file)[0]}.mp4"
+                    annotation_file = join_paths(actions_path, file)
+                    video_file = join_paths(path_to_mini_scenes, folder, f"{os.path.splitext(file)[0]}.mp4")
 
                     if not os.path.exists(video_file):
                         print(f"{video_file} does not exist.")
@@ -91,7 +96,7 @@ def cvat2slowfast(path_to_mini_scenes: str, path_to_new_dataset: str,
 
                     folder_code = f"{label[0].capitalize()}{folder_name:04d}"
                     folder_name += 1
-                    output_folder = f"{path_to_new_dataset}/dataset/image/{folder_code}"
+                    output_folder = join_paths(image_path, folder_code)
                     progress = f"{i + 1}/{len(os.listdir(path_to_mini_scenes))}," \
                                f"{j + 1}/{len(os.listdir(f'{path_to_mini_scenes}/{folder}/actions'))}:" \
                                f"{folder}/actions/{file} -> {output_folder}"
@@ -146,10 +151,10 @@ def cvat2slowfast(path_to_mini_scenes: str, path_to_new_dataset: str,
 
                     if video_id % 10 == 0:
                         charades_df.to_csv(
-                            f"{path_to_new_dataset}/annotation/data.csv", sep=" ", index=False)
+                            join_paths(annotation_path, "data.csv"), sep=" ", index=False)
 
     charades_df.to_csv(
-        f"{path_to_new_dataset}/annotation/data.csv", sep=" ", index=False)
+        join_paths(annotation_path, "data.csv"), sep=" ", index=False)
 
 
 def parse_args() -> argparse.Namespace:

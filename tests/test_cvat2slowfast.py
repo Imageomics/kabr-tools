@@ -2,6 +2,7 @@ import unittest
 import sys
 import os
 from kabr_tools import cvat2slowfast
+from kabr_tools.utils.path import join_paths
 from tests.utils import (
     get_behavior,
     del_dir,
@@ -34,9 +35,9 @@ class TestCvat2Slowfast(unittest.TestCase):
         # set params
         self.tool = "cvat2slowfast.py"
         self.miniscene = TestCvat2Slowfast.dir
-        self.dataset = "tests/slowfast"
-        self.classes = "ethogram/classes.json"
-        self.old2new = "ethogram/old2new.json"
+        self.dataset = join_paths("tests", "slowfast")
+        self.classes = join_paths("ethogram", "classes.json")
+        self.old2new = join_paths("ethogram", "old2new.json")
 
     def tearDown(self):
         # delete outputs
