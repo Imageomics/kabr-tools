@@ -8,7 +8,7 @@ from collections import OrderedDict
 import pandas as pd
 from natsort import natsorted
 import cv2
-from utils.path import join_paths
+from kabr_tools.utils.path import join_paths
 
 
 def cvat2slowfast(path_to_mini_scenes: str, path_to_new_dataset: str,
