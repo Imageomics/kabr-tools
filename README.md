@@ -100,7 +100,6 @@ Label the mini-scenes:
 miniscene2behavior [--hub huggingface_hub] [--config path_to_config] --checkpoint path_to_checkpoint [--gpu_num number_of_gpus] --miniscene path_to_miniscene [--output path_to_output_csv]
 ```
 
-**Notes:**
 **Examples:**
  - download checkpoint from huggingface and extract config ex: 
  ```
