@@ -2,7 +2,7 @@ import unittest
 import sys
 import os
 from kabr_tools import detector2cvat
-from tests.utils import (
+from tests.helpers import (
     del_dir,
     del_file,
     get_detection
@@ -33,6 +33,8 @@ class TestDetector2Cvat(unittest.TestCase):
         self.tool = "detector2cvat.py"
         self.video = TestDetector2Cvat.dir
         self.save = "tests/detector2cvat"
+        self.target_labels = "data/yolo_labels.json"
+        self.label_map = "data/yolo_equiv.json"
 
     def tearDown(self):
         # delete outputs
@@ -55,6 +57,10 @@ class TestDetector2Cvat(unittest.TestCase):
         # check parsed argument values
         self.assertEqual(args.video, self.video)
         self.assertEqual(args.save, self.save)
+
+        # check default argument values
+        self.assertEqual(args.target_labels, None)
+        self.assertEqual(args.label_map, None)
         self.assertEqual(args.imshow, False)
 
     def test_parse_arg_full(self):
@@ -62,10 +68,14 @@ class TestDetector2Cvat(unittest.TestCase):
         sys.argv = [self.tool,
                     "--video", self.video,
                     "--save", self.save,
+                    "--target_labels", self.target_labels,
+                    "--label_map", self.label_map,
                     "--imshow"]
         args = detector2cvat.parse_args()
 
         # check parsed argument values
         self.assertEqual(args.video, self.video)
         self.assertEqual(args.save, self.save)
+        self.assertEqual(args.target_labels, self.target_labels)
+        self.assertEqual(args.label_map, self.label_map)
         self.assertEqual(args.imshow, True)

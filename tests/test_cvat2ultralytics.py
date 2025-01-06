@@ -2,7 +2,7 @@ import unittest
 import sys
 import os
 from kabr_tools import cvat2ultralytics
-from tests.utils import (
+from tests.helpers import (
     del_dir,
     del_file,
     get_detection
@@ -33,7 +33,7 @@ class TestCvat2Ultralytics(unittest.TestCase):
         self.annotation = TestCvat2Ultralytics.dir
         self.dataset = "tests/ultralytics"
         self.skip = "5"
-        self.label2index = "ethogram/label2index.json"
+        self.label2index = "data/label2index.json"
 
     def tearDown(self):
         # delete outputs

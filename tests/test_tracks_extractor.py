@@ -2,7 +2,7 @@ import unittest
 import sys
 from unittest.mock import patch
 from kabr_tools import tracks_extractor
-from tests.utils import (
+from tests.helpers import (
     get_detection,
     del_dir,
     del_file
