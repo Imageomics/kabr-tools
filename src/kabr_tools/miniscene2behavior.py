@@ -1,57 +1,33 @@
-import sys
 import argparse
+import random
+from zipfile import ZipFile
 import torch
 from lxml import etree
 import numpy as np
 import pandas as pd
 import cv2
 from tqdm import tqdm
-import slowfast.utils.checkpoint as cu
-from slowfast.models import build
-from slowfast.utils import parser
-from slowfast.datasets.utils import get_sequence
-from slowfast.visualization.utils import process_cv2_inputs
-from slowfast.datasets.cv2_transform import scale
-from fvcore.common.config import CfgNode
-from torch import Tensor
+from huggingface_hub import hf_hub_download
+from kabr_tools.utils.slowfast.utils import get_input_clip
+from kabr_tools.utils.slowfast.cfg import load_config, CfgNode
+from kabr_tools.utils.slowfast.x3d import build_model
 
 
-def get_input_clip(cap: cv2.VideoCapture, cfg: CfgNode, keyframe_idx: int) -> list[Tensor]:
-    # https://github.com/facebookresearch/SlowFast/blob/bac7b672f40d44166a84e8c51d1a5ba367ace816/slowfast/visualization/ava_demo_precomputed_boxes.py
-    seq_length = cfg.DATA.NUM_FRAMES * cfg.DATA.SAMPLING_RATE
-    total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-    assert keyframe_idx < total_frames, f"keyframe_idx: {keyframe_idx}" \
-        f" >= total_frames: {total_frames}"
-    seq = get_sequence(
-        keyframe_idx,
-        seq_length // 2,
-        cfg.DATA.SAMPLING_RATE,
-        total_frames,
-    )
-
-    clip = []
-    for frame_idx in seq:
-        cap.set(cv2.CAP_PROP_POS_FRAMES, frame_idx)
-        was_read, frame = cap.read()
-        if was_read:
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            frame = scale(cfg.DATA.TEST_CROP_SIZE, frame)
-            clip.append(frame)
-        else:
-            print("Unable to read frame. Duplicating previous frame.")
-            clip.append(clip[-1])
-
-    clip = process_cv2_inputs(clip, cfg)
-    return clip
+def get_cached_datafile(repo_id: str, filename: str):
+    return hf_hub_download(repo_id=repo_id, filename=filename)
 
 
 def parse_args() -> argparse.Namespace:
     local_parser = argparse.ArgumentParser()
     local_parser.add_argument(
+        "--hub",
+        type=str,
+        help="model hub name"
+    )
+    local_parser.add_argument(
         "--config",
         type=str,
-        help="model config.yml filepath",
-        default="config.yml"
+        help="model config.yml filepath"
     )
     local_parser.add_argument(
         "--checkpoint",
@@ -88,28 +64,28 @@ def parse_args() -> argparse.Namespace:
 
 
 def create_model(config_path: str, checkpoint_path: str, gpu_num: int) -> tuple[CfgNode, torch.nn.Module]:
-    # load model config
-    try:
-        cfg = parser.load_config(parser.parse_args(), config_path)
-    except FileNotFoundError:
-        checkpoint = torch.load(
-            checkpoint_path, map_location=torch.device("cpu"))
-        with open(config_path, "w") as file:
-            file.write(checkpoint["cfg"])
-        cfg = parser.load_config(parser.parse_args(), config_path)
-    cfg.NUM_GPUS = gpu_num
-    cfg.OUTPUT_DIR = ""
-    model = build.build_model(cfg)
+    # check params
+    assert config_path is not None
+    assert checkpoint_path is not None
+    assert gpu_num >= 0
 
-    # set random seeds
+    # load config
+    cfg = load_config(config_path)
+    cfg.NUM_GPUS = gpu_num
+
+    # set random seed
+    random.seed(cfg.RNG_SEED)
     np.random.seed(cfg.RNG_SEED)
     torch.manual_seed(cfg.RNG_SEED)
+    torch.use_deterministic_algorithms(True)
 
-    # load model checkpoint
-    cu.load_checkpoint(checkpoint_path, model, data_parallel=False)
-
-    # set model to eval mode
+    # load model
+    model = build_model(cfg)
+    checkpoint = torch.load(checkpoint_path, weights_only=True,
+                            map_location=torch.device("cpu"))
+    model.load_state_dict(checkpoint["model_state"])
     model.eval()
+
     return cfg, model
 
 
@@ -164,6 +140,8 @@ def annotate_miniscene(cfg: CfgNode, model: torch.nn.Module,
                     inputs = inputs.cuda(non_blocking=True)
 
             preds = model(inputs)
+            if frame == 1:
+                print(preds)
             preds = preds.detach()
 
             if cfg.NUM_GPUS:
@@ -180,10 +158,47 @@ def annotate_miniscene(cfg: CfgNode, model: torch.nn.Module,
     pd.DataFrame(label_data).to_csv(output_path, sep=" ", index=False)
 
 
+def download_model(args) -> None:
+    # download checkpoint from huggingface
+    args.checkpoint = get_cached_datafile(args.hub, args.checkpoint)
+    checkpoint_folder = args.checkpoint.rsplit("/", 1)[0]
+
+    # extract checkpoint archive
+    if args.checkpoint.rsplit(".", 1)[-1] == "zip":
+        with ZipFile(args.checkpoint, "r") as zip_ref:
+            zip_ref.extractall(checkpoint_folder)
+        args.checkpoint = args.checkpoint.rsplit(".", 1)[0]
+
+    # download config from huggingface
+    if args.config:
+        args.config = get_cached_datafile(args.hub, args.config)
+
+
+def extract_config(args) -> None:
+    # extract config from checkpoint
+    if len(args.checkpoint.rsplit("/", 1)) > 1:
+        checkpoint_folder = args.checkpoint.rsplit("/", 1)[0]
+    else:
+        checkpoint_folder = "."
+
+    checkpoint = torch.load(args.checkpoint,
+                            map_location=torch.device("cpu"),
+                            weights_only=True)
+    config_path = f"{checkpoint_folder}/config.yml"
+    with open(config_path, "w", encoding="utf-8") as file:
+        file.write(checkpoint["cfg"])
+    args.config = config_path
+
+
 def main() -> None:
-    # clear arguments to avoid slowfast parsing issues
     args = parse_args()
-    sys.argv = [sys.argv[0]]
+
+    if args.hub:
+        download_model(args)
+
+    if not args.config:
+        extract_config(args)
+
     cfg, model = create_model(args.config, args.checkpoint, args.gpu_num)
     annotate_miniscene(cfg, model, args.miniscene,
                        args.video, args.output)
