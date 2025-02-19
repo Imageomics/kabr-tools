@@ -60,8 +60,19 @@ def same_path(path1, path2):
     return Path(path1).resolve() == Path(path2).resolve()
 
 
-def csv_equal(path1, path2):
+def csv_equal(path1, path2, acceptable_diff=None):
     df1 = pd.read_csv(path1, sep=" ")
     df2 = pd.read_csv(path2, sep=" ")
 
-    return df1.equals(df2)
+    if not acceptable_diff:
+        acceptable_diff = []
+
+    if not df1.index.equals(df2.index):
+        return False
+
+    diffs = []
+    for ind in df1.index:
+        if not df1.loc[ind].equals(df2.loc[ind]):
+            diffs.append(ind)
+
+    return df1.equals(df2) or set(diffs).issubset(acceptable_diff)
