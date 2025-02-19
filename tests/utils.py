@@ -64,4 +64,7 @@ def csv_equal(path1, path2):
     df1 = pd.read_csv(path1, sep=" ")
     df2 = pd.read_csv(path2, sep=" ")
 
+    print(df1)
+    print(df2)
+
     return df1.equals(df2)
