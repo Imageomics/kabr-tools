@@ -1,14 +1,5 @@
 import numpy as np
-import torch
-
-from torch.nn.modules.container import Sequential
 from ultralytics import YOLO
-from ultralytics.nn.tasks import DetectionModel
-from ultralytics.nn.modules import Conv
-
-torch.serialization.add_safe_globals([Sequential])
-torch.serialization.add_safe_globals([DetectionModel])
-torch.serialization.add_safe_globals([Conv])
 
 class YOLOv8:
     def __init__(self, weights="yolov8x.pt", imgsz=640, conf=0.5):
