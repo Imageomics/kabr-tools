@@ -5,7 +5,6 @@
 # simplify build_model from https://github.com/facebookresearch/SlowFast/blob/bac7b672f40d44166a84e8c51d1a5ba367ace816/slowfast/models/build.py
 # replace slowfast imports with local imports
 
-
 import math
 import torch
 from torch import nn

@@ -5,7 +5,6 @@
 # process_cv2_inputs from https://github.com/facebookresearch/SlowFast/blob/bac7b672f40d44166a84e8c51d1a5ba367ace816/slowfast/visualization/utils.py
 # get_input_clip from https://github.com/facebookresearch/SlowFast/blob/bac7b672f40d44166a84e8c51d1a5ba367ace816/slowfast/visualization/ava_demo_precomputed_boxes.py
 
-
 import math
 import cv2
 import torch

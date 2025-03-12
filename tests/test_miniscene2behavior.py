@@ -301,7 +301,18 @@ class TestMiniscene2Behavior(unittest.TestCase):
         df = pd.read_csv(self.output, sep=' ')
         self.assertEqual(list(df.columns), [
                          "video", "track", "frame", "label"])
-        self.assertGreater(len(df.index), 0)
+        row_ct = 0
+
+        root = etree.parse(
+            f"{miniscene_dir}/metadata/DJI_tracks.xml").getroot()
+        for track in root.iterfind("track"):
+            track_id = int(track.get("id"))
+            for box in track.iterfind("box"):
+                row_val = [video_name, track_id, int(box.get("frame")), 98]
+                self.assertEqual(list(df.loc[row_ct]), row_val)
+                row_ct += 1
+        self.assertEqual(len(df.index), row_ct)
+
 
     @patch('kabr_tools.miniscene2behavior.get_input_clip')
     @patch('kabr_tools.miniscene2behavior.cv2.VideoCapture')
