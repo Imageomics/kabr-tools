@@ -1284,16 +1284,10 @@ def assert_and_infer_cfg(cfg):
 
 
 def get_cfg():
-    """
-    Get a copy of the default config.
-    """
     return _C.clone()
 
 
 def load_config(path_to_config=None):
-    """
-    Given the arguemnts, load and initialize the configs.
-    """
     # Setup cfg.
     cfg = get_cfg()
 
