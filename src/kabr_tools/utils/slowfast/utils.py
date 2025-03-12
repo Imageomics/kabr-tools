@@ -1,5 +1,10 @@
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
 # https://github.com/facebookresearch/SlowFast/blob/bac7b672f40d44166a84e8c51d1a5ba367ace816/slowfast/visualization/ava_demo_precomputed_boxes.py
+# get_sequence, pack_pathway_output, tensor_normalize from https://github.com/facebookresearch/SlowFast/blob/bac7b672f40d44166a84e8c51d1a5ba367ace816/slowfast/datasets/utils.py
+# scale from https://github.com/facebookresearch/SlowFast/blob/bac7b672f40d44166a84e8c51d1a5ba367ace816/slowfast/datasets/cv2_transform.py
+# process_cv2_inputs from https://github.com/facebookresearch/SlowFast/blob/bac7b672f40d44166a84e8c51d1a5ba367ace816/slowfast/visualization/utils.py
+# get_input_clip from https://github.com/facebookresearch/SlowFast/blob/bac7b672f40d44166a84e8c51d1a5ba367ace816/slowfast/visualization/ava_demo_precomputed_boxes.py
+
 
 import math
 import cv2
@@ -90,7 +95,6 @@ def pack_pathway_output(cfg, frames):
 
 
 def get_input_clip(cap: cv2.VideoCapture, cfg, keyframe_idx: int) -> list[Tensor]:
-
     seq_length = cfg.DATA.NUM_FRAMES * cfg.DATA.SAMPLING_RATE
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     seq = get_sequence(

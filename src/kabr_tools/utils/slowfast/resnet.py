@@ -1,4 +1,8 @@
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
+# drop_path from https://github.com/facebookresearch/SlowFast/blob/bac7b672f40d44166a84e8c51d1a5ba367ace816/slowfast/models/common.py
+# Nonlocal from https://github.com/facebookresearch/SlowFast/blob/bac7b672f40d44166a84e8c51d1a5ba367ace816/slowfast/models/nonlocal_helper.py
+# SE, Swish from https://github.com/facebookresearch/SlowFast/blob/bac7b672f40d44166a84e8c51d1a5ba367ace816/slowfast/models/operators.py
+# remaining code from https://github.com/facebookresearch/SlowFast/blob/bac7b672f40d44166a84e8c51d1a5ba367ace816/slowfast/models/resnet_helper.py without slowfast imports
 
 """Video models."""
 

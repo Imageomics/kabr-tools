@@ -1,24 +1,33 @@
-import sys
 import argparse
 import random
+from zipfile import ZipFile
 import torch
 from lxml import etree
 import numpy as np
 import pandas as pd
 import cv2
 from tqdm import tqdm
+from huggingface_hub import hf_hub_download
 from kabr_tools.utils.slowfast.utils import get_input_clip
 from kabr_tools.utils.slowfast.cfg import load_config, CfgNode
 from kabr_tools.utils.slowfast.x3d import build_model
 
 
+def get_cached_datafile(repo_id: str, filename: str):
+    return hf_hub_download(repo_id=repo_id, filename=filename)
+
+
 def parse_args() -> argparse.Namespace:
     local_parser = argparse.ArgumentParser()
     local_parser.add_argument(
+        "--hub",
+        type=str,
+        help="model hub name"
+    )
+    local_parser.add_argument(
         "--config",
         type=str,
-        help="model config.yml filepath",
-        default="config.yml"
+        help="model config.yml filepath"
     )
     local_parser.add_argument(
         "--checkpoint",
@@ -66,19 +75,17 @@ def set_seeds(seed):
 
 
 def create_slowfast(config_path: str, checkpoint_path: str, gpu_num: int) -> tuple[CfgNode, torch.nn.Module]:
+    # check params
+    assert config_path is not None
+    assert checkpoint_path is not None
+    assert gpu_num >= 0
+    
     import slowfast.utils.checkpoint as cu
     from slowfast.models import build
     from slowfast.utils import parser
 
     # load model config
-    try:
-        cfg = parser.load_config(parser.parse_args(), config_path)
-    except FileNotFoundError:
-        checkpoint = torch.load(
-            checkpoint_path, map_location=torch.device("cpu"))
-        with open(config_path, "w", encoding="utf-8") as file:
-            file.write(checkpoint["cfg"])
-        cfg = parser.load_config(parser.parse_args(), config_path)
+    cfg = parser.load_config(parser.parse_args(), config_path)
     cfg.NUM_GPUS = gpu_num
     cfg.OUTPUT_DIR = ""
 
@@ -88,34 +95,31 @@ def create_slowfast(config_path: str, checkpoint_path: str, gpu_num: int) -> tup
     # load model checkpoint
     model = build.build_model(cfg)
     cu.load_checkpoint(checkpoint_path, model, data_parallel=False)
-
+    
     # set model to eval mode
     model.eval()
     return cfg, model
 
-
 def create_model(config_path: str, checkpoint_path: str, gpu_num: int) -> tuple[CfgNode, torch.nn.Module]:
-    # load model checkpoint
-    checkpoint = torch.load(checkpoint_path, weights_only=True,
-                            map_location=torch.device("cpu"))
+    # check params
+    assert config_path is not None
+    assert checkpoint_path is not None
+    assert gpu_num >= 0
 
-    # load model config
-    try:
-        cfg = load_config(config_path)
-    except FileNotFoundError:
-        with open(config_path, "w", encoding="utf-8") as file:
-            file.write(checkpoint["cfg"])
-        cfg = load_config(config_path)
+    # load config
+    cfg = load_config(config_path)
     cfg.NUM_GPUS = gpu_num
     cfg.OUTPUT_DIR = ""
 
-    # set random seeds
+    # set random seed
     set_seeds(cfg.RNG_SEED)
 
     # load model
     model = build_model(cfg)
+    checkpoint = torch.load(checkpoint_path, weights_only=True,
+                            map_location=torch.device("cpu"))
     model.load_state_dict(checkpoint["model_state"])
-
+    
     # set model to eval mode
     model.eval()
     return cfg, model
@@ -155,7 +159,7 @@ def annotate_miniscene(cfg: CfgNode, model: torch.nn.Module,
         video_file = f"{miniscene_path}/{track}.mp4"
         cap = cv2.VideoCapture(video_file)
         index = 0
-        for frame in tqdm(frames[track], desc=f'{track} frames'):
+        for frame in tqdm(frames[track], desc=f"{track} frames"):
             try:
                 inputs = get_input_clip(cap, cfg, index)
             except AssertionError as e:
@@ -172,6 +176,8 @@ def annotate_miniscene(cfg: CfgNode, model: torch.nn.Module,
                     inputs = inputs.cuda(non_blocking=True)
 
             preds = model(inputs)
+            if frame == 1:
+                print(preds)
             preds = preds.detach()
 
             if cfg.NUM_GPUS:
@@ -188,10 +194,47 @@ def annotate_miniscene(cfg: CfgNode, model: torch.nn.Module,
     pd.DataFrame(label_data).to_csv(output_path, sep=" ", index=False)
 
 
+def download_model(args) -> None:
+    # download checkpoint from huggingface
+    args.checkpoint = get_cached_datafile(args.hub, args.checkpoint)
+    checkpoint_folder = args.checkpoint.rsplit("/", 1)[0]
+
+    # extract checkpoint archive
+    if args.checkpoint.rsplit(".", 1)[-1] == "zip":
+        with ZipFile(args.checkpoint, "r") as zip_ref:
+            zip_ref.extractall(checkpoint_folder)
+        args.checkpoint = args.checkpoint.rsplit(".", 1)[0]
+
+    # download config from huggingface
+    if args.config:
+        args.config = get_cached_datafile(args.hub, args.config)
+
+
+def extract_config(args) -> None:
+    # extract config from checkpoint
+    if len(args.checkpoint.rsplit("/", 1)) > 1:
+        checkpoint_folder = args.checkpoint.rsplit("/", 1)[0]
+    else:
+        checkpoint_folder = "."
+
+    checkpoint = torch.load(args.checkpoint,
+                            map_location=torch.device("cpu"),
+                            weights_only=True)
+    config_path = f"{checkpoint_folder}/config.yml"
+    with open(config_path, "w", encoding="utf-8") as file:
+        file.write(checkpoint["cfg"])
+    args.config = config_path
+
+
 def main() -> None:
-    # clear arguments to avoid slowfast parsing issues
     args = parse_args()
     sys.argv = [sys.argv[0]]
+    
+    if args.hub:
+        download_model(args)
+
+    if not args.config:
+        extract_config(args)
 
     # load model
     if not args.slowfast:

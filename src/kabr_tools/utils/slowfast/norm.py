@@ -1,4 +1,5 @@
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
+# code from https://github.com/facebookresearch/SlowFast/blob/bac7b672f40d44166a84e8c51d1a5ba367ace816/slowfast/models/batchnorm_helper.py with unused import (NaiveSyncBatchNorm1d) removed
 
 """BatchNorm (BN) utility functions and custom batch-size BN implementations"""
 
