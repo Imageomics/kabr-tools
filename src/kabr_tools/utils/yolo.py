@@ -1,7 +1,6 @@
 import numpy as np
 from ultralytics import YOLO
 
-
 class YOLOv8:
     def __init__(self, weights="yolov8x.pt", imgsz=640, conf=0.5):
         self.conf = conf
