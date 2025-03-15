@@ -91,6 +91,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.gpu_num = "1"
         self.output = "DJI_0068.csv"
         self.example = "tests/examples"
+        self.patch_index = [1]
 
     def tearDown(self):
         # delete output
@@ -119,7 +120,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.assertTrue(file_exists(checkpoint_path))
 
         # check output
-        self.assertTrue(csv_equal(self.output, f"{self.example}/{self.output}"))
+        self.assertTrue(csv_equal(self.output, f"{self.example}/{self.output}", self.patch_index))
 
     @patch("kabr_tools.miniscene2behavior.create_model")
     def test_hub_checkpoint(self, create_mock):
@@ -149,7 +150,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
                          config_path.replace(download_folder, ""))
 
         # check output
-        self.assertTrue(csv_equal(self.output, f"{self.example}/{self.output}"))
+        self.assertTrue(csv_equal(self.output, f"{self.example}/{self.output}", self.patch_index))
 
     @patch("kabr_tools.miniscene2behavior.create_model")
     def test_hub_checkpoint_config(self, create_mock):
@@ -180,7 +181,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
                          config_path.replace(download_folder, ""))
 
         # check output
-        self.assertTrue(csv_equal(self.output, f"{self.example}/{self.output}"))
+        self.assertTrue(csv_equal(self.output, f"{self.example}/{self.output}", self.patch_index))
 
     @patch("kabr_tools.miniscene2behavior.create_model")
     def test_local_checkpoint(self, create_mock):
@@ -207,7 +208,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.assertTrue(same_path(self.config, config_path))
 
         # check output
-        self.assertTrue(csv_equal(self.output, f"{self.example}/{self.output}"))
+        self.assertTrue(csv_equal(self.output, f"{self.example}/{self.output}", self.patch_index))
 
     @patch("kabr_tools.miniscene2behavior.create_model")
     def test_local_checkpoint_config(self, create_mock):
@@ -245,7 +246,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.assertTrue(same_path(self.config, config_path))
 
         # check output
-        self.assertTrue(csv_equal(self.output, f"{self.example}/{self.output}"))
+        self.assertTrue(csv_equal(self.output, f"{self.example}/{self.output}", self.patch_index))
 
     def test_no_checkpoint(self):
         # annotate mini-scenes
