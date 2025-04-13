@@ -1,5 +1,6 @@
 import argparse
 import random
+import sys
 from zipfile import ZipFile
 import torch
 from lxml import etree
