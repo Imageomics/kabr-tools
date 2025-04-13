@@ -1,5 +1,6 @@
 import argparse
 import random
+import sys
 from zipfile import ZipFile
 import torch
 from lxml import etree
@@ -59,9 +60,46 @@ def parse_args() -> argparse.Namespace:
         help="filepath for output csv",
         default="annotation_data.csv"
     )
+    local_parser.add_argument(
+        "--slowfast",
+        action="store_true",
+        help="load slowfast model"
+    )
 
     return local_parser.parse_args()
 
+
+def set_seeds(seed):
+    np.random.seed(seed)
+    random.seed(seed)
+    torch.manual_seed(seed)
+
+
+def create_slowfast(config_path: str, checkpoint_path: str, gpu_num: int) -> tuple[CfgNode, torch.nn.Module]:
+    # check params
+    assert config_path is not None
+    assert checkpoint_path is not None
+    assert gpu_num >= 0
+    
+    import slowfast.utils.checkpoint as cu
+    from slowfast.models import build
+    from slowfast.utils import parser
+
+    # load model config
+    cfg = parser.load_config(parser.parse_args(), config_path)
+    cfg.NUM_GPUS = gpu_num
+    cfg.OUTPUT_DIR = ""
+
+    # set random seeds
+    set_seeds(cfg.RNG_SEED)
+
+    # load model checkpoint
+    model = build.build_model(cfg)
+    cu.load_checkpoint(checkpoint_path, model, data_parallel=False)
+    
+    # set model to eval mode
+    model.eval()
+    return cfg, model
 
 def create_model(config_path: str, checkpoint_path: str, gpu_num: int) -> tuple[CfgNode, torch.nn.Module]:
     # check params
@@ -72,20 +110,19 @@ def create_model(config_path: str, checkpoint_path: str, gpu_num: int) -> tuple[
     # load config
     cfg = load_config(config_path)
     cfg.NUM_GPUS = gpu_num
+    cfg.OUTPUT_DIR = ""
 
     # set random seed
-    random.seed(cfg.RNG_SEED)
-    np.random.seed(cfg.RNG_SEED)
-    torch.manual_seed(cfg.RNG_SEED)
-    torch.use_deterministic_algorithms(True)
+    set_seeds(cfg.RNG_SEED)
 
     # load model
     model = build_model(cfg)
     checkpoint = torch.load(checkpoint_path, weights_only=True,
                             map_location=torch.device("cpu"))
     model.load_state_dict(checkpoint["model_state"])
+    
+    # set model to eval mode
     model.eval()
-
     return cfg, model
 
 
@@ -192,14 +229,22 @@ def extract_config(args) -> None:
 
 def main() -> None:
     args = parse_args()
-
+    sys.argv = [sys.argv[0]]
+    
     if args.hub:
         download_model(args)
 
     if not args.config:
         extract_config(args)
 
-    cfg, model = create_model(args.config, args.checkpoint, args.gpu_num)
+    # load model
+    if not args.slowfast:
+        cfg, model = create_model(args.config, args.checkpoint, args.gpu_num)
+    else:
+        cfg, model = create_slowfast(
+            args.config, args.checkpoint, args.gpu_num)
+
+    # annotate
     annotate_miniscene(cfg, model, args.miniscene,
                        args.video, args.output)
 

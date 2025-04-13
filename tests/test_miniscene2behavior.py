@@ -314,6 +314,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
                 row_ct += 1
         self.assertEqual(len(df.index), row_ct)
 
+
     @patch('kabr_tools.utils.slowfast.utils.process_cv2_inputs')
     @patch('kabr_tools.utils.slowfast.utils.cv2.VideoCapture')
     def test_nonmatching_tracks(self, video_capture, process_cv2_inputs):

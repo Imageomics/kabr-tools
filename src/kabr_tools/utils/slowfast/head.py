@@ -111,7 +111,8 @@ class X3DHead(nn.Module):
             self.act = nn.Sigmoid()
         else:
             raise NotImplementedError(
-                "{} is not supported as an activation" "function.".format(self.act_func)
+                "{} is not supported as an activation" "function.".format(
+                    self.act_func)
             )
 
     def forward(self, inputs):
