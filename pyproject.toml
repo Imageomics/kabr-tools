@@ -68,3 +68,9 @@ miniscene2behavior = "kabr_tools.miniscene2behavior:main"
 
 [tool.hatch.version]
 path = "src/kabr_tools/__about__.py"
+
+[project.optional-dependencies]
+slowfast = [
+    "detectron2 @ git+https://github.com/facebookresearch/detectron2.git@2a420edb307c9bdf640f036d3b196bed474b8593",
+    "slowfast @ git+https://github.com/Imageomics/SlowFast@797a6f3ae81c49019d006296f1e0f84f431dc356"
+]

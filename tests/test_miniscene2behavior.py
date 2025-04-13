@@ -265,9 +265,9 @@ class TestMiniscene2Behavior(unittest.TestCase):
 
 # output tracks
 
-    @patch('kabr_tools.utils.slowfast.utils.process_cv2_inputs')
+    @patch('kabr_tools.utils.slowfast.utils.get_input_clip')
     @patch('kabr_tools.utils.slowfast.utils.cv2.VideoCapture')
-    def test_matching_tracks(self, video_capture, process_cv2_inputs):
+    def test_matching_tracks(self, video_capture, get_input_clip):
         # create fake model that weights class 98
         mock_model = Mock()
         prob = torch.zeros(99)
@@ -314,9 +314,10 @@ class TestMiniscene2Behavior(unittest.TestCase):
                 row_ct += 1
         self.assertEqual(len(df.index), row_ct)
 
-    @patch('kabr_tools.utils.slowfast.utils.process_cv2_inputs')
-    @patch('kabr_tools.utils.slowfast.utils.cv2.VideoCapture')
-    def test_nonmatching_tracks(self, video_capture, process_cv2_inputs):
+
+    @patch('kabr_tools.miniscene2behavior.get_input_clip')
+    @patch('kabr_tools.miniscene2behavior.cv2.VideoCapture')
+    def test_nonmatching_tracks(self, video_capture, get_input_clip):
 
         # Create fake model that always returns a prediction of 1
         mock_model = Mock()
