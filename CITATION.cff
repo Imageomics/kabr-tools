@@ -12,14 +12,14 @@ authors:
   given-names: Elizabeth
   orcid: "https://orcid.org/0000-0003-0846-2413"
 cff-version: 1.2.0
-date-released: "2025-05-123
+date-released: "2025-06-17"
 identifiers:
-  - description: "The GitHub release URL of tag v1.2.0."
+  - description: "The GitHub release URL of tag v2.0.0."
     type: url
-    value: "https://github.com/Imageomics/kabr-tools/releases/tag/v1.2.0"
-  - description: "The GitHub URL of the commit tagged with v1.2.0."
+    value: "https://github.com/Imageomics/kabr-tools/releases/tag/v2.0.0"
+  - description: "The GitHub URL of the commit tagged with v2.0.0."
     type: url
-    value: "https://github.com/Imageomics/kabr-tools/tree/a413f68256c7c41ac52dc8e27ebd7f6c9f6efcc0"
+    value: "https://github.com/Imageomics/kabr-tools/tree/ " # add commit hash on release
 keywords:
   - imageomics
   - zebra
@@ -43,18 +43,9 @@ license: MIT
 message: "If you use this software, please cite it using these metadata."
 repository-code: "https://github.com/Imageomics/kabr-tools"
 title: "KABR Tools"
-version: 1.2.0
-doi: 
+version: 2.0.0
+doi: 10.5281/zenodo.11288083
 type: software
-preferred-citation:
-  type: software
-  authors:
-    - family-names: Kholiavchenko 
-      given-names: Maksim
-      orcid: "https://orcid.org/0000-0001-6757-1957"
-    - family-names: Kline
-      given-names: Jenna
-      orcid: "https://orcid.org/0009-0006-7301-5774"
     - family-names: Zhong
       given-names: Alison
     - family-names: Campolongo
