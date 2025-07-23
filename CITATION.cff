@@ -46,12 +46,3 @@ title: "KABR Tools"
 version: 2.0.0
 doi: 10.5281/zenodo.11288083
 type: software
-    - family-names: Zhong
-      given-names: Alison
-    - family-names: Campolongo
-      given-names: Elizabeth
-  title: "KABR Tools"
-  year: 2025
-  version: 1.2.0
-  repository-code: "https://github.com/Imageomics/kabr-tools"
- 
