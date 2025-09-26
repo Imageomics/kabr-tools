@@ -12,14 +12,14 @@ authors:
   given-names: Elizabeth
   orcid: "https://orcid.org/0000-0003-0846-2413"
 cff-version: 1.2.0
-date-released: "2025-06-17"
+date-released: "2025-09-26"
 identifiers:
-  - description: "The GitHub release URL of tag v2.0.0."
+  - description: "The GitHub release URL of tag v2.0.1."
     type: url
-    value: "https://github.com/Imageomics/kabr-tools/releases/tag/v2.0.0"
-  - description: "The GitHub URL of the commit tagged with v2.0.0."
+    value: "https://github.com/Imageomics/kabr-tools/releases/tag/v2.0.1"
+  - description: "The GitHub URL of the commit tagged with v2.0.1."
     type: url
-    value: "https://github.com/Imageomics/kabr-tools/tree/149b66d15fb73c5678fad1c096bc577b5dcbd346"
+    value: "https://github.com/Imageomics/kabr-tools/tree/<commit-hash>" # update on release
 keywords:
   - imageomics
   - zebra
@@ -43,6 +43,6 @@ license: MIT
 message: "If you use this software, please cite it using these metadata."
 repository-code: "https://github.com/Imageomics/kabr-tools"
 title: "KABR Tools"
-version: 2.0.0
+version: 2.0.1
 doi: 10.5281/zenodo.11288083
 type: software
