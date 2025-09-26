@@ -1,0 +1,53 @@
+{
+    "creators": [
+      {
+          "name": "Kline, Jenna",
+          "orcid": "0009-0006-7301-5774",
+          "affiliation": "The Ohio State University"
+      },
+      {
+          "name": "Zhong, Alison",
+          "affiliation": "The Ohio State University"
+      },
+      {
+            "name": "Kholiavchenko, Maksim",
+            "orcid": "0000-0001-6757-1957",
+            "affiliation": "Rensselaer Polytechnic Institute"
+      },
+      {
+          "name": "Campolongo, Elizabeth",
+          "orcid": "0000-0003-0846-2413",
+          "affiliation": "The Ohio State University"
+      }
+    ],
+    "description": "Tools for working with data for annotating animal behavior. These were specifically designed during construction of the KABR dataset.",
+    "keywords": [
+      "imageomics",
+      "zebra",
+      "giraffe",
+      "plains zebra",
+      "Grevy's zebra",
+      "video",
+      "animal behavior",
+      "behavior recognition",
+      "annotation",
+      "annotated video",
+      "conservation",
+      "drone",
+      "UAV",
+      "imbalanced",
+      "Kenya",
+      "Mpala Research Centre",
+      "CVAT",
+      "SlowFast"
+    ],
+    "title": "KABR Tools",
+    "version": "2.0.1",
+    "license": "CC0-1.0",
+    "publication_date": "2025-09-26",
+    "grants": [
+        {
+            "id": "021nxhr62::2118240"
+        }
+    ] 
+}
