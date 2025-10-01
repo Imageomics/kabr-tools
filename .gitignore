@@ -177,6 +177,7 @@ cython_debug/
 # Mac System
 .DS_Store
 
+# Review these for redundancy/excessiveness
 # Tool output
 *.json
 *.xml
@@ -192,27 +193,21 @@ cython_debug/
 *.yml
 !mkdocs.yml
 
-
-helper_scripts/mini-scenes
-
-/methodology_comparison/notes.md
-
 # data files
 *.xml
 _hugging_face
 _hugging_face
 _hugging_face/*
 
-
-methodology_comparison/kabr_dataset/*
+# Allow CSV files intended to be in docs, ignore one not to include
+!docs/**/*.csv
+docs/methodology_comparison/kabr_dataset/data/consolidated_metadata.csv
 
 helper_scripts/mini-scenes
 
 /methodology_comparison/notes.md
 
 scratchpad*
-
-methodology_comparison/kabr_dataset/data/consolidated_metadata.csv
 
 /kabr-tools/*
 
