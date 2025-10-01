@@ -118,4 +118,4 @@ Open issues on [GitHub](https://github.com/Imageomics/kabr-tools/issues).
 
 This project is licensed under the [MIT License](LICENSE).
 
-![](docs/images/zebras_boxes.gif)
+![](docs/images/zebras_boxes.webp)
