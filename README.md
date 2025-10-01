@@ -67,19 +67,19 @@ Each script can be run via command-line (`<tool-name> -h`) or imported as a modu
 
 ## Documentation
 
-- [User Guide](docs/pipeline.md)
-- [Worked Example](docs/worked_example.md)
-- [CVAT User Guide](https://github.com/Imageomics/kabr-tools/wiki/CVAT-User-Guide)
-- [Data Management Tips](https://github.com/Imageomics/kabr-tools/wiki/Data-Management-Tips)
+- [User Guide](https://imageomics.github.io/kabr-tools/pipeline/overview)
+- [Worked Example](https://imageomics.github.io/kabr-tools/pipeline/worked-example/)
+- [CVAT User Guide](https://imageomics.github.io/kabr-tools/cvat/cvat-guide/)
+- [Data Management Tips](https://imageomics.github.io/kabr-tools/cvat/cvat-data-management/)
 
 ## Methodology Comparison and Case Studies
 
-####  See [docs/methodology_comparison.md](docs/methodology_comparison.md) for a detailed comparison of different methods for animal behavior analysis, including:
+####  See [Methodology Comparison](https://imageomics.github.io/kabr-tools/methodology_comparison/overview/) for a detailed comparison of different methods for animal behavior analysis, including:
 - Focal sampling
 - Scan sampling
 - Drone-based video analysis
 
-#### See [docs/case_studies.md](docs/case_studies.md) for case studies demonstrating the application of kabr-tools in various ecological contexts, including:
+#### See [Case Studies](https://imageomics.github.io/kabr-tools/case_studies/overview/) for case studies demonstrating the application of kabr-tools in various ecological contexts, including:
 - Grevy's zebra time budgets
 - Mixed-species social interactions
 
@@ -104,7 +104,7 @@ If you use this toolkit in your research, please cite:
   author = {Kline, Jenna and Zhong, Alison and Campolongo, Elizabeth and Kholiavchenko, Maksim},
   title = {kabr-tools: Tools for annotating animal behavior in drone videos},
   version = {3.0.0},
-  year = {2024},
+  year = {2025},
   doi = {10.5281/zenodo.11288083},
   url = {https://github.com/Imageomics/kabr-tools}
 }
