@@ -12,14 +12,19 @@ permissions:
   contents: write
   pages: write
 
-concurrency:
-  group: pages
-  cancel-in-progress: true
-
 jobs:
   build:
-    if: github.event_name != 'pull_request' || github.event.action != 'closed'
+    # Run for push, workflow dispatch, PRs from SAME repo that are not closed
+    if: |
+      github.event_name == 'push' ||
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'pull_request' &&
+       github.event.pull_request.head.repo.fork == false &&
+       github.event.action != 'closed')
     runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
     steps:
       - uses: actions/checkout@v4
         with:
@@ -41,15 +46,16 @@ jobs:
 
   deploy:
     needs: build
-    # Deploy on:
-    # - push to main (production to root), or
-    # - pull_request (not closed) from same repo (preview to pr-<N>/)
+    # Deploy on push to main (root) or PRs from SAME repo (not closed) -> pr-<N>/
     if: |
       github.event_name == 'push' ||
       (github.event_name == 'pull_request' &&
-       github.event.action != 'closed' &&
-       github.event.pull_request.head.repo.fork == false)
+       github.event.pull_request.head.repo.fork == false &&
+       github.event.action != 'closed')
     runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
     steps:
       - name: Download built site
         uses: actions/download-artifact@v4
@@ -64,12 +70,14 @@ jobs:
           publish_branch: gh-pages
           publish_dir: ./site
           keep_files: true
-          # PRs go to gh-pages/pr-<number>/ ; pushes to main go to root
           destination_dir: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || '' }}
 
   cleanup:
-  # Just when a PR is closed (merged or without merge)
-    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    # Only when a same-repo PR closes
+    if: >
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.fork == false &&
+      github.event.action == 'closed'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout gh-pages
@@ -86,8 +94,9 @@ jobs:
       - name: Remove preview folder
         shell: bash
         run: |
-          set -e
+          set -euo pipefail
           PR_DIR="pr-${{ github.event.number }}"
+          echo "Attempting to remove $PR_DIR"
           if [ -d "$PR_DIR" ]; then
             git rm -r "$PR_DIR"
             git commit -m "Remove preview for PR #${{ github.event.number }}"
