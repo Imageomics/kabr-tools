@@ -177,11 +177,13 @@ cython_debug/
 # Mac System
 .DS_Store
 
+# Review these for redundancy/excessiveness
 # Tool output
 *.json
 *.xml
 *.jpg
 *.yaml
+!.github/workflows/*.yaml
 *.csv
 *.txt
 
@@ -189,6 +191,24 @@ cython_debug/
 *.pyth
 *.pyth.zip
 *.yml
+!mkdocs.yml
 
+# data files
+*.xml
+_hugging_face
+_hugging_face
+_hugging_face/*
+
+# Allow CSV files intended to be in docs, ignore one not to include
+!docs/**/*.csv
+docs/methodology_comparison/kabr_dataset/data/consolidated_metadata.csv
 
 helper_scripts/mini-scenes
+
+/methodology_comparison/notes.md
+
+scratchpad*
+
+/kabr-tools/*
+
+.python-version
