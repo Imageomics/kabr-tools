@@ -182,6 +182,7 @@ cython_debug/
 *.xml
 *.jpg
 *.yaml
+!.github/workflows/*.yaml
 *.csv
 *.txt
 
@@ -189,6 +190,30 @@ cython_debug/
 *.pyth
 *.pyth.zip
 *.yml
+!mkdocs.yml
 
 
 helper_scripts/mini-scenes
+
+/methodology_comparison/notes.md
+
+# data files
+*.xml
+_hugging_face
+_hugging_face
+_hugging_face/*
+
+
+methodology_comparison/kabr_dataset/*
+
+helper_scripts/mini-scenes
+
+/methodology_comparison/notes.md
+
+scratchpad*
+
+methodology_comparison/kabr_dataset/data/consolidated_metadata.csv
+
+/kabr-tools/*
+
+.python-version
