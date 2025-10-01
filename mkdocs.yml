@@ -1,0 +1,117 @@
+site_name: KABR Tools Documentation
+site_description: Tools for working with data for annotating animal behavior
+site_author: KABR Team
+site_url: https://imageomics.github.io/kabr-tools-paper
+
+repo_name: Imageomics/kabr-tools-paper
+repo_url: https://github.com/Imageomics/kabr-tools-paper
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  logo: images/logo_128.png
+  favicon: images/logo_128.png
+  palette:
+    # Palette toggle for light mode
+    - scheme: default
+      accent: amber
+      toggle:
+        icon: material/brightness-7 
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - scheme: slate
+      accent: amber
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+    - content.code.select
+    - content.tabs.link
+
+extra_css:
+  - stylesheets/extra.css
+
+plugins:
+  - search
+  - mkdocs-jupyter:
+      execute: false
+      include_source: true
+      show_input: true
+      ignore_h1_titles: true
+  - glightbox:
+      touchNavigation: true
+      loop: false
+      effect: zoom
+      slide_effect: slide
+      width: 100%
+      height: auto
+      zoomable: true
+      draggable: true
+      skip_classes:
+        - custom-skip-class-name
+      auto_caption: false
+      caption_position: bottom
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.details
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Pipeline:
+    - Overview: pipeline/overview.md
+    - Data Collection: pipeline/data-collection.md
+    - Pre-processing: pipeline/preprocessing.md
+    - Behavior Labeling: pipeline/behavior-labeling.md
+    - Analysis: pipeline/analysis.md
+    - Optional Steps: pipeline/optional-steps.md
+    - Worked Example: pipeline/worked-example.md
+  - CVAT Guide: 
+    - Setup and Usage: cvat/cvat-guide.md
+    - Data Management: cvat/cvat-data-management.md
+  - Methodology Comparisons:
+    - Overview: methodology_comparison/overview.md
+    - KABR Dataset Analysis: methodology_comparison/kabr_dataset/data_analysis.ipynb
+    - Focal Sampling vs Drone:
+      - Comparison: methodology_comparison/focalvsdrone/analysis/cm-focal-vs-drone.ipynb
+      - Gantt Charts: methodology_comparison/focalvsdrone/analysis/gantt_chart.ipynb
+      - By Species: methodology_comparison/scanvsfocal/analysis/cm-scan-vs-focal-by-species.ipynb
+  - Case Studies:
+    - Overview: case_studies/overview.md
+    - "0: Time Budget Analysis": case_studies/0_time_budget/time_budget.ipynb
+    - "1: Grevy's Landscape of Fear":
+      - "Visualizations": case_studies/1_grevys_landscape/grevys_landscape_graphs.ipynb
+      - "Linear Regression": case_studies/1_grevys_landscape/grevys_landscape_lr.ipynb
+    - "2: Zebra Behavior Transitions": case_studies/2_zebra_transition/behaviortransitionsheatmap.ipynb
+    - "3: Mixed Species Social": case_studies/3_mixed_species_social/mixed_species_overlap.ipynb
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Imageomics/kabr-tools-paper

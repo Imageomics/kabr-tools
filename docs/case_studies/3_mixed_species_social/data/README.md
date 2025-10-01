@@ -1,0 +1,1 @@
+Download data used for this case-study from the [KABR worked examples dataset on Hugging Face](https://huggingface.co/datasets/imageomics/kabr-worked-examples). Use the CSV files starting with '21_01_2023_session_5' from the [`detections/`](https://huggingface.co/datasets/imageomics/kabr-worked-examples/tree/main/detections) folder.
