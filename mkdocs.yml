@@ -110,6 +110,7 @@ nav:
       - "Linear Regression": case_studies/1_grevys_landscape/grevys_landscape_lr.ipynb
     - "2: Zebra Behavior Transitions": case_studies/2_zebra_transition/behaviortransitionsheatmap.ipynb
     - "3: Mixed Species Social": case_studies/3_mixed_species_social/mixed_species_overlap.ipynb
+  - Acknowledgements: acknowledgements.md
 
 extra:
   social:
