@@ -26,7 +26,7 @@ The KABR tools used in this process can be installed with:
 
 ```bash
 pip install torch torchvision
-pip install git+https://github.com/Imageomics/kabr-tools-paper
+pip install git+https://github.com/Imageomics/kabr-tools
 ```
 
 !!! note "PyTorch Installation"
@@ -51,14 +51,11 @@ To get started with KABR tools, follow the pipeline steps in order:
 
 ## Additional Resources
 
-- [KABR Project Page](https://kabrdata.xyz/) for additional details on the dataset and original paper
-- [KABR Dataset on Hugging Face](https://huggingface.co/datasets/imageomics/KABR)
-- [Pre-trained Models](https://huggingface.co/imageomics/x3d-kabr-kinetics)
+- [KABR Project Page](https://imageomics.github.io/KABR/) for additional details on the dataset and original paper.
+- [KABR Mini-Scene Dataset on Hugging Face](https://huggingface.co/datasets/imageomics/KABR)
+- [Pre-trained Model](https://huggingface.co/imageomics/x3d-kabr-kinetics)
+- [KABR Collection on Hugging Face](https://huggingface.co/collections/imageomics/kabr-664dff304d29e6cd7b8e1a00): All datasets and models associated to the KABR Project.
 
 ## Citation
 
-If you use KABR tools in your research, please cite our papers:
-
-- [KABR: In-Situ Dataset for Kenyan Animal Behavior Recognition from Drone Videos](https://openaccess.thecvf.com/content/WACV2024W/CV4Smalls/papers/Kholiavchenko_KABR_In-Situ_Dataset_for_Kenyan_Animal_Behavior_Recognition_From_Drone_WACVW_2024_paper.pdf)
-- [A Framework for Autonomic Computing for In Situ Imageomics](https://ieeexplore.ieee.org/abstract/document/10336017)
-- [Integrating Biological Data into Autonomous Remote Sensing Systems for In Situ Imageomics](https://arxiv.org/abs/2407.16864)
+If you use KABR tools in your research, please follow the [citation guidance in the repo](https://github.com/Imageomics/kabr-tools?tab=readme-ov-file#citation).

@@ -94,11 +94,13 @@ Please refer to our papers for details on the data collection process and machin
 - [KABR: In-Situ Dataset for Kenyan Animal Behavior Recognition](https://openaccess.thecvf.com/content/WACV2024W/CV4Smalls/papers/Kholiavchenko_KABR_In-Situ_Dataset_for_Kenyan_Animal_Behavior_Recognition_From_Drone_WACVW_2024_paper.pdf) 
 - [Deep dive into KABR: a dataset for understanding ungulate behavior from in-situ drone video](https://link.springer.com/article/10.1007/s11042-024-20512-4) 
 - [Integrating Biological Data into Autonomous Remote Sensing Systems for In Situ Imageomics: A Case Study for Kenyan Animal Behavior Sensing with Unmanned Aerial Vehicles (UAVs)](https://arxiv.org/abs/2407.16864)
+- [A Framework for Autonomic Computing for In Situ Imageomics](https://ieeexplore.ieee.org/abstract/document/10336017)
 
 ## Citation
 
-If you use this toolkit in your research, please cite:
+If you use this toolkit in your research, please cite both this package and the associated paper:
 
+**Package citation:**
 ```bibtex
 @software{kabr-tools,
   author = {Kline, Jenna and Zhong, Alison and Campolongo, Elizabeth and Kholiavchenko, Maksim},
@@ -108,6 +110,10 @@ If you use this toolkit in your research, please cite:
   doi = {10.5281/zenodo.11288083},
   url = {https://github.com/Imageomics/kabr-tools}
 }
+```
+
+**Paper citation:**
+```bibtex
 ```
 
 ## 💬 Feedback & Issues
