@@ -1,10 +1,10 @@
 site_name: KABR Tools Documentation
 site_description: Tools for working with data for annotating animal behavior
-site_author: KABR Team
-site_url: https://imageomics.github.io/kabr-tools-paper
+site_author: Imageomics KABR Team
+site_url: https://imageomics.github.io/kabr-tools
 
-repo_name: Imageomics/kabr-tools-paper
-repo_url: https://github.com/Imageomics/kabr-tools-paper
+repo_name: Imageomics/kabr-tools
+repo_url: https://github.com/Imageomics/kabr-tools
 edit_uri: edit/main/docs/
 
 theme:
@@ -114,4 +114,4 @@ nav:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/Imageomics/kabr-tools-paper
+      link: https://github.com/Imageomics/kabr-tools
