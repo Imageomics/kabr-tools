@@ -1,7 +1,5 @@
 # KABR Tools Documentation
 
-[![DOI](https://zenodo.org/badge/805519058.svg)](https://zenodo.org/doi/10.5281/zenodo.11288083)
-
 ## Overview
 
 This repository contains tools to perform animal behavioral analysis from drone videos.
@@ -26,7 +24,7 @@ The KABR tools used in this process can be installed with:
 
 ```bash
 pip install torch torchvision
-pip install git+https://github.com/Imageomics/kabr-tools-paper
+pip install git+https://github.com/Imageomics/kabr-tools
 ```
 
 !!! note "PyTorch Installation"
@@ -59,6 +57,4 @@ To get started with KABR tools, follow the pipeline steps in order:
 
 If you use KABR tools in your research, please cite our papers:
 
-- [KABR: In-Situ Dataset for Kenyan Animal Behavior Recognition from Drone Videos](https://openaccess.thecvf.com/content/WACV2024W/CV4Smalls/papers/Kholiavchenko_KABR_In-Situ_Dataset_for_Kenyan_Animal_Behavior_Recognition_From_Drone_WACVW_2024_paper.pdf)
-- [A Framework for Autonomic Computing for In Situ Imageomics](https://ieeexplore.ieee.org/abstract/document/10336017)
-- [Integrating Biological Data into Autonomous Remote Sensing Systems for In Situ Imageomics](https://arxiv.org/abs/2407.16864)
+[Removed for anonymization]
