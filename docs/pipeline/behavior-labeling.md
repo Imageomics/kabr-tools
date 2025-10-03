@@ -45,9 +45,9 @@ miniscene2behavior --config config.yml --checkpoint checkpoint_epoch_00075.pyth 
 
 ## Resources
 
-- [Pre-trained KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics) on Hugging Face
-- [Ethogram definitions](https://github.com/Imageomics/kabr-tools/tree/main/CVAT/ethogram) - Behavior classification system used for zebra videos
-- [Example annotated outputs](https://huggingface.co/imageomics/x3d-kabr-kinetics/tree/main/data/mini_scene_behavior_annotations) on Hugging Face
+- [Pre-trained KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics) on Hugging Face.
+- [Ethogram definitions](https://github.com/Imageomics/kabr-tools/tree/main/CVAT/ethogram) - Behavior classification system used for zebra videos.
+- [Example annotated outputs](https://huggingface.co/imageomics/x3d-kabr-kinetics/tree/main/data/mini_scene_behavior_annotations) on Hugging Face.
 
 ## Tool Reference
 
@@ -58,12 +58,12 @@ Source: [src/kabr_tools/miniscene2behavior.py](https://github.com/Imageomics/kab
 Apply machine learning models to classify animal behaviors from mini-scene videos.
 
 **Parameters:**
-- `--hub`: Hugging Face hub repository containing model files
-- `--config`: Path to configuration file (local or from hub)
-- `--checkpoint`: Path to model checkpoint file
-- `--gpu_num`: Number of GPUs to use (0 for CPU)
-- `--miniscene`: Path to mini-scene videos directory
-- `--output`: Path for output CSV file (optional)
+- `--hub`: Hugging Face hub repository containing model files.
+- `--config`: Path to configuration file (local or from hub).
+- `--checkpoint`: Path to model checkpoint file.
+- `--gpu_num`: Number of GPUs to use (0 for CPU).
+- `--miniscene`: Path to mini-scene videos directory.
+- `--output`: Path for output CSV file (optional).
 
 ## Next Steps
 

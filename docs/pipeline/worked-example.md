@@ -121,6 +121,3 @@ label2number = {
 ![](../images/timeline0.png)
 ![](../images/timeline1.png)
 **Figure 3:** Gantt chart for each zebra generated from time budget data (3 minute duration)
-
-
-

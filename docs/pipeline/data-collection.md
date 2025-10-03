@@ -12,28 +12,28 @@ The drone videos for the [KABR dataset](https://huggingface.co/datasets/imageomi
 
 We collaborated with expert ecologists to ensure minimal disturbance to the animals. Our approach included:
 
-- **Launch Position**: Approximately 200 meters horizontally from the animals
-- **Initial Altitude**: 30-40 meters above ground
-- **Approach Strategy**: Gradually approach the herd from the side by reducing altitude and horizontal distance
-- **Monitoring**: Continuously monitor animals for signs of vigilance
+- **Launch Position**: Approximately 200 meters horizontally from the animals.
+- **Initial Altitude**: 30-40 meters above ground.
+- **Approach Strategy**: Gradually approach the herd from the side by reducing altitude and horizontal distance.
+- **Monitoring**: Continuously monitor animals for signs of vigilance.
 
 !!! warning "Species-Specific Considerations"
     The vigilance exhibited by wildlife varies widely by species, habitat, sex, and the level to which animals may be habituated to anthropogenic noise. We recommend that you tailor your approach to your particular species and setting.
 
 ## Equipment Used
 
-- **Drone**: DJI Air 2S
-- **Flight Mode**: Manual control
-- **Recording Settings**: Standard video recording at highest available resolution
+- **Drone**: DJI Air 2S.
+- **Flight Mode**: Manual control.
+- **Recording Settings**: Standard video recording at highest available resolution.
 
 ## Data Collection Workflow
 
-1. **Site Assessment**: Scout the area and identify animal locations
-2. **Equipment Setup**: Prepare drone and check battery levels
-3. **Launch**: Deploy drone at safe distance from animals  
-4. **Approach**: Gradually move closer while monitoring animal behavior
-5. **Recording**: Capture video footage of natural behaviors
-6. **Data Management**: Safely store and backup all collected footage
+1. **Site Assessment**: Scout the area and identify animal locations.
+2. **Equipment Setup**: Prepare drone and check battery levels.
+3. **Launch**: Deploy drone at safe distance from animals.
+4. **Approach**: Gradually move closer while monitoring animal behavior.
+5. **Recording**: Capture video footage of natural behaviors.
+6. **Data Management**: Safely store and backup all collected footage.
 
 ## Publications
 

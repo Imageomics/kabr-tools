@@ -22,10 +22,10 @@ Generation of ecological insights including time budgets, behavioral transitions
 
 ## Key Features
 
-- **Modular Design**: Each step can be adapted and customized for different species and study systems
-- **Multiple Detection Options**: Support for both manual annotation and automated YOLO-based detection
-- **Machine Learning Integration**: Pre-trained models available with support for custom model training
-- **Comprehensive Analytics**: Generate multiple types of ecological metrics and visualizations
+- **Modular Design**: Each step can be adapted and customized for different species and study systems.
+- **Multiple Detection Options**: Support for both manual annotation and automated YOLO-based detection.
+- **Machine Learning Integration**: Pre-trained models available with support for custom model training.
+- **Comprehensive Analytics**: Generate multiple types of ecological metrics and visualizations.
 
 ## Getting Started
 
