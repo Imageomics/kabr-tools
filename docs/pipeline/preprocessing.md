@@ -10,8 +10,8 @@ In order to automatically label the animal videos with behavior, we must first c
 
 ## Resources
 
-- See the Wiki [CVAT User Guide](https://github.com/Imageomics/kabr-tools/wiki/CVAT-User-Guide) and [Data Management Tips](https://github.com/Imageomics/kabr-tools/wiki/Data-Management-Tips) for detailed instructions and recommendations
-- View example mini-scenes at [data/mini_scenes](https://huggingface.co/imageomics/x3d-kabr-kinetics/tree/main/data/mini_scenes) on Hugging Face
+- See the [CVAT User Guide](../cvat/cvat-guide.md) and [Data Management Tips](../cvat/cvat-data-management.md) for detailed instructions and recommendations.
+- View example mini-scenes at [data/mini_scenes](https://huggingface.co/imageomics/x3d-kabr-kinetics/tree/main/data/mini_scenes) on Hugging Face.
 
 ## Step 2A: Perform Detections to Create Tracks
 

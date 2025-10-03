@@ -86,10 +86,10 @@ nav:
   - Home: index.md
   - Pipeline:
     - Overview: pipeline/overview.md
-    - Data Collection: pipeline/data-collection.md
-    - Pre-processing: pipeline/preprocessing.md
+    - Video Data Collection: pipeline/data-collection.md
+    - Pre-processing with CVAT: pipeline/preprocessing.md
     - Behavior Labeling: pipeline/behavior-labeling.md
-    - Analysis: pipeline/analysis.md
+    - Ecological Analysis: pipeline/analysis.md
     - Optional Steps: pipeline/optional-steps.md
     - Worked Example: pipeline/worked-example.md
   - CVAT Guide: 
