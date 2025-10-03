@@ -498,7 +498,7 @@
   
   
   <span class="md-ellipsis">
-    Data Collection
+    Video Data Collection
     
   </span>
   
@@ -521,7 +521,7 @@
   
   
   <span class="md-ellipsis">
-    Pre-processing
+    Pre-processing with CVAT
     
   </span>
   
@@ -567,7 +567,7 @@
   
   
   <span class="md-ellipsis">
-    Analysis
+    Ecological Analysis
     
   </span>
   
@@ -1630,52 +1630,52 @@
 <h3 id="annotate-mini-scenes">Annotate Mini-scenes<a class="headerlink" href="#annotate-mini-scenes" title="Permanent link">¶</a></h3>
 <p>Scripts for batch processing and annotation of mini-scenes:</p>
 <ul>
-<li><strong><a href="../../helper_scripts/annotate_mini_scenes/launch_job.py">launch_job.py</a></strong> - Job launcher for batch processing</li>
-<li><strong><a href="../../helper_scripts/annotate_mini_scenes/run.sh">run.sh</a></strong> - Shell script for running annotation tasks</li>
+<li><strong><a href="../../helper_scripts/annotate_mini_scenes/launch_job.py">launch_job.py</a></strong> - Job launcher for batch processing.</li>
+<li><strong><a href="../../helper_scripts/annotate_mini_scenes/run.sh">run.sh</a></strong> - Shell script for running annotation tasks.</li>
 </ul>
 <p>See <a href="../../helper_scripts/annotate_mini_scenes/README.md">README</a> for detailed usage instructions.</p>
 <h3 id="video-processing-utilities">Video Processing Utilities<a class="headerlink" href="#video-processing-utilities" title="Permanent link">¶</a></h3>
 <ul>
-<li><strong><a href="../../helper_scripts/downgrade.sh">downgrade.sh</a></strong> - Reduce video file sizes for CVAT compatibility</li>
-<li><strong><a href="../../helper_scripts/rename.sh">rename.sh</a></strong> - Batch rename files with consistent naming conventions</li>
+<li><strong><a href="../../helper_scripts/downgrade.sh">downgrade.sh</a></strong> - Reduce video file sizes for CVAT compatibility.</li>
+<li><strong><a href="../../helper_scripts/rename.sh">rename.sh</a></strong> - Batch rename files with consistent naming conventions.</li>
 </ul>
 <h2 id="advanced-configuration">Advanced Configuration<a class="headerlink" href="#advanced-configuration" title="Permanent link">¶</a></h2>
 <h3 id="custom-model-training">Custom Model Training<a class="headerlink" href="#custom-model-training" title="Permanent link">¶</a></h3>
 <p>For training custom behavior recognition models, you'll need:</p>
 <ol>
-<li><strong>Annotated mini-scenes</strong> from your specific species/environment</li>
-<li><strong>Behavior ethogram</strong> defining your classification categories</li>
-<li><strong>Training configuration</strong> adapted to your dataset size and complexity</li>
+<li><strong>Annotated mini-scenes</strong> from your specific species/environment.</li>
+<li><strong>Behavior ethogram</strong> defining your classification categories.</li>
+<li><strong>Training configuration</strong> adapted to your dataset size and complexity.</li>
 </ol>
 <h3 id="gpu-requirements">GPU Requirements<a class="headerlink" href="#gpu-requirements" title="Permanent link">¶</a></h3>
 <p>Most tools support both CPU and GPU processing:</p>
 <ul>
-<li><strong>CPU mode</strong>: Slower but works on any system</li>
-<li><strong>GPU mode</strong>: Significantly faster, recommended for large datasets</li>
-<li><strong>Multi-GPU</strong>: Supported for distributed processing of large video collections</li>
+<li><strong>CPU mode</strong>: Slower but works on any system.</li>
+<li><strong>GPU mode</strong>: Significantly faster, recommended for large datasets.</li>
+<li><strong>Multi-GPU</strong>: Supported for distributed processing of large video collections.</li>
 </ul>
 <h3 id="batch-processing">Batch Processing<a class="headerlink" href="#batch-processing" title="Permanent link">¶</a></h3>
 <p>For processing large video collections:</p>
 <ol>
-<li>Use the provided shell scripts for batch operations</li>
-<li>Consider using job scheduling systems (SLURM, PBS) for cluster environments</li>
-<li>Monitor disk space requirements for intermediate files</li>
+<li>Use the provided shell scripts for batch operations.</li>
+<li>Consider using job scheduling systems (SLURM, PBS) for cluster environments.</li>
+<li>Monitor disk space requirements for intermediate files.</li>
 </ol>
 <h2 id="customization-options">Customization Options<a class="headerlink" href="#customization-options" title="Permanent link">¶</a></h2>
 <p>The modular design allows for customization at multiple levels:</p>
 <ul>
-<li><strong>Detection models</strong>: Swap YOLO versions or use custom trained models</li>
-<li><strong>Tracking algorithms</strong>: Modify tracking parameters for different scenarios</li>
-<li><strong>Behavior models</strong>: Train species-specific or behavior-specific classifiers</li>
-<li><strong>Analysis pipelines</strong>: Adapt visualization and metrics to research questions</li>
+<li><strong>Detection models</strong>: Swap YOLO versions or use custom trained models.</li>
+<li><strong>Tracking algorithms</strong>: Modify tracking parameters for different scenarios.</li>
+<li><strong>Behavior models</strong>: Train species-specific or behavior-specific classifiers.</li>
+<li><strong>Analysis pipelines</strong>: Adapt visualization and metrics to research questions.</li>
 </ul>
 <h2 id="performance-optimization">Performance Optimization<a class="headerlink" href="#performance-optimization" title="Permanent link">¶</a></h2>
 <p>Tips for optimizing performance:</p>
 <ul>
-<li>Use appropriate video resolution for your analysis needs</li>
-<li>Batch process multiple videos simultaneously when possible</li>
-<li>Utilize GPU acceleration for model inference</li>
-<li>Consider video compression for storage efficiency</li>
+<li>Use appropriate video resolution for your analysis needs.</li>
+<li>Batch process multiple videos simultaneously when possible.</li>
+<li>Utilize GPU acceleration for model inference.</li>
+<li>Consider video compression for storage efficiency.</li>
 </ul>
 
 

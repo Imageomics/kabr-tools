@@ -498,7 +498,7 @@
   
   
   <span class="md-ellipsis">
-    Data Collection
+    Video Data Collection
     
   </span>
   
@@ -521,7 +521,7 @@
   
   
   <span class="md-ellipsis">
-    Pre-processing
+    Pre-processing with CVAT
     
   </span>
   
@@ -720,7 +720,7 @@
   
   
   <span class="md-ellipsis">
-    Analysis
+    Ecological Analysis
     
   </span>
   
@@ -1553,21 +1553,21 @@
 </div>
 <h2 id="resources">Resources<a class="headerlink" href="#resources" title="Permanent link">¶</a></h2>
 <ul>
-<li><a href="https://huggingface.co/imageomics/x3d-kabr-kinetics">Pre-trained KABR model</a> on Hugging Face</li>
-<li><a href="https://github.com/Imageomics/kabr-tools/tree/main/CVAT/ethogram">Ethogram definitions</a> - Behavior classification system used for zebra videos</li>
-<li><a href="https://huggingface.co/imageomics/x3d-kabr-kinetics/tree/main/data/mini_scene_behavior_annotations">Example annotated outputs</a> on Hugging Face</li>
+<li><a href="https://huggingface.co/imageomics/x3d-kabr-kinetics">Pre-trained KABR model</a> on Hugging Face.</li>
+<li><a href="https://github.com/Imageomics/kabr-tools/tree/main/ethogram">Ethogram definitions</a> - Behavior classification system used for zebra videos.</li>
+<li><a href="https://huggingface.co/imageomics/x3d-kabr-kinetics/tree/main/data/mini_scene_behavior_annotations">Example annotated outputs</a> on Hugging Face.</li>
 </ul>
 <h2 id="tool-reference">Tool Reference<a class="headerlink" href="#tool-reference" title="Permanent link">¶</a></h2>
 <h3 id="miniscene2behavior">miniscene2behavior<a class="headerlink" href="#miniscene2behavior" title="Permanent link">¶</a></h3>
 <p>Source: <a href="https://github.com/Imageomics/kabr-tools/blob/master/src/kabr_tools/miniscene2behavior.py">src/kabr_tools/miniscene2behavior.py</a></p>
 <p>Apply machine learning models to classify animal behaviors from mini-scene videos.</p>
 <p><strong>Parameters:</strong>
-- <code>--hub</code>: Hugging Face hub repository containing model files
-- <code>--config</code>: Path to configuration file (local or from hub)
-- <code>--checkpoint</code>: Path to model checkpoint file
-- <code>--gpu_num</code>: Number of GPUs to use (0 for CPU)
-- <code>--miniscene</code>: Path to mini-scene videos directory
-- <code>--output</code>: Path for output CSV file (optional)</p>
+- <code>--hub</code>: Hugging Face hub repository containing model files.
+- <code>--config</code>: Path to configuration file (local or from hub).
+- <code>--checkpoint</code>: Path to model checkpoint file.
+- <code>--gpu_num</code>: Number of GPUs to use (0 for CPU).
+- <code>--miniscene</code>: Path to mini-scene videos directory.
+- <code>--output</code>: Path for output CSV file (optional).</p>
 <h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">¶</a></h2>
 <p>Once you have labeled your mini-scenes with behaviors, proceed to <a href="../analysis/">Step 4: Ecological Analysis</a> to generate insights and visualizations from your behavioral data.</p>
 
