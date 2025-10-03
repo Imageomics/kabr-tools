@@ -199,8 +199,8 @@ _hugging_face
 _hugging_face
 _hugging_face/*
 
-# Allow CSV files intended to be in docs, ignore one not to include
-!docs/**/*.csv
+# Allow tracking of intended files in docs, ignore one not to include
+!docs/**
 docs/methodology_comparison/kabr_dataset/data/consolidated_metadata.csv
 
 helper_scripts/mini-scenes
