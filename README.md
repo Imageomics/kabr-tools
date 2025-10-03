@@ -114,6 +114,15 @@ If you use this toolkit in your research, please cite both this package and the 
 
 **Paper citation:**
 ```bibtex
+@misc{kline2025kabrtoolsautomatedframeworkmultispecies,
+      title={kabr-tools: Automated Framework for Multi-Species Behavioral Monitoring}, 
+      author={Jenna Kline and Maksim Kholiavchenko and Samuel Stevens and Nina van Tiel and Alison Zhong and Namrata Banerji and Alec Sheets and Sowbaranika Balasubramaniam and Isla Duporge and Matthew Thompson and Elizabeth Campolongo and Jackson Miliko and Neil Rosser and Tanya Berger-Wolf and Charles V. Stewart and Daniel I. Rubenstein},
+      year={2025},
+      eprint={2510.02030},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2510.02030}, 
+}
 ```
 
 ## 💬 Feedback & Issues
