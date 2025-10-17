@@ -98,7 +98,7 @@ Please refer to our papers for details on the data collection process and machin
 
 ## Citation
 
-If you use this toolkit in your research, please cite both this package and the associated paper:
+If you use this toolkit in your research, please cite both this package and the associated paper ([kabr-tools: Automated Framework for Multi-Species Behavioral Monitoring](https://arxiv.org/abs/2510.02030)):
 
 **Package citation:**
 ```bibtex
