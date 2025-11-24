@@ -10,7 +10,7 @@ See the [scan vs focal notebook](scanvsfocal/analysis/cm-scan-vs-focal-by-specie
 
 
 ## Focal versus Drone Sampling
-Download `focal vs drone` files from [HuggingFace](https://huggingface.co/datasets/imageomics/kabr-methodology/tree/main/focalvsdrone) and place them in the `focalvsdrone/data` directory.
+Download `focal vs drone` files from the [KABR Methodology Hugging Face dataset](https://huggingface.co/datasets/imageomics/kabr-methodology/tree/main/focalvsdrone) and place them in the `focalvsdrone/data/` directory.
 
 See the [focal vs drone notebook](focalvsdrone/analysis/cm-focal-vs-drone-by-species.ipynb) for analysis of the focal versus drone sampling methodology.
 
