@@ -102,13 +102,15 @@ If you use this toolkit in your research, please cite both this package and the 
 
 **Package citation:**
 ```bibtex
-@software{kabr-tools,
-  author = {Kline, Jenna and Zhong, Alison and Campolongo, Elizabeth and Kholiavchenko, Maksim},
-  title = {kabr-tools: Tools for annotating animal behavior in drone videos},
-  version = {3.0.0},
-  year = {2025},
-  doi = {10.5281/zenodo.11288083},
-  url = {https://github.com/Imageomics/kabr-tools}
+@software{Kline_KABR_Tools_2025,
+      author = {Kline, Jenna and Zhong, Alison and Campolongo, Elizabeth and Kholiavchenko, Maksim and Thompson, Matthew J.},
+      doi = {10.5281/zenodo.11288083},
+      license = {MIT},
+      month = dec,
+      title = {{KABR Tools}},
+      url = {https://github.com/Imageomics/kabr-tools},
+      version = {3.0.0},
+      year = {2025}
 }
 ```
 
