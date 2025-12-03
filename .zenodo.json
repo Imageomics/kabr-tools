@@ -10,17 +10,23 @@
           "affiliation": "The Ohio State University"
       },
       {
+          "name": "Campolongo, Elizabeth",
+          "orcid": "0000-0003-0846-2413",
+          "affiliation": "The Ohio State University"
+      },
+      {
             "name": "Kholiavchenko, Maksim",
             "orcid": "0000-0001-6757-1957",
             "affiliation": "Rensselaer Polytechnic Institute"
       },
-      {
-          "name": "Campolongo, Elizabeth",
-          "orcid": "0000-0003-0846-2413",
+    {
+          "name": "Thompson, Matthew J.",
+          "orcid": "0000-0003-0583-8585",
           "affiliation": "The Ohio State University"
       }
     ],
-    "description": "Tools for working with data for annotating animal behavior. These were specifically designed during construction of the KABR dataset.",
+    "description": "Tools for working with data for annotating animal behavior. These were specifically designed during construction of the KABR mini-scene dataset and have since been generalized and improved.",
+    "notes": "<p>If you use this software, please cite both the article and the software itself.</p>\n<p>&nbsp;</p>\n<p>Article citation:</p>\n<p><code>@article{kline2025kabrtoolsautomatedframeworkmultispecies,</code><br><code>&nbsp; title = {kabr-tools: Automated Framework for Multi-Species Behavioral Monitoring},&nbsp;</code><br><code>&nbsp; author = {Jenna Kline and Maksim Kholiavchenko and Samuel Stevens and Nina van Tiel and Alison Zhong and Namrata Banerji and Alec Sheets and Sowbaranika Balasubramaniam and Isla Duporge and Matthew Thompson and Elizabeth Campolongo and Jackson Miliko and Neil Rosser and Tanya Berger-Wolf and Charles V. Stewart and Daniel I. Rubenstein},</code><br><code>&nbsp; year = {2025},</code><br><code>&nbsp; eprint={2510.02030},</code><br><code>&nbsp; archivePrefix={arXiv},</code><br><code>&nbsp; primaryClass={cs.CV},</code><br><code>&nbsp; url={https://arxiv.org/abs/2510.02030},&nbsp;</code><br><code>}</code></p>",
     "keywords": [
       "imageomics",
       "zebra",
@@ -42,9 +48,9 @@
       "SlowFast"
     ],
     "title": "KABR Tools",
-    "version": "2.0.1",
+    "version": "3.0.0",
     "license": "MIT",
-    "publication_date": "2025-09-26",
+    "publication_date": "2025-12-03",
     "grants": [
         {
             "id": "021nxhr62::2118240"
