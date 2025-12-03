@@ -38,6 +38,14 @@ def get_detection():
     return video, annotation
 
 
+def clean_empty_dirs(path):
+    """remove the empty parent directories alongside path directory
+    for removing the empty nested directories created when
+    using slowfast model"""
+    if os.path.exists(path) and len(os.listdir(path)) == 0:
+        os.removedirs(path)
+
+
 def del_dir(path):
     if os.path.exists(path):
         shutil.rmtree(path)

@@ -6,6 +6,7 @@ from kabr_tools import player
 from tests.utils import (
     del_file,
     del_dir,
+    file_exists,
     get_behavior
 )
 
@@ -58,6 +59,7 @@ class TestPlayer(unittest.TestCase):
                     "--folder", self.folder,
                     "--save"]
         run()
+        self.assertTrue(file_exists(f"{self.folder}/{self.video}_demo.mp4"))
 
     @patch('kabr_tools.player.cv2.imshow')
     @patch('kabr_tools.player.cv2.namedWindow')
@@ -75,10 +77,10 @@ class TestPlayer(unittest.TestCase):
 
         # check default arguments
         self.assertEqual(args.save, False)
-        self.assertEqual(args.imshow, False)
 
         # run player
         run()
+        self.assertTrue(not file_exists(f"{self.folder}/{self.video}_demo.mp4"))
 
     @patch('kabr_tools.player.cv2.imshow')
     @patch('kabr_tools.player.cv2.namedWindow')
@@ -95,7 +97,7 @@ class TestPlayer(unittest.TestCase):
         # check parsed arguments
         self.assertEqual(args.folder, self.folder)
         self.assertEqual(args.save, True)
-        self.assertEqual(args.imshow, True)
 
         # run player
         run()
+        self.assertTrue(file_exists(f"{self.folder}/{self.video}_demo.mp4"))

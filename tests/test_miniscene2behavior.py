@@ -6,6 +6,7 @@ from unittest.mock import Mock, patch
 import requests
 import torch
 from lxml import etree
+from ruamel.yaml import YAML
 import numpy as np
 import pandas as pd
 from kabr_tools import (
@@ -18,6 +19,7 @@ from kabr_tools.miniscene2behavior import (
     extract_config
 )
 from tests.utils import (
+    clean_empty_dirs,
     del_file,
     del_dir,
     file_exists,
@@ -42,6 +44,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
     def setUpClass(cls):
         # download the model from Imageomics HF
         cls.local_checkpoint = "checkpoint_epoch_00075.pyth"
+        cls.model_output = None
         cls.download_model()
 
         # download data
@@ -57,24 +60,37 @@ class TestMiniscene2Behavior(unittest.TestCase):
     @classmethod
     def download_model(cls):
         if not os.path.exists(cls.local_checkpoint):
+            # download checkpoint archive
             url = "https://huggingface.co/imageomics/" \
-                  + "x3d-kabr-kinetics/resolve/main/" \
-                  + f"{cls.local_checkpoint}.zip"
+                + "x3d-kabr-kinetics/resolve/main/" \
+                + f"{cls.local_checkpoint}.zip"
             r = requests.get(url, allow_redirects=True, timeout=120)
             with open(f"{cls.local_checkpoint}.zip", "wb") as f:
                 f.write(r.content)
 
-            # Unzip model checkpoint
+            # unzip model checkpoint
             with zipfile.ZipFile(f"{cls.local_checkpoint}.zip", "r") as zip_ref:
                 zip_ref.extractall(".")
 
+            # get checkpoint directory
+            try:
+                cfg = torch.load(cls.local_checkpoint,
+                                 weights_only=True,
+                                 map_location=torch.device("cpu"))["cfg"]
+                yaml = YAML(typ="rt")
+                cls.model_output = f"{yaml.load(cfg)['OUTPUT_DIR']}/checkpoints"
+            except Exception:
+                pass
+
     @classmethod
     def tearDownClass(cls):
-        # Remove model files after all tests have been completed
-        if os.path.exists(f"{cls.local_checkpoint}.zip"):
-            os.remove(f"{cls.local_checkpoint}.zip")
-        if os.path.exists(cls.local_checkpoint):
-            os.remove(cls.local_checkpoint)
+        # remove model files after tests
+        del_file(f"{cls.local_checkpoint}.zip")
+        del_file(cls.local_checkpoint)
+        if cls.model_output:
+            clean_empty_dirs(cls.model_output)
+
+        # remove data after tests
         del_file(cls.video)
         del_file(cls.annotation)
         del_dir(cls.miniscene)
