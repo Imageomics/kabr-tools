@@ -1,1 +1,1 @@
-See previously released `consolidated_metadata.csv` file on Hugging Face, in the [Imageomics/kabr-datapalooza-2023 repository](https://huggingface.co/datasets/imageomics/kabr-datapalooza-2023-subset/blob/main/data/consolidated_metadata.csv), for data used in this case study.
+See previously released `consolidated_metadata.csv` file on Hugging Face, in the [Imageomics/kabr-behavior-telemetry repository](https://huggingface.co/datasets/imageomics/kabr-behavior-telemetry/blob/main/data/consolidated_metadata.csv), for data used in this case study.

@@ -26,7 +26,7 @@ To create mini-scenes, we first must perform the detection step by drawing bound
 Upload your raw videos to [CVAT](https://www.cvat.ai/) and perform the detections by drawing bounding boxes manually. This can be quite time consuming, but has the advantage of generating highly accurate tracks.
 
 !!! note "Video Size Considerations"
-    Depending on the resolution of your raw video, you may encounter out of space issues with CVAT. You can use [helper_scripts/downgrade.sh](../../helper_scripts/downgrade.sh) to reduce the size of your videos.
+    Depending on the resolution of your raw video, you may encounter out of space issues with CVAT. You can use [helper_scripts/downgrade.sh](https://github.com/Imageomics/kabr-tools/blob/main/helper_scripts/downgrade.sh) to reduce the size of your videos.
 
 ### Option 2: Automatic Detections with YOLO
 
@@ -52,7 +52,7 @@ tracks_extractor --video path_to_videos --annotation path_to_annotations [--trac
 
 ### detector2cvat
 
-[Source: src/kabr_tools/detector2cvat.py](../../src/kabr_tools/detector2cvat.py)
+[Source: src/kabr_tools/detector2cvat.py](https://github.com/Imageomics/kabr-tools/blob/main/src/kabr_tools/detector2cvat.pyy)
 
 Detect objects with Ultralytics YOLO detections, apply SORT tracking and convert tracks to CVAT format.
 
@@ -63,7 +63,7 @@ detector2cvat --video path_to_videos --save path_to_save [--imshow]
 
 ### tracks_extractor  
 
-[Source: src/kabr_tools/tracks_extractor.py](../../src/kabr_tools/tracks_extractor.py)
+[Source: src/kabr_tools/tracks_extractor.py](https://github.com/Imageomics/kabr-tools/blob/main/src/kabr_tools/tracks_extractor.py)
 
 Extract mini-scenes from CVAT tracks.
 

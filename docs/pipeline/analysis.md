@@ -11,8 +11,8 @@ Time budget analysis shows how animals allocate their time across different beha
 ### Example Analysis
 
 <div style="display: flex; justify-content: space-between;">
-  <img src="../images/01_18_session_7_flightpath.png" alt="drone_telemetry" style="width: 48%;">
-  <img src="../images/grevys.png" alt="grevys" style="width: 48%;">
+  <img src="https://github.com/Imageomics/kabr-tools/blob/main/docs/images/01_18_session_7_flightpath.png" alt="drone_telemetry" style="width: 48%;">
+  <img src="https://github.com/Imageomics/kabr-tools/blob/main/docs/images/grevys.png" alt="grevys" style="width: 48%;">
 </div>
 
 **Figure 1:** Example flight path and video clip from KABR dataset: two male Grevy's zebras observed for 10 minutes on 01/18/23.
@@ -50,7 +50,7 @@ See the [behavior transitions notebook](../case_studies/2_zebra_transition/behav
 
 Explore real-world applications in the case studies directory:
 
-- **[Grevy's Landscape Analysis](../case_studies/1_grevys_landscape/grevys_landscape.ipynb)** - Landscape-scale behavioral analysis.
+- **[Grevy's Landscape Analysis](../case_studies/1_grevys_landscape/grevys_landscape_graphs.ipynb)** - Landscape-scale behavioral analysis.
 - **[Mixed Species Social](../case_studies/3_mixed_species_social/mixed_species_overlap.ipynb)** - Multi-species interaction analysis.
 - **[Zebra Behavior Transitions](../case_studies/2_zebra_transition/behaviortransitionsheatmap.ipynb)** - Behavioral transition patterns.
 
