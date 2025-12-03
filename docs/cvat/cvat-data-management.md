@@ -13,7 +13,7 @@
 
 - Labelling videos with metadata is also helpful when the video files need to be moved around different systems for storage or analysis, as discussed below.
 
-- See [rename.sh](https://github.com/Imageomics/kabr-tools/blob/master/helper_scripts/rename.sh) for an example of renaming all video files in a directory. Note: this script was written for a collection of videos where the metadata (species and date) was stored in the video file path.
+- See [rename.sh](https://github.com/Imageomics/kabr-tools/blob/main/helper_scripts/rename.sh) for an example of renaming all video files in a directory. Note: this script was written for a collection of videos where the metadata (species and date) was stored in the video file path.
 
 ### Dealing with large video files in CVAT 
 
@@ -24,10 +24,10 @@
 - We downgraded the raw videos from 5K to 1080p and then uploaded the 1080p version to CVAT. 
 These lower-resolution videos ran much faster than the original raw videos while still having sufficient resolution to detect the animals manually. 
 
-- See [downgrade.sh](https://github.com/Imageomics/kabr-tools/blob/master/helper_scripts/downgrade.sh) for the script.
+- See [downgrade.sh](https://github.com/Imageomics/kabr-tools/blob/main/helper_scripts/downgrade.sh) for the script.
 
 !!! warning "Important Note"
-    - If videos are downgraded in [Step 2A](https://github.com/Imageomics/kabr-tools?tab=readme-ov-file#step-2a-perform-detections-to-create-tracks) (performing detections to create tracks) they must be upscaled for [Step 2B](https://github.com/Imageomics/kabr-tools?tab=readme-ov-file#step-2b-create-mini-scenes-from-tracks) (creating mini-scenes).
+    - If videos are downgraded in [Step 2A](../pipeline/preprocessing.md#step-2a-perform-detections-to-create-tracks) (performing detections to create tracks) they must be upscaled for [Step 2B](../pipeline/preprocessing.md#step-2b-create-mini-scenes-from-tracks) (creating mini-scenes).
     - If the detections are done on a lower-resolution video, these annotations must be scaled back to match the original size before creating mini-scenes. Preserving the highest-resolution videos possible for the mini-scenes is essential. This ensures the behavior detection model has a higher success rate in detecting behavior in the video. 
 
 
