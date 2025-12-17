@@ -16,7 +16,7 @@ For both datasets, the dates are the prefixes to the relevant videos.
 ## Case Study 2: Zebra State Transitions
 [Notebook](2_zebra_transition/behaviortransitionsheatmap.ipynb)
 
-[Data on Hugging Face](https://huggingface.co/datasets/imageomics/kabr-behavior-telemetry/tree/main/data/consolidated_metadata.csv)
+[Data on Hugging Face](https://huggingface.co/datasets/imageomics/kabr-behavior-telemetry/blob/main/data/consolidated_metadata.csv)
 
 ## Case Study 3: Mixed Species Social Interactions
 [Notebook](3_mixed_species_social/mixed_species_overlap.ipynb)
