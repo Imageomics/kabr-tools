@@ -55,7 +55,7 @@ To get started with KABR tools, follow the pipeline steps in order:
 - [KABR Mini-Scene Dataset on Hugging Face](https://huggingface.co/datasets/imageomics/KABR)
 - [Pre-trained Model](https://huggingface.co/imageomics/x3d-kabr-kinetics)
 - [KABR Collection on Hugging Face](https://huggingface.co/collections/imageomics/kabr-664dff304d29e6cd7b8e1a00): All datasets and models associated to the KABR Project.
-- See also [legacy notebooks](https://github.com/Imageomics/kabr-tools/tree/35cf9b3b125307809f725807d6cccf6dde51066c/notebooks) used for the original KABR mini-scene dataset creation.
+- See also [legacy notebooks](https://github.com/Imageomics/kabr-tools/tree/35cf9b3b125307809f725807d6cccf6dde51066c/notebooks) (`datasets`, `processing`, and `train_yolo`, the last of which is documented in [Pipeline - Optional Steps](pipeline/optional-steps.md)) used for the original KABR mini-scene dataset creation.
 
 ## Citation
 
