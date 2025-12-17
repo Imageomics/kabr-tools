@@ -50,9 +50,9 @@ See the [behavior transitions notebook](../case_studies/2_zebra_transition/behav
 
 Explore real-world applications in the case studies directory:
 
-- **[Grevy's Landscape Analysis](../case_studies/1_grevys_landscape/grevys_landscape_graphs.ipynb)** - Landscape-scale behavioral analysis.
-- **[Mixed Species Social](../case_studies/3_mixed_species_social/mixed_species_overlap.ipynb)** - Multi-species interaction analysis.
-- **[Zebra Behavior Transitions](../case_studies/2_zebra_transition/behaviortransitionsheatmap.ipynb)** - Behavioral transition patterns.
+- **[Grevy's Landscape Analysis](../case_studies/overview.md#case-study-1-grevys-landscape-of-fear)** - Landscape-scale behavioral analysis.
+- **[Mixed Species Social](../case_studies/overview.md#case-study-2-zebra-state-transitions)** - Multi-species interaction analysis.
+- **[Zebra Behavior Transitions](../case_studies/overview.md#case-study-3-mixed-species-social-interactions)** - Behavioral transition patterns.
 
 ## Key Metrics Generated
 
