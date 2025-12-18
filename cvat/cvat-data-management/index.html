@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../../images/logo_128.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1557,7 +1557,7 @@
 <p>Labelling videos with metadata is also helpful when the video files need to be moved around different systems for storage or analysis, as discussed below.</p>
 </li>
 <li>
-<p>See <a href="https://github.com/Imageomics/kabr-tools/blob/master/helper_scripts/rename.sh">rename.sh</a> for an example of renaming all video files in a directory. Note: this script was written for a collection of videos where the metadata (species and date) was stored in the video file path.</p>
+<p>See <a href="https://github.com/Imageomics/kabr-tools/blob/main/helper_scripts/rename.sh">rename.sh</a> for an example of renaming all video files in a directory. Note: this script was written for a collection of videos where the metadata (species and date) was stored in the video file path.</p>
 </li>
 </ul>
 <h3 id="dealing-with-large-video-files-in-cvat">Dealing with large video files in CVAT<a class="headerlink" href="#dealing-with-large-video-files-in-cvat" title="Permanent link">¶</a></h3>
@@ -1571,13 +1571,13 @@
 These lower-resolution videos ran much faster than the original raw videos while still having sufficient resolution to detect the animals manually. </p>
 </li>
 <li>
-<p>See <a href="https://github.com/Imageomics/kabr-tools/blob/master/helper_scripts/downgrade.sh">downgrade.sh</a> for the script.</p>
+<p>See <a href="https://github.com/Imageomics/kabr-tools/blob/main/helper_scripts/downgrade.sh">downgrade.sh</a> for the script.</p>
 </li>
 </ul>
 <div class="admonition warning">
 <p class="admonition-title">Important Note</p>
 <ul>
-<li>If videos are downgraded in <a href="https://github.com/Imageomics/kabr-tools?tab=readme-ov-file#step-2a-perform-detections-to-create-tracks">Step 2A</a> (performing detections to create tracks) they must be upscaled for <a href="https://github.com/Imageomics/kabr-tools?tab=readme-ov-file#step-2b-create-mini-scenes-from-tracks">Step 2B</a> (creating mini-scenes).</li>
+<li>If videos are downgraded in <a href="../../pipeline/preprocessing/#step-2a-perform-detections-to-create-tracks">Step 2A</a> (performing detections to create tracks) they must be upscaled for <a href="../../pipeline/preprocessing/#step-2b-create-mini-scenes-from-tracks">Step 2B</a> (creating mini-scenes).</li>
 <li>If the detections are done on a lower-resolution video, these annotations must be scaled back to match the original size before creating mini-scenes. Preserving the highest-resolution videos possible for the mini-scenes is essential. This ensures the behavior detection model has a higher success rate in detecting behavior in the video. </li>
 </ul>
 </div>
@@ -1673,10 +1673,10 @@ These lower-resolution videos ran much faster than the original raw videos while
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy", "content.code.select", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy", "content.code.select", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   

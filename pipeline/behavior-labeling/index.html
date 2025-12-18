@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../../images/logo_128.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1741,7 +1741,7 @@
 
 <h1 id="step-3-label-mini-scenes-with-behavior">Step 3: Label Mini-scenes with Behavior<a class="headerlink" href="#step-3-label-mini-scenes-with-behavior" title="Permanent link">¶</a></h1>
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">¶</a></h2>
-<p>You can use the <a href="https://huggingface.co/imageomics/x3d-kabr-kinetics">KABR model</a> on Hugging Face to label the mini-scenes with behavior. See the <a href="https://github.com/Imageomics/kabr-tools/tree/main/CVAT/ethogram">ethogram</a> folder for the list of behaviors used to label the zebra videos.</p>
+<p>You can use the <a href="https://huggingface.co/imageomics/x3d-kabr-kinetics">KABR model</a> on Hugging Face to label the mini-scenes with behavior. See the <a href="https://github.com/Imageomics/kabr-tools/tree/main/ethogram">ethogram</a> folder for the list of behaviors used to label the zebra videos.</p>
 <h2 id="using-the-miniscene2behavior-tool">Using the miniscene2behavior Tool<a class="headerlink" href="#using-the-miniscene2behavior-tool" title="Permanent link">¶</a></h2>
 <p>Label the mini-scenes using the following command:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>miniscene2behavior<span class="w"> </span><span class="o">[</span>--hub<span class="w"> </span>huggingface_hub<span class="o">]</span><span class="w"> </span><span class="o">[</span>--config<span class="w"> </span>path_to_config<span class="o">]</span><span class="w"> </span>--checkpoint<span class="w"> </span>path_to_checkpoint<span class="w"> </span><span class="o">[</span>--gpu_num<span class="w"> </span>number_of_gpus<span class="o">]</span><span class="w"> </span>--miniscene<span class="w"> </span>path_to_miniscene<span class="w"> </span><span class="o">[</span>--output<span class="w"> </span>path_to_output_csv<span class="o">]</span>
@@ -1775,7 +1775,7 @@
 </ul>
 <h2 id="tool-reference">Tool Reference<a class="headerlink" href="#tool-reference" title="Permanent link">¶</a></h2>
 <h3 id="miniscene2behavior">miniscene2behavior<a class="headerlink" href="#miniscene2behavior" title="Permanent link">¶</a></h3>
-<p>Source: <a href="https://github.com/Imageomics/kabr-tools/blob/master/src/kabr_tools/miniscene2behavior.py">src/kabr_tools/miniscene2behavior.py</a></p>
+<p>Source: <a href="https://github.com/Imageomics/kabr-tools/blob/main/src/kabr_tools/miniscene2behavior.py">src/kabr_tools/miniscene2behavior.py</a></p>
 <p>Apply machine learning models to classify animal behaviors from mini-scene videos.</p>
 <p><strong>Parameters:</strong>
 - <code>--hub</code>: Hugging Face hub repository containing model files.
@@ -1859,10 +1859,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy", "content.code.select", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy", "content.code.select", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   

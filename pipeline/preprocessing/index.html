@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../../images/logo_128.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1735,7 +1735,7 @@
 <p>Upload your raw videos to <a href="https://www.cvat.ai/">CVAT</a> and perform the detections by drawing bounding boxes manually. This can be quite time consuming, but has the advantage of generating highly accurate tracks.</p>
 <div class="admonition note">
 <p class="admonition-title">Video Size Considerations</p>
-<p>Depending on the resolution of your raw video, you may encounter out of space issues with CVAT. You can use <a href="../../helper_scripts/downgrade.sh">helper_scripts/downgrade.sh</a> to reduce the size of your videos.</p>
+<p>Depending on the resolution of your raw video, you may encounter out of space issues with CVAT. You can use <a href="https://github.com/Imageomics/kabr-tools/blob/main/helper_scripts/downgrade.sh">helper_scripts/downgrade.sh</a> to reduce the size of your videos.</p>
 </div>
 <h3 id="option-2-automatic-detections-with-yolo">Option 2: Automatic Detections with YOLO<a class="headerlink" href="#option-2-automatic-detections-with-yolo" title="Permanent link">¶</a></h3>
 <p>You may use <a href="https://docs.ultralytics.com/">YOLO</a> to automatically perform detection on your videos. Use the script below to convert YOLO detections to CVAT format.</p>
@@ -1749,13 +1749,13 @@
 </span></code></pre></div>
 <h2 id="tool-reference">Tool Reference<a class="headerlink" href="#tool-reference" title="Permanent link">¶</a></h2>
 <h3 id="detector2cvat">detector2cvat<a class="headerlink" href="#detector2cvat" title="Permanent link">¶</a></h3>
-<p><a href="../../src/kabr_tools/detector2cvat.py">Source: src/kabr_tools/detector2cvat.py</a></p>
+<p><a href="https://github.com/Imageomics/kabr-tools/blob/main/src/kabr_tools/detector2cvat.pyy">Source: src/kabr_tools/detector2cvat.py</a></p>
 <p>Detect objects with Ultralytics YOLO detections, apply SORT tracking and convert tracks to CVAT format.</p>
 <p><strong>Usage:</strong>
 </p><div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>detector2cvat<span class="w"> </span>--video<span class="w"> </span>path_to_videos<span class="w"> </span>--save<span class="w"> </span>path_to_save<span class="w"> </span><span class="o">[</span>--imshow<span class="o">]</span>
 </span></code></pre></div><p></p>
 <h3 id="tracks_extractor">tracks_extractor<a class="headerlink" href="#tracks_extractor" title="Permanent link">¶</a></h3>
-<p><a href="../../src/kabr_tools/tracks_extractor.py">Source: src/kabr_tools/tracks_extractor.py</a></p>
+<p><a href="https://github.com/Imageomics/kabr-tools/blob/main/src/kabr_tools/tracks_extractor.py">Source: src/kabr_tools/tracks_extractor.py</a></p>
 <p>Extract mini-scenes from CVAT tracks.</p>
 <p><strong>Usage:</strong>
 </p><div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>tracks_extractor<span class="w"> </span>--video<span class="w"> </span>path_to_videos<span class="w"> </span>--annotation<span class="w"> </span>path_to_annotations<span class="w"> </span><span class="o">[</span>--tracking<span class="o">]</span><span class="w"> </span><span class="o">[</span>--imshow<span class="o">]</span>
@@ -1835,10 +1835,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy", "content.code.select", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy", "content.code.select", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   
