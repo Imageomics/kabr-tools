@@ -2,7 +2,19 @@
 
 ## Fine-tune YOLO for Your Dataset
 
-If you wish to use YOLO to automatically generate detections, you may want to fine-tune your YOLO model for your dataset using the [YOLO training notebook](../notebooks/train_yolo.ipynb).
+If you wish to use YOLO to automatically generate detections, you may want to fine-tune your YOLO model for your dataset, which can be done as described below:
+
+```python
+from ultralytics import YOLO
+
+# choose model weights
+model = YOLO("yolov8x.pt")
+imgsz = 1536
+
+results = model.train(task="detect", mode="train", model="yolov8x.yaml", data="datasets/zebras.yaml",
+                      epochs=20, patience=5, batch=1, imgsz=imgsz)
+model.val(imgsz=imgsz, batch=1, data="datasets/zebras.yaml")
+```
 
 ### cvat2ultralytics
 
