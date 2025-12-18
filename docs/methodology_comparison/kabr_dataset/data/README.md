@@ -28,7 +28,7 @@ Citation:
 }
 
 Consolidated metadata contains summary of mini-scenes, along with telemetry data and annotations.
-https://huggingface.co/datasets/imageomics/kabr-datapalooza-2023-subset
+https://huggingface.co/datasets/imageomics/kabr-behavior-telemetry
 Citation: 
 @misc{kline2024integratingbiologicaldataautonomous,
       title={Integrating Biological Data into Autonomous Remote Sensing Systems for In Situ Imageomics: A Case Study for Kenyan Animal Behavior Sensing with Unmanned Aerial Vehicles (UAVs)}, 

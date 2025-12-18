@@ -2,7 +2,7 @@
 
 ## Overview
 
-You can use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics) on Hugging Face to label the mini-scenes with behavior. See the [ethogram](https://github.com/Imageomics/kabr-tools/tree/main/CVAT/ethogram) folder for the list of behaviors used to label the zebra videos.
+You can use the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics) on Hugging Face to label the mini-scenes with behavior. See the [ethogram](https://github.com/Imageomics/kabr-tools/tree/main/ethogram) folder for the list of behaviors used to label the zebra videos.
 
 ## Using the miniscene2behavior Tool
 
@@ -53,7 +53,7 @@ miniscene2behavior --config config.yml --checkpoint checkpoint_epoch_00075.pyth 
 
 ### miniscene2behavior
 
-Source: [src/kabr_tools/miniscene2behavior.py](https://github.com/Imageomics/kabr-tools/blob/master/src/kabr_tools/miniscene2behavior.py)
+Source: [src/kabr_tools/miniscene2behavior.py](https://github.com/Imageomics/kabr-tools/blob/main/src/kabr_tools/miniscene2behavior.py)
 
 Apply machine learning models to classify animal behaviors from mini-scene videos.
 

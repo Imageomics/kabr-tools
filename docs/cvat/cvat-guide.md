@@ -187,6 +187,6 @@ You may download annotations for individual tasks, or the entire project.
 
 ### Using Your Annotations
 
-**For detections:** You may use your detections to create mini-scenes using [tracks_extractor](pipeline/preprocessing.md#step-2b-create-mini-scenes-from-tracks). These mini-scenes can be automatically annotated with behavior labels using the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics).
+**For detections:** You may use your detections to create mini-scenes using [tracks_extractor](../pipeline/preprocessing.md#step-2b-create-mini-scenes-from-tracks). These mini-scenes can be automatically annotated with behavior labels using the [KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics).
 
-**For behaviors:** You may use your annotated behaviors to fine-tune a behavior recognition model, such as X3D, or create time-budgets with the [time budget notebook](notebooks/time_budget.ipynb).
+**For behaviors:** You may use your annotated behaviors to fine-tune a behavior recognition model, such as X3D, or create time-budgets with the [time budget notebook](../case_studies/0_time_budget/time_budget.ipynb).

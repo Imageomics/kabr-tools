@@ -2,7 +2,19 @@
 
 ## Fine-tune YOLO for Your Dataset
 
-If you wish to use YOLO to automatically generate detections, you may want to fine-tune your YOLO model for your dataset using the [YOLO training notebook](../notebooks/train_yolo.ipynb).
+If you wish to use YOLO to automatically generate detections, you may want to fine-tune your YOLO model for your dataset, which can be done as described below:
+
+```python
+from ultralytics import YOLO
+
+# choose model weights
+model = YOLO("yolov8x.pt")
+imgsz = 1536
+
+results = model.train(task="detect", mode="train", model="yolov8x.yaml", data="datasets/zebras.yaml",
+                      epochs=20, patience=5, batch=1, imgsz=imgsz)
+model.val(imgsz=imgsz, batch=1, data="datasets/zebras.yaml")
+```
 
 ### cvat2ultralytics
 
@@ -13,7 +25,7 @@ Convert CVAT annotations to Ultralytics YOLO dataset format for training custom 
 cvat2ultralytics --video path_to_videos --annotation path_to_annotations --dataset dataset_name [--skip skip_frames]
 ```
 
-**Source:** [src/kabr_tools/cvat2ultralytics.py](../../src/kabr_tools/cvat2ultralytics.py)
+**Source:** [src/kabr_tools/cvat2ultralytics.py](https://github.com/Imageomics/kabr-tools/blob/main/src/kabr_tools/cvat2ultralytics.py)
 
 ## Additional Utility Tools
 
@@ -30,7 +42,7 @@ player --folder path_to_folder [--save] [--imshow]
 
 **Figure:** Example player.py output showing tracking visualization.
 
-**Source:** [src/kabr_tools/player.py](../../src/kabr_tools/player.py)
+**Source:** [src/kabr_tools/player.py](https://github.com/Imageomics/kabr-tools/blob/main/src/kabr_tools/player.py)
 
 ### cvat2slowfast
 
@@ -41,7 +53,7 @@ Convert CVAT annotations to the dataset in Charades format for use with SlowFast
 cvat2slowfast --miniscene path_to_mini_scenes --dataset dataset_name --classes path_to_classes_json [--old2new path_to_old2new_json] [--no_images]
 ```
 
-**Source:** [src/kabr_tools/cvat2slowfast.py](../../src/kabr_tools/cvat2slowfast.py)
+**Source:** [src/kabr_tools/cvat2slowfast.py](https://github.com/Imageomics/kabr-tools/blob/main/src/kabr_tools/cvat2slowfast.py)
 
 ## Helper Scripts
 
@@ -51,15 +63,15 @@ Several utility scripts are available in the `helper_scripts` directory:
 
 Scripts for batch processing and annotation of mini-scenes:
 
-- **[launch_job.py](../../helper_scripts/annotate_mini_scenes/launch_job.py)** - Job launcher for batch processing.
-- **[run.sh](../../helper_scripts/annotate_mini_scenes/run.sh)** - Shell script for running annotation tasks.
+- **[launch_job.py](https://github.com/Imageomics/kabr-tools/tree/main/helper_scripts/annotate_mini_scenes/launch_job.py)** - Job launcher for batch processing.
+- **[run.sh](https://github.com/Imageomics/kabr-tools/tree/main/helper_scripts/annotate_mini_scenes/run.sh)** - Shell script for running annotation tasks.
 
-See [README](../../helper_scripts/annotate_mini_scenes/README.md) for detailed usage instructions.
+See the [README](https://github.com/Imageomics/kabr-tools/tree/main/helper_scripts/annotate_mini_scenes/README.md) for detailed usage instructions.
 
 ### Video Processing Utilities
 
-- **[downgrade.sh](../../helper_scripts/downgrade.sh)** - Reduce video file sizes for CVAT compatibility.
-- **[rename.sh](../../helper_scripts/rename.sh)** - Batch rename files with consistent naming conventions.
+- **[downgrade.sh](https://github.com/Imageomics/kabr-tools/tree/main/helper_scripts/downgrade.sh)** - Reduce video file sizes for CVAT compatibility.
+- **[rename.sh](https://github.com/Imageomics/kabr-tools/tree/main/helper_scripts/rename.sh)** - Batch rename files with consistent naming conventions.
 
 ## Advanced Configuration
 
