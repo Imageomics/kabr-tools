@@ -3,7 +3,7 @@
 ## Case Study 0: Zebra Time Budgets
 Example scripts for creating individual time-budgets and gantt charts from raw video data.
 
-[Time budget notebook](0_zebra_time_budgets/zebra_time_budgets.ipynb)
+[Time budget notebook](0_time_budget/time_budget.ipynb)
 
 ## Case Study 1: Grevy's Landscape of Fear
 Comparing effects of herd size and habitat type on the landscape of fear for Grevy's zebras.
