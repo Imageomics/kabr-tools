@@ -22,7 +22,7 @@ identifiers:
     value: "https://github.com/Imageomics/kabr-tools/releases/tag/v3.0.0"
   - description: "The GitHub URL of the commit tagged with v3.0.0."
     type: url
-    value: "https://github.com/Imageomics/kabr-tools/tree/<commit-hash>" # Update on release
+    value: "https://github.com/Imageomics/kabr-tools/tree/bf9a8176932405c343df973a550bc0fbf27c5c58"
 keywords:
   - imageomics
   - zebra
