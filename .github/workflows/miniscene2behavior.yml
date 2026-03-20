@@ -2,6 +2,10 @@ name: Test
 
 on:
   push:
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - '.github/workflows/miniscene2behavior.yml'
 
 jobs:
   build:

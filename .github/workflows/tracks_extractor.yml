@@ -2,6 +2,10 @@ name: Test
 
 on:
   push:
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - '.github/workflows/tracks_extractor.yml'
 
 jobs:
   build:
