@@ -4,7 +4,6 @@ import os
 from lxml import etree
 from unittest.mock import MagicMock, patch
 import cv2
-from lxml import etree
 import numpy as np
 from kabr_tools import detector2cvat
 from kabr_tools.utils.yolo import YOLOv8
