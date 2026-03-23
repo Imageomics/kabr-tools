@@ -43,6 +43,7 @@ class TestCvat2Ultralytics(unittest.TestCase):
     def tearDown(self):
         # delete outputs
         del_dir(self.dataset)
+        del_file(f"{self.dataset}.yaml")
 
     def test_run(self):
         # run cvat2ultralytics
