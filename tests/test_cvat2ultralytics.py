@@ -43,6 +43,7 @@ class TestCvat2Ultralytics(unittest.TestCase):
     def tearDown(self):
         # delete outputs
         del_dir(self.dataset)
+        del_file(f"{self.dataset}.yaml")
 
     def test_run(self):
         # run cvat2ultralytics
@@ -110,12 +111,12 @@ class TestCvat2Ultralytics(unittest.TestCase):
                 )
             self.assertEqual(len(data_label.index), len(annotation_label))
 
-            for i, label in enumerate(annotation_label):
-                self.assertEqual(label[0], annotation_label[i][0])
-                self.assertAlmostEqual(label[1], annotation_label[i][1], places=4)
-                self.assertAlmostEqual(label[2], annotation_label[i][2], places=4)
-                self.assertAlmostEqual(label[3], annotation_label[i][3], places=4)
-                self.assertAlmostEqual(label[4], annotation_label[i][4], places=4)
+            for j, row in data_label.iterrows():
+                self.assertEqual(row[0], annotation_label[j][0])
+                self.assertAlmostEqual(row[1], annotation_label[j][1], places=4)
+                self.assertAlmostEqual(row[2], annotation_label[j][2], places=4)
+                self.assertAlmostEqual(row[3], annotation_label[j][3], places=4)
+                self.assertAlmostEqual(row[4], annotation_label[j][4], places=4)
 
 
     def test_parse_arg_min(self):

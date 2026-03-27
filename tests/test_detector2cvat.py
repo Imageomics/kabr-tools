@@ -4,7 +4,6 @@ import os
 from lxml import etree
 from unittest.mock import MagicMock, patch
 import cv2
-from lxml import etree
 import numpy as np
 from kabr_tools import detector2cvat
 from kabr_tools.utils.yolo import YOLOv8
@@ -282,7 +281,6 @@ class TestDetector2Cvat(unittest.TestCase):
             for box in track.findall("box"):
                 if box.get("frame") == ref_box[i+1].get("frame"):
                     i += 1
-                print(box.get("frame"), ref_box[i].get("frame"))
                 self.assertEqual(box.get("frame"), str(frame))
                 self.assertEqual(box.get("xtl"), ref_box[i].get("xtl"))
                 self.assertEqual(box.get("ytl"), ref_box[i].get("ytl"))
