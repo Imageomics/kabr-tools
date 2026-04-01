@@ -7,7 +7,7 @@ statistics_all.png
 statistics_g.png
 statistics_zg.png
 statistics_zp.png
-yolov8x.pt
+*.pt
 
 
 *.mp4
