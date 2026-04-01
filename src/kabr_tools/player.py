@@ -92,8 +92,7 @@ def draw_actions(current: str, index: int,
 
     if actions.get(current) is None:
         return image
-
-    if actions[current].get(str(metadata["tracks"][current][index])) is None:
+    elif actions[current].get(str(metadata["tracks"][current][index])) is None:
         return image
 
     color = metadata["colors"][current]
