@@ -12,7 +12,8 @@ from huggingface_hub import hf_hub_download
 from kabr_tools.utils.slowfast.utils import get_input_clip
 from kabr_tools.utils.slowfast.cfg import load_config, CfgNode
 from kabr_tools.utils.slowfast.x3d import build_model
-    
+
+
 def get_cached_datafile(repo_id: str, filename: str):
     return hf_hub_download(repo_id=repo_id, filename=filename)
 
