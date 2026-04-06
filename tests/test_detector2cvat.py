@@ -4,7 +4,6 @@ import os
 from lxml import etree
 from unittest.mock import MagicMock, patch
 import cv2
-from lxml import etree
 import numpy as np
 from kabr_tools import detector2cvat
 from kabr_tools.utils.yolo import YOLOv8
@@ -86,6 +85,7 @@ class TestDetector2Cvat(unittest.TestCase):
         self.tool = "detector2cvat.py"
         self.video = TestDetector2Cvat.dir
         self.save = "tests/detector2cvat"
+        self.yolo = "yolov5s.pt"
         self.dir = "/".join(os.path.splitext(self.video)[0].split('/')[-2:])
 
     def tearDown(self):
@@ -282,7 +282,6 @@ class TestDetector2Cvat(unittest.TestCase):
             for box in track.findall("box"):
                 if box.get("frame") == ref_box[i+1].get("frame"):
                     i += 1
-                print(box.get("frame"), ref_box[i].get("frame"))
                 self.assertEqual(box.get("frame"), str(frame))
                 self.assertEqual(box.get("xtl"), ref_box[i].get("xtl"))
                 self.assertEqual(box.get("ytl"), ref_box[i].get("ytl"))
@@ -322,17 +321,26 @@ class TestDetector2Cvat(unittest.TestCase):
         # check parsed argument values
         self.assertEqual(args.video, self.video)
         self.assertEqual(args.save, self.save)
-        self.assertEqual(args.imshow, False)
 
-    def test_parse_arg_full(self):
+        # check default argument values
+        self.assertEqual(args.yolo, "yolov8x.pt")
+        self.assertEqual(args.imshow, False)
+    
+    @patch('kabr_tools.detector2cvat.cv2.imshow')
+    def test_parse_arg_full(self, imshow):
         # parse arguments
         sys.argv = [self.tool,
                     "--video", self.video,
                     "--save", self.save,
+                    "--yolo", self.yolo,
                     "--imshow"]
         args = detector2cvat.parse_args()
 
         # check parsed argument values
         self.assertEqual(args.video, self.video)
         self.assertEqual(args.save, self.save)
+        self.assertEqual(args.yolo, self.yolo)
         self.assertEqual(args.imshow, True)
+
+        # run
+        run()
