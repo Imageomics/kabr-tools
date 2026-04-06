@@ -40,7 +40,6 @@ def cvat2slowfast(path_to_mini_scenes: str, path_to_new_dataset: str,
     charades_df = pd.DataFrame(data=headers)
     video_id = 1
     folder_name = 1
-    flag = not no_images
 
     for i, folder in enumerate(natsorted(os.listdir(path_to_mini_scenes))):
         if os.path.exists(f"{path_to_mini_scenes}/{folder}/actions"):
@@ -106,7 +105,7 @@ def cvat2slowfast(path_to_mini_scenes: str, path_to_new_dataset: str,
                     size = int(vc.get(cv2.CAP_PROP_FRAME_COUNT))
 
                     while vc.isOpened():
-                        if flag is False:
+                        if no_images:
                             if index < size:
                                 returned = True
                                 frame = None
@@ -126,7 +125,7 @@ def cvat2slowfast(path_to_mini_scenes: str, path_to_new_dataset: str,
                                 behavior = old2new[behavior]
 
                             if behavior in label2number.keys():
-                                if flag:
+                                if not no_images:
                                     cv2.imwrite(f"{output_folder}/{adjusted_index}.jpg", frame)
 
                                 charades_data.append([f"{folder_code}",
