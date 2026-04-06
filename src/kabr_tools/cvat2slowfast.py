@@ -37,7 +37,6 @@ def cvat2slowfast(path_to_mini_scenes: str, path_to_new_dataset: str,
     headers = ["original_vido_id", "video_id", "frame_id", "path", "labels"]
     charades_data = []
 
-    charades_df = pd.DataFrame(data=headers)
     video_id = 1
     folder_name = 1
 
