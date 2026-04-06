@@ -85,6 +85,8 @@ class TestDetector2Cvat(unittest.TestCase):
         self.tool = "detector2cvat.py"
         self.video = TestDetector2Cvat.dir
         self.save = "tests/detector2cvat"
+        self.target_labels = "ethogram/yolo_labels.json"
+        self.label_map = "ethogram/yolo_equiv.json"
         self.yolo = "yolov5s.pt"
         self.dir = "/".join(os.path.splitext(self.video)[0].split('/')[-2:])
 
@@ -323,6 +325,10 @@ class TestDetector2Cvat(unittest.TestCase):
         self.assertEqual(args.save, self.save)
 
         # check default argument values
+        self.assertEqual(args.target_labels, None)
+        self.assertEqual(args.label_map, None)
+
+        # check default argument values
         self.assertEqual(args.yolo, "yolov8x.pt")
         self.assertEqual(args.imshow, False)
     
@@ -332,6 +338,8 @@ class TestDetector2Cvat(unittest.TestCase):
         sys.argv = [self.tool,
                     "--video", self.video,
                     "--save", self.save,
+                    "--target_labels", self.target_labels,
+                    "--label_map", self.label_map,
                     "--yolo", self.yolo,
                     "--imshow"]
         args = detector2cvat.parse_args()
@@ -339,6 +347,8 @@ class TestDetector2Cvat(unittest.TestCase):
         # check parsed argument values
         self.assertEqual(args.video, self.video)
         self.assertEqual(args.save, self.save)
+        self.assertEqual(args.target_labels, self.target_labels)
+        self.assertEqual(args.label_map, self.label_map)
         self.assertEqual(args.yolo, self.yolo)
         self.assertEqual(args.imshow, True)
 
