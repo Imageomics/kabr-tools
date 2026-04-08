@@ -2,6 +2,7 @@ import unittest
 import zipfile
 import sys
 import os
+import tempfile
 from pathlib import Path
 from unittest.mock import Mock, patch
 import requests
@@ -160,11 +161,8 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.assertTrue(file_exists(config_path))
         self.assertTrue(file_exists(checkpoint_path))
 
-        download_folder = f"{checkpoint_path.rsplit('/', 1)[0]}/"
-        self.assertEqual(self.checkpoint,
-                         checkpoint_path.replace(download_folder, ""))
-        self.assertEqual(self.config,
-                         config_path.replace(download_folder, ""))
+        self.assertEqual(self.checkpoint, Path(checkpoint_path).name)
+        self.assertEqual(self.config, Path(config_path).name)
 
         # check output
         self.assertTrue(csv_equal(self.output, f"{self.example}/{self.output}", self.patch_index))
@@ -191,11 +189,8 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.assertTrue(file_exists(config_path))
         self.assertTrue(file_exists(checkpoint_path))
 
-        download_folder = f"{checkpoint_path.rsplit('/', 1)[0]}/"
-        self.assertEqual(self.checkpoint,
-                         checkpoint_path.replace(download_folder, ""))
-        self.assertEqual(self.config,
-                         config_path.replace(download_folder, ""))
+        self.assertEqual(self.checkpoint, Path(checkpoint_path).name)
+        self.assertEqual(self.config, Path(config_path).name)
 
         # check output
         self.assertTrue(csv_equal(self.output, f"{self.example}/{self.output}", self.patch_index))
@@ -305,7 +300,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
         vc.read.return_value = True, np.zeros((8, 8, 3), np.uint8)
         vc.get.return_value = 21
 
-        self.output = '/tmp/annotation_data.csv'
+        self.output = os.path.join(tempfile.gettempdir(), 'annotation_data.csv')
         miniscene_dir = os.path.join(EXAMPLESDIR, "MINISCENE1")
         video_name = "DJI"
 
@@ -354,7 +349,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
         vc.read.return_value = True, np.zeros((8, 8, 3), np.uint8)
         vc.get.return_value = 21
 
-        self.output = '/tmp/annotation_data.csv'
+        self.output = os.path.join(tempfile.gettempdir(), 'annotation_data.csv')
         miniscene_dir = os.path.join(EXAMPLESDIR, "MINISCENE2")
         video_name = "DJI"
 
