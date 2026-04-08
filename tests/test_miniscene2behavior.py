@@ -2,6 +2,7 @@ import unittest
 import zipfile
 import sys
 import os
+from pathlib import Path
 from unittest.mock import Mock, patch
 import requests
 import torch
@@ -55,7 +56,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
                     "--video", cls.video,
                     "--annotation", cls.annotation]
         tracks_extractor.main()
-        cls.miniscene = f'mini-scenes/{os.path.splitext("|".join(cls.video.split("/")[-3:]))[0]}'
+        cls.miniscene = f'mini-scenes/{Path(cls.video).stem}'
 
     @classmethod
     def download_model(cls):
