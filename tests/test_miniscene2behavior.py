@@ -5,6 +5,8 @@ import os
 from unittest.mock import Mock, patch
 import requests
 import torch
+from lxml import etree
+from ruamel.yaml import YAML
 import numpy as np
 import pandas as pd
 from kabr_tools import (
@@ -17,6 +19,7 @@ from kabr_tools.miniscene2behavior import (
     extract_config
 )
 from tests.utils import (
+    clean_empty_dirs,
     del_file,
     del_dir,
     file_exists,
@@ -41,6 +44,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
     def setUpClass(cls):
         # download the model from Imageomics HF
         cls.local_checkpoint = "checkpoint_epoch_00075.pyth"
+        cls.model_output = None
         cls.download_model()
 
         # download data
@@ -56,24 +60,37 @@ class TestMiniscene2Behavior(unittest.TestCase):
     @classmethod
     def download_model(cls):
         if not os.path.exists(cls.local_checkpoint):
+            # download checkpoint archive
             url = "https://huggingface.co/imageomics/" \
-                  + "x3d-kabr-kinetics/resolve/main/" \
-                  + f"{cls.local_checkpoint}.zip"
+                + "x3d-kabr-kinetics/resolve/main/" \
+                + f"{cls.local_checkpoint}.zip"
             r = requests.get(url, allow_redirects=True, timeout=120)
             with open(f"{cls.local_checkpoint}.zip", "wb") as f:
                 f.write(r.content)
 
-            # Unzip model checkpoint
+            # unzip model checkpoint
             with zipfile.ZipFile(f"{cls.local_checkpoint}.zip", "r") as zip_ref:
                 zip_ref.extractall(".")
 
+            # get checkpoint directory
+            try:
+                cfg = torch.load(cls.local_checkpoint,
+                                 weights_only=True,
+                                 map_location=torch.device("cpu"))["cfg"]
+                yaml = YAML(typ="rt")
+                cls.model_output = f"{yaml.load(cfg)['OUTPUT_DIR']}/checkpoints"
+            except Exception:
+                pass
+
     @classmethod
     def tearDownClass(cls):
-        # Remove model files after all tests have been completed
-        if os.path.exists(f"{cls.local_checkpoint}.zip"):
-            os.remove(f"{cls.local_checkpoint}.zip")
-        if os.path.exists(cls.local_checkpoint):
-            os.remove(cls.local_checkpoint)
+        # remove model files after tests
+        del_file(f"{cls.local_checkpoint}.zip")
+        del_file(cls.local_checkpoint)
+        if cls.model_output:
+            clean_empty_dirs(cls.model_output)
+
+        # remove data after tests
         del_file(cls.video)
         del_file(cls.annotation)
         del_dir(cls.miniscene)
@@ -90,6 +107,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.gpu_num = "1"
         self.output = "DJI_0068.csv"
         self.example = "tests/examples"
+        self.patch_index = [1]
 
     def tearDown(self):
         # delete output
@@ -118,7 +136,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.assertTrue(file_exists(checkpoint_path))
 
         # check output
-        self.assertTrue(csv_equal(self.output, f"{self.example}/{self.output}"))
+        self.assertTrue(csv_equal(self.output, f"{self.example}/{self.output}", self.patch_index))
 
     @patch("kabr_tools.miniscene2behavior.create_model")
     def test_hub_checkpoint(self, create_mock):
@@ -148,7 +166,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
                          config_path.replace(download_folder, ""))
 
         # check output
-        self.assertTrue(csv_equal(self.output, f"{self.example}/{self.output}"))
+        self.assertTrue(csv_equal(self.output, f"{self.example}/{self.output}", self.patch_index))
 
     @patch("kabr_tools.miniscene2behavior.create_model")
     def test_hub_checkpoint_config(self, create_mock):
@@ -179,7 +197,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
                          config_path.replace(download_folder, ""))
 
         # check output
-        self.assertTrue(csv_equal(self.output, f"{self.example}/{self.output}"))
+        self.assertTrue(csv_equal(self.output, f"{self.example}/{self.output}", self.patch_index))
 
     @patch("kabr_tools.miniscene2behavior.create_model")
     def test_local_checkpoint(self, create_mock):
@@ -206,7 +224,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.assertTrue(same_path(self.config, config_path))
 
         # check output
-        self.assertTrue(csv_equal(self.output, f"{self.example}/{self.output}"))
+        self.assertTrue(csv_equal(self.output, f"{self.example}/{self.output}", self.patch_index))
 
     @patch("kabr_tools.miniscene2behavior.create_model")
     def test_local_checkpoint_config(self, create_mock):
@@ -244,7 +262,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.assertTrue(same_path(self.config, config_path))
 
         # check output
-        self.assertTrue(csv_equal(self.output, f"{self.example}/{self.output}"))
+        self.assertTrue(csv_equal(self.output, f"{self.example}/{self.output}", self.patch_index))
 
     def test_no_checkpoint(self):
         # annotate mini-scenes
@@ -266,12 +284,13 @@ class TestMiniscene2Behavior(unittest.TestCase):
     @patch('kabr_tools.utils.slowfast.utils.process_cv2_inputs')
     @patch('kabr_tools.utils.slowfast.utils.cv2.VideoCapture')
     def test_matching_tracks(self, video_capture, process_cv2_inputs):
-
-        # Create fake model that always returns a prediction of 1
+        # create fake model that weights class 98
         mock_model = Mock()
-        mock_model.return_value = torch.tensor([1])
+        prob = torch.zeros(99)
+        prob[-1] = 1
+        mock_model.return_value = prob
 
-        # Create fake cfg
+        # create fake cfg
         mock_config = Mock(
             DATA=Mock(NUM_FRAMES=16,
                       SAMPLING_RATE=5,
@@ -280,25 +299,37 @@ class TestMiniscene2Behavior(unittest.TestCase):
             OUTPUT_DIR=''
         )
 
-        # Create fake video capture
+        # create fake video capture
         vc = video_capture.return_value
         vc.read.return_value = True, np.zeros((8, 8, 3), np.uint8)
-        vc.get.return_value = 1
+        vc.get.return_value = 21
 
         self.output = '/tmp/annotation_data.csv'
+        miniscene_dir = os.path.join(EXAMPLESDIR, "MINISCENE1")
+        video_name = "DJI"
 
         annotate_miniscene(cfg=mock_config,
                            model=mock_model,
-                           miniscene_path=os.path.join(
-                               EXAMPLESDIR, "MINISCENE1"),
-                           video='DJI',
+                           miniscene_path=miniscene_dir,
+                           video=video_name,
                            output_path=self.output)
 
-        # Read in output CSV and make sure we have the expected columns and at least one row
+        # check output CSV
         df = pd.read_csv(self.output, sep=' ')
         self.assertEqual(list(df.columns), [
                          "video", "track", "frame", "label"])
-        self.assertGreater(len(df.index), 0)
+        row_ct = 0
+
+        root = etree.parse(
+            f"{miniscene_dir}/metadata/DJI_tracks.xml").getroot()
+        for track in root.iterfind("track"):
+            track_id = int(track.get("id"))
+            for box in track.iterfind("box"):
+                row_val = [video_name, track_id, int(box.get("frame")), 98]
+                self.assertEqual(list(df.loc[row_ct]), row_val)
+                row_ct += 1
+        self.assertEqual(len(df.index), row_ct)
+
 
     @patch('kabr_tools.utils.slowfast.utils.process_cv2_inputs')
     @patch('kabr_tools.utils.slowfast.utils.cv2.VideoCapture')
@@ -320,9 +351,11 @@ class TestMiniscene2Behavior(unittest.TestCase):
         # Create fake video capture
         vc = video_capture.return_value
         vc.read.return_value = True, np.zeros((8, 8, 3), np.uint8)
-        vc.get.return_value = 1
+        vc.get.return_value = 21
 
         self.output = '/tmp/annotation_data.csv'
+        miniscene_dir = os.path.join(EXAMPLESDIR, "MINISCENE2")
+        video_name = "DJI"
 
         annotate_miniscene(cfg=mock_config,
                            model=mock_model,
@@ -331,11 +364,22 @@ class TestMiniscene2Behavior(unittest.TestCase):
                            video='DJI',
                            output_path=self.output)
 
-        # Read in output CSV and make sure we have the expected columns and at least one row
+        # check output CSV
         df = pd.read_csv(self.output, sep=' ')
         self.assertEqual(list(df.columns), [
                          "video", "track", "frame", "label"])
-        self.assertGreater(len(df.index), 0)
+        row_ct = 0
+
+        root = etree.parse(
+            f"{miniscene_dir}/metadata/DJI_tracks.xml").getroot()
+        for track in root.iterfind("track"):
+            track_id = int(track.get("id"))
+            for box in track.iterfind("box"):
+                row_val = [video_name, track_id, int(box.get("frame")), 0]
+                self.assertEqual(list(df.loc[row_ct]), row_val)
+                row_ct += 1
+        self.assertEqual(len(df.index), row_ct)
+
 
 
 # parse_args

@@ -1,4 +1,9 @@
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
+# round_width from https://github.com/facebookresearch/SlowFast/blob/bac7b672f40d44166a84e8c51d1a5ba367ace816/slowfast/models/utils.py
+# init_weights from https://github.com/facebookresearch/SlowFast/blob/bac7b672f40d44166a84e8c51d1a5ba367ace816/slowfast/utils/weight_init_helper.py
+# _POOL1, _TEMPORAL_KERNEL_BASIS, _MODEL_STAGE_DEPTH, X3D from https://github.com/facebookresearch/SlowFast/blob/bac7b672f40d44166a84e8c51d1a5ba367ace816/slowfast/models/video_model_builder.py
+# simplify build_model from https://github.com/facebookresearch/SlowFast/blob/bac7b672f40d44166a84e8c51d1a5ba367ace816/slowfast/models/build.py
+# replace slowfast imports with local imports
 
 import math
 import torch
@@ -298,6 +303,13 @@ class X3D(nn.Module):
 
 
 def build_model(cfg, gpu_id=None):
+    """
+    Builds the video model.
+    Args:
+        cfg (configs): configs that contains the hyper-parameters to build the
+        backbone. Details can be seen in slowfast/config/defaults.py.
+        gpu_id (Optional[int]): specify the gpu index to build model.
+    """
     if torch.cuda.is_available():
         assert (
             cfg.NUM_GPUS <= torch.cuda.device_count()

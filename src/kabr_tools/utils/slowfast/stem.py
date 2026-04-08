@@ -1,4 +1,6 @@
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
+# code from https://github.com/facebookresearch/SlowFast/blob/bac7b672f40d44166a84e8c51d1a5ba367ace816/slowfast/models/stem_helper.py
+# unused torch import removed
 
 """ResNe(X)t 3D stem helper."""
 
