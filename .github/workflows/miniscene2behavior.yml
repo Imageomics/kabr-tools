@@ -31,8 +31,3 @@ jobs:
         HF_TOKEN: ${{ secrets.HF_TOKEN_TESTING }}
       run: |
         python -m unittest tests/test_miniscene2behavior.py
-<<<<<<<< HEAD:.github/workflows/ubuntu.yml
-        python -m unittest tests/test_player.py
-        python -m unittest tests/test_tracks_extractor.py
-========
->>>>>>>> origin/main:.github/workflows/miniscene2behavior.yml
