@@ -41,8 +41,8 @@ def detector2cvat(path_to_videos: str, path_to_save: str,
         try:
             name = Path(video).stem
 
-            video_parts = Path(video).parts
-            output_folder = Path(path_to_save).joinpath(*video_parts[-3:-1])
+            video_parts = [p for p in Path(video).parts[-3:-1] if not Path(p).is_absolute()]
+            output_folder = Path(path_to_save).joinpath(*video_parts)
             output_path = output_folder / f"{name}.xml"
             print(f"{i + 1}/{len(videos)}: {video} -> {output_path}")
 
