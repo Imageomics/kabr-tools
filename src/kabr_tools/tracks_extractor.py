@@ -177,7 +177,7 @@ def extract(video_path: str, annotation_path: str, tracking: bool, show: bool) -
     shutil.copy(annotation_path, str(metadata_dir / f"{name}_tracks.xml"))
     generate_timeline_image(name, folder, timeline, annotated_size)
 
-    with open(str(metadata_dir / f"{name}_metadata.json"), "w") as file:
+    with open(str(metadata_dir / f"{name}_metadata.json"), "w", encoding="utf-8") as file:
         json.dump(timeline, file)
 
     pbar.close()
