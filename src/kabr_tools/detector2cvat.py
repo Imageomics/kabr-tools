@@ -109,8 +109,8 @@ def detector2cvat(path_to_videos: str, path_to_save: str,
             vw.release()
             cv2.destroyAllWindows()
             tracks.save(str(output_path), "cvat")
-        except:
-            print("Something went wrong...")
+        except Exception as e:
+            print(f"Something went wrong: {e}")
 
 
 def parse_args() -> argparse.Namespace:
