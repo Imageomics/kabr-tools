@@ -1,0 +1,56 @@
+/* Copied & udpated from https://github.com/Imageomics/Imageomics-guide/blob/main/docs/stylesheets/extra.css */
+
+/*
+Make logo larger to be legible,
+based on this suggestion: https://github.com/squidfunk/mkdocs-material/discussions/2933#discussioncomment-1168075
+*/
+ .md-header__button.md-logo {
+  margin: 0;
+  padding: 1;
+}
+
+.md-header__button.md-logo img, .md-header__button.md-logo svg {
+  height: 2.8rem;
+  width: 2.8rem;
+}
+
+/* Redefine color scheme */
+/* Light mode colors: mossy green #9DAE94 and darkmode background (#1F2128) for header text */
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color:        #9DAE94;
+  --md-primary-bg-color:        #1F2128;
+}
+
+/* Set admonition (question) colors to "Acacia leaf green: #8A9A5B" */
+/* border color */
+.md-typeset .admonition.question, .md-typeset details.question {
+    border-color: #8A9A5B;
+    box-shadow: #8A9A5B1a;
+}
+
+/* icon color */
+.md-typeset .admonition.question > .admonition-title::before {
+    background-color: #8A9A5B;
+}
+
+/* shaded part (title/heading) */
+.md-typeset .question>.admonition-title,.md-typeset .question>summary {
+    background-color: #8A9A5B1a;
+}
+
+/* Set URL colors to "Acacia leaf green: #8A9A5B" */
+/* Content URLs */
+.md-typeset a {
+  color: #8A9A5B;
+}
+
+/* Navigation URL (side panel contents) */
+.md-nav .md-nav__link--active {
+  color: #8A9A5B;
+}
+
+/* Dark mode color */
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color:        #9DAE94;
+  --md-primary-bg-color:        #1F2128;
+}
