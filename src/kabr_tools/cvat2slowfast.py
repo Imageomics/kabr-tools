@@ -34,9 +34,9 @@ def cvat2slowfast(path_to_mini_scenes: str, path_to_new_dataset: str,
     with open(f"{path_to_new_dataset}/annotation/classes.json", "w") as file:
         json.dump(label2number, file)
 
-    headers = {"original_vido_id": [], "video_id": pd.Series(dtype="int"), "frame_id": pd.Series(dtype="int"),
-               "path": [], "labels": []}
-    charades_df = pd.DataFrame(data=headers)
+    headers = ["original_vido_id", "video_id", "frame_id", "path", "labels"]
+    charades_data = []
+
     video_id = 1
     folder_name = 1
 
@@ -127,13 +127,11 @@ def cvat2slowfast(path_to_mini_scenes: str, path_to_new_dataset: str,
                                 if not no_images:
                                     cv2.imwrite(f"{output_folder}/{adjusted_index}.jpg", frame)
 
-                                # TODO: Major slow down here. Add to a list rather than dataframe,
-                                #  and create dataframe at the end.
-                                charades_df.loc[len(charades_df.index)] = [f"{folder_code}",
-                                                                           video_id,
-                                                                           adjusted_index,
-                                                                           f"{folder_code}/{adjusted_index}.jpg",
-                                                                           str(label2number[behavior])]
+                                charades_data.append([f"{folder_code}",
+                                                        video_id,
+                                                        adjusted_index,
+                                                        f"{folder_code}/{adjusted_index}.jpg",
+                                                        str(label2number[behavior])])
 
                                 adjusted_index += 1
 
@@ -145,9 +143,11 @@ def cvat2slowfast(path_to_mini_scenes: str, path_to_new_dataset: str,
                     video_id += 1
 
                     if video_id % 10 == 0:
+                        charades_df = pd.DataFrame(charades_data, columns=headers)
                         charades_df.to_csv(
                             f"{path_to_new_dataset}/annotation/data.csv", sep=" ", index=False)
 
+    charades_df = pd.DataFrame(charades_data, columns=headers)
     charades_df.to_csv(
         f"{path_to_new_dataset}/annotation/data.csv", sep=" ", index=False)
 

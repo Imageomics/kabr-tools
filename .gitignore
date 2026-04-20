@@ -184,6 +184,7 @@ cython_debug/
 *.jpg
 *.yaml
 !.github/workflows/*.yaml
+!ethogram/*.json
 *.csv
 *.txt
 
