@@ -32,4 +32,4 @@ jobs:
       run: |
         mkdir /tmp/test
         cd /tmp/test
-        python -m unittest discover /home/runner/work/kabr-tools/kabr-tools
+        python -m unittest discover -s "$GITHUB_WORKSPACE/tests" -t "$GITHUB_WORKSPACE"

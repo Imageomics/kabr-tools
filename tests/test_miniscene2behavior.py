@@ -106,7 +106,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.test_config = "special_config.yml"
         self.gpu_num = "1"
         self.output = "DJI_0068.csv"
-        self.example = "tests/examples"
+        self.example = EXAMPLESDIR
         self.patch_index = [1]
 
     def tearDown(self):

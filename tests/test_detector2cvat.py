@@ -14,6 +14,9 @@ from tests.utils import (
     get_detection
 )
 
+TESTSDIR = os.path.dirname(os.path.realpath(__file__))
+REPOROOT = os.path.dirname(TESTSDIR)
+
 
 class DetectionData:
     def __init__(self, video_dim, video_len, annotation):
@@ -84,9 +87,9 @@ class TestDetector2Cvat(unittest.TestCase):
         # set params
         self.tool = "detector2cvat.py"
         self.video = TestDetector2Cvat.dir
-        self.save = "tests/detector2cvat"
-        self.target_labels = "ethogram/yolo_labels.json"
-        self.label_map = "ethogram/yolo_equiv.json"
+        self.save = os.path.join(TESTSDIR, "detector2cvat")
+        self.target_labels = os.path.join(REPOROOT, "ethogram", "yolo_labels.json")
+        self.label_map = os.path.join(REPOROOT, "ethogram", "yolo_equiv.json")
         self.yolo = "yolov5s.pt"
         self.dir = "/".join(os.path.splitext(self.video)[0].split('/')[-2:])
 
@@ -171,7 +174,7 @@ class TestDetector2Cvat(unittest.TestCase):
     @patch('kabr_tools.detector2cvat.cv2.VideoCapture')
     def test_mock_with_data(self, video_capture, yolo):
         # mock outputs CVAT data
-        ref_path = "tests/examples/MINISCENE1/metadata/DJI_tracks.xml"
+        ref_path = os.path.join(TESTSDIR, "examples", "MINISCENE1", "metadata", "DJI_tracks.xml")
         height, width, frames = 3078, 5472, 21
         data = DetectionData((height, width, 3),
                              frames,
@@ -240,7 +243,7 @@ class TestDetector2Cvat(unittest.TestCase):
     @patch('kabr_tools.detector2cvat.cv2.VideoCapture')
     def test_mock_noncontiguous(self, video_capture, yolo):
         # mock outputs non-contiguous frame detections
-        ref_path = "tests/examples/DETECTOR1/DJI_tracks.xml"
+        ref_path = os.path.join(TESTSDIR, "examples", "DETECTOR1", "DJI_tracks.xml")
         height, width, frames = 3078, 5472, 31
         data = DetectionData((height, width, 3),
                              frames,
