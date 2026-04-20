@@ -60,8 +60,10 @@ class TestTracksExtractor(unittest.TestCase):
         run()
 
         # check output exists
-        mini_folder = Path(self.video).stem
-        video_name = mini_folder
+        parts = list(Path(self.video).parts[-3:])
+        parts[-1] = Path(parts[-1]).stem
+        mini_folder = "_".join(parts)
+        video_name = Path(self.video).stem
         self.assertTrue(dir_exists(f"mini-scenes/{mini_folder}"))
         self.assertTrue(dir_exists(f"mini-scenes/{mini_folder}/actions"))
         self.assertTrue(dir_exists(f"mini-scenes/{mini_folder}/metadata"))

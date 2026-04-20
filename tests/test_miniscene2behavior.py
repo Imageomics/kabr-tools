@@ -57,7 +57,9 @@ class TestMiniscene2Behavior(unittest.TestCase):
                     "--video", cls.video,
                     "--annotation", cls.annotation]
         tracks_extractor.main()
-        cls.miniscene = f'mini-scenes/{Path(cls.video).stem}'
+        parts = list(Path(cls.video).parts[-3:])
+        parts[-1] = Path(parts[-1]).stem
+        cls.miniscene = f'mini-scenes/{"_".join(parts)}'
 
     @classmethod
     def download_model(cls):

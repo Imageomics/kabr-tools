@@ -68,7 +68,9 @@ def extract(video_path: str, annotation_path: str, tracking: bool, show: bool) -
                                              int(float(box.attrib["ybr"]))]
 
     name = Path(video_path).stem
-    folder = name
+    parts = list(Path(video_path).parts[-3:])
+    parts[-1] = Path(parts[-1]).stem
+    folder = "_".join(parts)
     annotated_size = int("".join(root.find("meta").find("task").find("size").itertext()))
     scene_width, scene_height = 400, 300
     vc = cv2.VideoCapture(video_path)
