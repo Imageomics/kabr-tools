@@ -30,4 +30,7 @@ jobs:
       env:
         HF_TOKEN: ${{ secrets.HF_TOKEN_TESTING }}
       run: |
-        python -m unittest tests/test_detector2cvat.py
+        mkdir /tmp/test
+        cd /tmp/test
+        python -m unittest discover -s "$GITHUB_WORKSPACE/tests" -t "$GITHUB_WORKSPACE"
+
