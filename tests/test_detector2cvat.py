@@ -1,6 +1,7 @@
 import unittest
 import sys
 import os
+from pathlib import Path
 from lxml import etree
 from unittest.mock import MagicMock, patch
 import cv2
@@ -88,7 +89,7 @@ class TestDetector2Cvat(unittest.TestCase):
         self.target_labels = "ethogram/yolo_labels.json"
         self.label_map = "ethogram/yolo_equiv.json"
         self.yolo = "yolov5s.pt"
-        self.dir = "/".join(os.path.splitext(self.video)[0].split('/')[-2:])
+        self.dir = "/".join(Path(self.video).parts[-2:])
 
     def tearDown(self):
         # delete outputs

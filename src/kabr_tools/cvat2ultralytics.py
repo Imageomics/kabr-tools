@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from typing import Optional
 import argparse
 import json
@@ -92,7 +93,7 @@ def cvat2ultralytics(video_path: str, annotation_path: str,
 
         # Parse CVAT for video 1.1 annotation file.
         root = etree.parse(annotation).getroot()
-        name = os.path.splitext(video.split("/")[-1])[0]
+        name = Path(video).stem
 
         if root.find("meta").find("task") is not None:
             annotated_size = int("".join(root.find("meta").find("task").find("size").itertext()))

@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 import json
 import argparse
 import cv2
@@ -27,31 +28,32 @@ def detector2cvat(path_to_videos: str, path_to_save: str,
     for root, dirs, files in os.walk(path_to_videos):
         for file in files:
             if os.path.splitext(file)[1] == ".mp4":
-                folder = root.split("/")[-1]
+                folder = Path(root).name
 
                 if folder.startswith("!") or file.startswith("!"):
                     continue
 
-                videos.append(f"{root}/{file}")
+                videos.append(str(Path(root) / file))
 
     yolo = YOLOv8(weights=model, imgsz=3840, conf=0.5, target_labels=target_labels, label_map=label_map)
 
     for i, video in enumerate(videos):
         try:
-            name = os.path.splitext(video.split("/")[-1])[0]
+            name = Path(video).stem
 
-            output_folder = path_to_save + os.sep + "/".join(os.path.splitext(video)[0].split("/")[-3:-1])
-            output_path = f"{output_folder}/{name}.xml"
+            video_parts = [p for p in Path(video).parts[-3:-1] if not Path(p).is_absolute()]
+            output_folder = Path(path_to_save).joinpath(*video_parts)
+            output_path = output_folder / f"{name}.xml"
             print(f"{i + 1}/{len(videos)}: {video} -> {output_path}")
 
-            if not os.path.exists(output_folder):
-                os.makedirs(output_folder)
+            if not output_folder.exists():
+                output_folder.mkdir(parents=True)
 
             vc = cv2.VideoCapture(video)
             size = int(vc.get(cv2.CAP_PROP_FRAME_COUNT))
             width = int(vc.get(cv2.CAP_PROP_FRAME_WIDTH))
             height = int(vc.get(cv2.CAP_PROP_FRAME_HEIGHT))
-            vw = cv2.VideoWriter(f"{output_folder}/{name}_demo.mp4", cv2.VideoWriter_fourcc("m", "p", "4", "v"),
+            vw = cv2.VideoWriter(str(output_folder / f"{name}_demo.mp4"), cv2.VideoWriter_fourcc("m", "p", "4", "v"),
                                  29.97, (width, height))
             max_disappeared = 40
             tracker = Tracker(max_disappeared=max_disappeared, max_distance=300)
@@ -106,9 +108,9 @@ def detector2cvat(path_to_videos: str, path_to_save: str,
             vc.release()
             vw.release()
             cv2.destroyAllWindows()
-            tracks.save(output_path, "cvat")
-        except:
-            print("Something went wrong...")
+            tracks.save(str(output_path), "cvat")
+        except Exception as e:
+            print(f"Something went wrong: {e}")
 
 
 def parse_args() -> argparse.Namespace:

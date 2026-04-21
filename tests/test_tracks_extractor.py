@@ -1,6 +1,7 @@
 import unittest
 import sys
 import os
+from pathlib import Path
 from unittest.mock import patch, Mock
 import json
 from lxml import etree
@@ -59,8 +60,10 @@ class TestTracksExtractor(unittest.TestCase):
         run()
 
         # check output exists
-        mini_folder = os.path.splitext("|".join(self.video.split("/")[-3:]))[0]
-        video_name = "DJI_0068"
+        parts = list(Path(self.video).parts[-3:])
+        parts[-1] = Path(parts[-1]).stem
+        mini_folder = "_".join(parts)
+        video_name = Path(self.video).stem
         self.assertTrue(dir_exists(f"mini-scenes/{mini_folder}"))
         self.assertTrue(dir_exists(f"mini-scenes/{mini_folder}/actions"))
         self.assertTrue(dir_exists(f"mini-scenes/{mini_folder}/metadata"))

@@ -1,6 +1,7 @@
 import argparse
 import random
 import sys
+from pathlib import Path
 from zipfile import ZipFile
 import torch
 from lxml import etree
@@ -198,13 +199,13 @@ def annotate_miniscene(cfg: CfgNode, model: torch.nn.Module,
 def download_model(args) -> None:
     # download checkpoint from huggingface
     args.checkpoint = get_cached_datafile(args.hub, args.checkpoint)
-    checkpoint_folder = args.checkpoint.rsplit("/", 1)[0]
+    checkpoint_folder = str(Path(args.checkpoint).parent)
 
     # extract checkpoint archive
-    if args.checkpoint.rsplit(".", 1)[-1] == "zip":
+    if Path(args.checkpoint).suffix == ".zip":
         with ZipFile(args.checkpoint, "r") as zip_ref:
             zip_ref.extractall(checkpoint_folder)
-        args.checkpoint = args.checkpoint.rsplit(".", 1)[0]
+        args.checkpoint = str(Path(args.checkpoint).with_suffix(""))
 
     # download config from huggingface
     if args.config:
@@ -213,15 +214,12 @@ def download_model(args) -> None:
 
 def extract_config(args) -> None:
     # extract config from checkpoint
-    if len(args.checkpoint.rsplit("/", 1)) > 1:
-        checkpoint_folder = args.checkpoint.rsplit("/", 1)[0]
-    else:
-        checkpoint_folder = "."
+    checkpoint_folder = Path(args.checkpoint).parent
 
     checkpoint = torch.load(args.checkpoint,
                             map_location=torch.device("cpu"),
                             weights_only=True)
-    config_path = f"{checkpoint_folder}/config.yml"
+    config_path = str(checkpoint_folder / "config.yml")
     with open(config_path, "w", encoding="utf-8") as file:
         file.write(checkpoint["cfg"])
     args.config = config_path

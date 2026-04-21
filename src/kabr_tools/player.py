@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 import argparse
 import json
 from collections import OrderedDict
@@ -160,7 +161,7 @@ def player(folder: str, save: bool, show: bool) -> None:
     show - bool. Flag to display player's visualization.
     """
     global index, vcs, vc, current, metadata, trackbar_position, paused, updated
-    name = folder.split("/")[-1].split('|')[-1]
+    name = Path(folder).name
 
     metadata_path = f"{folder}/metadata/{name}_metadata.json"
     actions_path = f"{folder}/actions"
