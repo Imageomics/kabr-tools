@@ -4,6 +4,7 @@ import sys
 import argparse
 import json
 from lxml import etree
+from pathlib import Path
 import shutil
 import cv2
 from collections import OrderedDict
@@ -44,7 +45,7 @@ def generate_timeline_image(name: str, folder: str, timeline: OrderedDict, annot
         cv2.putText(timeline_resized, str(key), (30, i * 100 + 50),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.6, tuple([j - 30 for j in color]), 2, cv2.LINE_AA)
 
-    cv2.imwrite(f"mini-scenes/{folder}/metadata/{name}.jpg", timeline_resized)
+    cv2.imwrite(str(Path("mini-scenes") / folder / "metadata" / f"{name}.jpg"), timeline_resized)
 
 
 def extract(video_path: str, annotation_path: str, tracking: bool, show: bool) -> None:
@@ -66,19 +67,22 @@ def extract(video_path: str, annotation_path: str, tracking: bool, show: bool) -
                                              int(float(box.attrib["xbr"])),
                                              int(float(box.attrib["ybr"]))]
 
-    name = os.path.splitext(video_path.split("/")[-1])[0]
-    folder = os.path.splitext("|".join(video_path.split("/")[-3:]))[0]
+    name = Path(video_path).stem
+    parts = list(Path(video_path).parts[-3:])
+    parts[-1] = Path(parts[-1]).stem
+    folder = "_".join(parts)
     annotated_size = int("".join(root.find("meta").find("task").find("size").itertext()))
     scene_width, scene_height = 400, 300
     vc = cv2.VideoCapture(video_path)
     original_width, original_height = int(vc.get(cv2.CAP_PROP_FRAME_WIDTH)), int(vc.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
-    print(f"{video_path} | {annotation_path} -> mini-scenes/{folder}")
+    mini_scene_dir = Path("mini-scenes") / folder
+    print(f"{video_path} | {annotation_path} -> {mini_scene_dir}")
 
-    if not os.path.exists(f"mini-scenes/{folder}"):
-        os.makedirs(f"mini-scenes/{folder}")
+    if not mini_scene_dir.exists():
+        mini_scene_dir.mkdir(parents=True)
 
-    vw = cv2.VideoWriter(f"mini-scenes/{folder}/{name}.mp4", cv2.VideoWriter_fourcc("m", "p", "4", "v"), 29.97,
+    vw = cv2.VideoWriter(str(mini_scene_dir / f"{name}.mp4"), cv2.VideoWriter_fourcc("m", "p", "4", "v"), 29.97,
                          (original_width, original_height))
     max_disappeared = 40
     tracker = Tracker(max_disappeared=max_disappeared, max_distance=300)
@@ -127,10 +131,10 @@ def extract(video_path: str, annotation_path: str, tracking: bool, show: bool) -
 
                 for object in objects:
                     if tracks_vw.get(object.object_id) is None:
-                        if not os.path.exists(f"mini-scenes/{folder}"):
-                            os.makedirs(f"mini-scenes/{folder}")
+                        if not mini_scene_dir.exists():
+                            mini_scene_dir.mkdir(parents=True)
 
-                        tracks_vw[object.object_id] = cv2.VideoWriter(f"mini-scenes/{folder}/{object.object_id}.mp4",
+                        tracks_vw[object.object_id] = cv2.VideoWriter(str(mini_scene_dir / f"{object.object_id}.mp4"),
                                                                       cv2.VideoWriter_fourcc("m", "p", "4", "v"),
                                                                       29.97, (scene_width, scene_height))
                         tracked_indices[object.object_id] = 0
@@ -163,16 +167,19 @@ def extract(video_path: str, annotation_path: str, tracking: bool, show: bool) -
     for track_key in tracks_vw.keys():
         tracks_vw[track_key].release()
 
-    if not os.path.exists(f"mini-scenes/{folder}/actions"):
-        os.makedirs(f"mini-scenes/{folder}/actions")
+    actions_dir = mini_scene_dir / "actions"
+    metadata_dir = mini_scene_dir / "metadata"
 
-    if not os.path.exists(f"mini-scenes/{folder}/metadata"):
-        os.makedirs(f"mini-scenes/{folder}/metadata")
+    if not actions_dir.exists():
+        actions_dir.mkdir(parents=True)
 
-    shutil.copy(annotation_path, f"mini-scenes/{folder}/metadata/{name}_tracks.xml")
+    if not metadata_dir.exists():
+        metadata_dir.mkdir(parents=True)
+
+    shutil.copy(annotation_path, str(metadata_dir / f"{name}_tracks.xml"))
     generate_timeline_image(name, folder, timeline, annotated_size)
 
-    with open(f"mini-scenes/{folder}/metadata/{name}_metadata.json", "w") as file:
+    with open(str(metadata_dir / f"{name}_metadata.json"), "w", encoding="utf-8") as file:
         json.dump(timeline, file)
 
     pbar.close()
@@ -197,7 +204,7 @@ def tracks_extractor(video: str, annotation: str, tracking: bool, show: bool) ->
         for root, dirs, files in os.walk(annotation):
             for file in files:
                 if os.path.splitext(file)[1] == ".xml":
-                    folder = root.split("/")[-1]
+                    folder = Path(root).name
 
                     if folder.startswith("!") or file.startswith("!"):
                         continue

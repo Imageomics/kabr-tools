@@ -1,6 +1,7 @@
 import unittest
 import sys
 import os
+from pathlib import Path
 from unittest.mock import patch
 from kabr_tools import player
 from tests.utils import (
@@ -36,7 +37,7 @@ class TestPlayer(unittest.TestCase):
         # set params
         self.tool = "player.py"
         self.folder = TestPlayer.dir
-        self.video = self.folder.rsplit("/", maxsplit=1)[-1]
+        self.video = Path(self.folder).name
 
         # delete output
         del_file(f"{self.folder}/{self.video}_demo.mp4")
