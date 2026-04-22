@@ -36,4 +36,5 @@ jobs:
         mkdir /tmp/test
         cd /tmp/test
         python -m unittest discover -s "$GITHUB_WORKSPACE/tests" -p "test_detector2cvat.py" -t "$GITHUB_WORKSPACE"
+        python -m unittest discover -s "$GITHUB_WORKSPACE/tests" -p "test_yolo.py" -t "$GITHUB_WORKSPACE"
 
