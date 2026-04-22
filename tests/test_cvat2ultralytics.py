@@ -13,6 +13,9 @@ from tests.utils import (
     file_exists
 )
 
+TESTSDIR = os.path.dirname(os.path.realpath(__file__))
+REPOROOT = os.path.dirname(TESTSDIR)
+
 
 def run():
     cvat2ultralytics.main()
@@ -36,9 +39,9 @@ class TestCvat2Ultralytics(unittest.TestCase):
         self.tool = "cvat2ultralytics.py"
         self.video = TestCvat2Ultralytics.dir
         self.annotation = TestCvat2Ultralytics.dir
-        self.dataset = "tests/ultralytics"
+        self.dataset = os.path.join(TESTSDIR, "ultralytics")
         self.skip = "1"
-        self.label2index = "ethogram/label2index.json"
+        self.label2index = os.path.join(REPOROOT, "ethogram", "label2index.json")
 
     def tearDown(self):
         # delete outputs
@@ -50,7 +53,7 @@ class TestCvat2Ultralytics(unittest.TestCase):
         sys.argv = [self.tool,
                     "--video", self.video,
                     "--annotation", self.annotation,
-                    "--dataset", "tests/ultralytics",
+                    "--dataset", self.dataset,
                     "--skip", self.skip]
         run()
 

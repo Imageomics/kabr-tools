@@ -29,7 +29,11 @@ jobs:
         python -m pip install hatchling 
         python -m pip install --no-build-isolation .
     - name: Running unit tests
+      shell: bash
       env:
         HF_TOKEN: ${{ secrets.HF_TOKEN_TESTING }}
       run: |
-        python -m unittest tests/test_player.py
+        mkdir /tmp/test
+        cd /tmp/test
+        python -m unittest discover -s "$GITHUB_WORKSPACE/tests" -p "test_player.py" -t "$GITHUB_WORKSPACE"
+

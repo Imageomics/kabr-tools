@@ -17,6 +17,9 @@ from tests.utils import (
     get_behavior
 )
 
+TESTSDIR = os.path.dirname(os.path.realpath(__file__))
+REPOROOT = os.path.dirname(TESTSDIR)
+
 
 def run():
     cvat2slowfast.main()
@@ -43,9 +46,9 @@ class TestCvat2Slowfast(unittest.TestCase):
         # set params
         self.tool = "cvat2slowfast.py"
         self.miniscene = TestCvat2Slowfast.dir
-        self.dataset = "tests/slowfast"
-        self.classes = "ethogram/classes.json"
-        self.old2new = "ethogram/old2new.json"
+        self.dataset = os.path.join(TESTSDIR, "slowfast")
+        self.classes = os.path.join(REPOROOT, "ethogram", "classes.json")
+        self.old2new = os.path.join(REPOROOT, "ethogram", "old2new.json")
 
     def tearDown(self):
         # delete outputs
