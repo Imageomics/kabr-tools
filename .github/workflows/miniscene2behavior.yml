@@ -14,6 +14,7 @@ on:
       - 'src/kabr_tools/__init__.py'
       - 'tests/test_miniscene2behavior.py'
       - 'tests/utils.py'
+      - 'tests/examples/**'
       - 'requirements.txt'
       - 'pyproject.toml'
       - '.github/workflows/miniscene2behavior.yml'
