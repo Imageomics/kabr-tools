@@ -5,8 +5,14 @@ on:
     paths:
       - 'src/kabr_tools/cvat2slowfast.py'
       - 'src/kabr_tools/utils/path.py'
+      - 'src/kabr_tools/__init__.py'
       - 'tests/test_cvat2slowfast.py'
+      - 'tests/test_tracks_extractor.py'
       - 'tests/utils.py'
+      - 'ethogram/classes.json'
+      - 'ethogram/old2new.json'
+      - 'requirements.txt'
+      - 'pyproject.toml'
       - '.github/workflows/cvat2slowfast.yml'
 
 jobs:

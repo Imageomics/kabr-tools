@@ -9,8 +9,11 @@ on:
       - 'src/kabr_tools/utils/tracker.py'
       - 'src/kabr_tools/utils/object.py'
       - 'src/kabr_tools/utils/draw.py'
+      - 'src/kabr_tools/__init__.py'
       - 'tests/test_tracks_extractor.py'
       - 'tests/utils.py'
+      - 'requirements.txt'
+      - 'pyproject.toml'
       - '.github/workflows/tracks_extractor.yml'
 
 jobs:
