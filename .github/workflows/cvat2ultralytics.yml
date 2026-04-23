@@ -3,8 +3,9 @@ name: cvat2ultralytics test
 on:
   push:
     paths:
-      - 'src/**'
-      - 'tests/**'
+      - 'src/kabr_tools/cvat2ultralytics.py'
+      - 'tests/test_cvat2ultralytics.py'
+      - 'tests/utils.py'
       - '.github/workflows/cvat2ultralytics.yml'
 
 jobs:

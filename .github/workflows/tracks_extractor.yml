@@ -3,8 +3,14 @@ name: tracks_extractor test
 on:
   push:
     paths:
-      - 'src/**'
-      - 'tests/**'
+      - 'src/kabr_tools/tracks_extractor.py'
+      - 'src/kabr_tools/utils/utils.py'
+      - 'src/kabr_tools/utils/detector.py'
+      - 'src/kabr_tools/utils/tracker.py'
+      - 'src/kabr_tools/utils/object.py'
+      - 'src/kabr_tools/utils/draw.py'
+      - 'tests/test_tracks_extractor.py'
+      - 'tests/utils.py'
       - '.github/workflows/tracks_extractor.yml'
 
 jobs:

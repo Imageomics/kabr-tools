@@ -3,8 +3,10 @@ name: miniscene2behavior test
 on:
   push:
     paths:
-      - 'src/**'
-      - 'tests/**'
+      - 'src/kabr_tools/miniscene2behavior.py'
+      - 'src/kabr_tools/utils/slowfast/**'
+      - 'tests/test_miniscene2behavior.py'
+      - 'tests/utils.py'
       - '.github/workflows/miniscene2behavior.yml'
 
 jobs:

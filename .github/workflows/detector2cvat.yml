@@ -3,8 +3,14 @@ name: detector2cvat test
 on:
   push:
     paths:
-      - 'src/**'
-      - 'tests/**'
+      - 'src/kabr_tools/detector2cvat.py'
+      - 'src/kabr_tools/utils/yolo.py'
+      - 'src/kabr_tools/utils/tracker.py'
+      - 'src/kabr_tools/utils/object.py'
+      - 'src/kabr_tools/utils/draw.py'
+      - 'tests/test_detector2cvat.py'
+      - 'tests/test_yolo.py'
+      - 'tests/utils.py'
       - '.github/workflows/detector2cvat.yml'
 
 jobs:

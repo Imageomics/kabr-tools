@@ -3,8 +3,9 @@ name: player test
 on:
   push:
     paths:
-      - 'src/**'
-      - 'tests/**'
+      - 'src/kabr_tools/player.py'
+      - 'tests/test_player.py'
+      - 'tests/utils.py'
       - '.github/workflows/player.yml'
 
 jobs:
