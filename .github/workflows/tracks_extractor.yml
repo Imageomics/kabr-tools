@@ -1,20 +1,6 @@
 name: tracks_extractor test
 
 on:
-  push:
-    paths:
-      - 'src/kabr_tools/tracks_extractor.py'
-      - 'src/kabr_tools/utils/utils.py'
-      - 'src/kabr_tools/utils/detector.py'
-      - 'src/kabr_tools/utils/tracker.py'
-      - 'src/kabr_tools/utils/object.py'
-      - 'src/kabr_tools/utils/draw.py'
-      - 'src/kabr_tools/__init__.py'
-      - 'tests/test_tracks_extractor.py'
-      - 'tests/utils.py'
-      - 'requirements.txt'
-      - 'pyproject.toml'
-      - '.github/workflows/tracks_extractor.yml'
   pull_request:
     paths:
       - 'src/kabr_tools/tracks_extractor.py'

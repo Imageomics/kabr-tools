@@ -1,16 +1,6 @@
 name: cvat2ultralytics test
 
 on:
-  push:
-    paths:
-      - 'src/kabr_tools/cvat2ultralytics.py'
-      - 'src/kabr_tools/__init__.py'
-      - 'tests/test_cvat2ultralytics.py'
-      - 'tests/utils.py'
-      - 'ethogram/label2index.json'
-      - 'requirements.txt'
-      - 'pyproject.toml'
-      - '.github/workflows/cvat2ultralytics.yml'
   pull_request:
     paths:
       - 'src/kabr_tools/cvat2ultralytics.py'
