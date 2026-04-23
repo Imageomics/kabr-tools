@@ -1,15 +1,6 @@
 name: player test
 
 on:
-  push:
-    paths:
-      - 'src/kabr_tools/player.py'
-      - 'src/kabr_tools/__init__.py'
-      - 'tests/test_player.py'
-      - 'tests/utils.py'
-      - 'requirements.txt'
-      - 'pyproject.toml'
-      - '.github/workflows/player.yml'
   pull_request:
     paths:
       - 'src/kabr_tools/player.py'

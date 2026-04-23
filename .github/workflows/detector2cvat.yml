@@ -1,23 +1,6 @@
 name: detector2cvat test
 
 on:
-  push:
-    paths:
-      - 'src/kabr_tools/detector2cvat.py'
-      - 'src/kabr_tools/utils/yolo.py'
-      - 'src/kabr_tools/utils/tracker.py'
-      - 'src/kabr_tools/utils/object.py'
-      - 'src/kabr_tools/utils/draw.py'
-      - 'src/kabr_tools/__init__.py'
-      - 'tests/test_detector2cvat.py'
-      - 'tests/test_yolo.py'
-      - 'tests/utils.py'
-      - 'tests/examples/**'
-      - 'ethogram/yolo_labels.json'
-      - 'ethogram/yolo_equiv.json'
-      - 'requirements.txt'
-      - 'pyproject.toml'
-      - '.github/workflows/detector2cvat.yml'
   pull_request:
     paths:
       - 'src/kabr_tools/detector2cvat.py'
