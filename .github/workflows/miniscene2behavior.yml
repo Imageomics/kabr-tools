@@ -2,22 +2,39 @@ name: miniscene2behavior test
 
 on:
   pull_request:
-    paths:
-      - 'src/kabr_tools/miniscene2behavior.py'
-      - 'src/kabr_tools/tracks_extractor.py'
-      - 'src/kabr_tools/utils/slowfast/**'
-      - 'src/kabr_tools/utils/utils.py'
-      - 'src/kabr_tools/utils/detector.py'
-      - 'src/kabr_tools/utils/tracker.py'
-      - 'src/kabr_tools/utils/object.py'
-      - 'src/kabr_tools/utils/draw.py'
-      - 'src/kabr_tools/__init__.py'
-      - 'tests/test_miniscene2behavior.py'
-      - 'tests/utils.py'
-      - 'tests/examples/**'
-      - 'requirements.txt'
-      - 'pyproject.toml'
-      - '.github/workflows/miniscene2behavior.yml'
+    paths-ignore:
+      # docs and metadata
+      - 'README.md'
+      - 'LICENSE'
+      - 'CITATION.cff'
+      - 'mkdocs.yml'
+      - 'config.yml'
+      - '.zenodo.json'
+      - 'docs/**'
+      - 'cvat_templates/**'
+      - 'helper_scripts/**'
+      - 'utils/**'
+      - '.github/workflows/deploy-docs.yaml'
+      - '.github/workflows/validate-zenodo.yaml'
+      # sibling test workflows
+      - '.github/workflows/cvat2slowfast.yml'
+      - '.github/workflows/cvat2ultralytics.yml'
+      - '.github/workflows/detector2cvat.yml'
+      - '.github/workflows/player.yml'
+      - '.github/workflows/tracks_extractor.yml'
+      # other tool source files
+      - 'src/kabr_tools/cvat*.py'
+      - 'src/kabr_tools/player.py'
+      - 'src/kabr_tools/detector2cvat.py'
+      # utils
+      - 'src/kabr_tools/utils/path.py'
+      - 'src/kabr_tools/utils/yolo.py'
+      # other test files
+      - 'tests/test_cvat*.py'
+      - 'tests/test_player.py'
+      - 'tests/test_detector2cvat.py'
+      - 'tests/test_tracks_extractor.py'
+      - 'tests/test_yolo.py'
 
 jobs:
   build:
