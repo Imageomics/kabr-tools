@@ -1,11 +1,44 @@
 name: tracks_extractor test
 
 on:
-  push:
-    paths:
-      - 'src/**'
-      - 'tests/**'
-      - '.github/workflows/tracks_extractor.yml'
+  pull_request:
+    paths-ignore:
+      # docs and metadata
+      - 'README.md'
+      - 'LICENSE'
+      - 'CITATION.cff'
+      - 'mkdocs.yml'
+      - '.gitignore'
+      - '.zenodo.json'
+      - 'docs/**'
+      - 'cvat_templates/**'
+      - 'helper_scripts/**'
+      - 'utils/**'
+      - '.github/workflows/deploy-docs.yaml'
+      - '.github/workflows/validate-zenodo.yaml'
+      # sibling test workflows
+      - '.github/workflows/cvat2slowfast.yml'
+      - '.github/workflows/cvat2ultralytics.yml'
+      - '.github/workflows/detector2cvat.yml'
+      - '.github/workflows/miniscene2behavior.yml'
+      - '.github/workflows/player.yml'
+      # other tool source files
+      - 'src/kabr_tools/cvat*.py'
+      - 'src/kabr_tools/player.py'
+      - 'src/kabr_tools/detector2cvat.py'
+      - 'src/kabr_tools/miniscene2behavior.py'
+      # utils
+      - 'src/kabr_tools/utils/path.py'
+      - 'src/kabr_tools/utils/yolo.py'
+      - 'src/kabr_tools/utils/slowfast/**'
+      # ethogram files
+      - 'ethogram/**'
+      # other test files
+      - 'tests/test_cvat*.py'
+      - 'tests/test_player.py'
+      - 'tests/test_detector2cvat.py'
+      - 'tests/test_miniscene2behavior.py'
+      - 'tests/test_yolo.py'
 
 jobs:
   build:

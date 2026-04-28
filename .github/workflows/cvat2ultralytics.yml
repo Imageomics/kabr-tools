@@ -1,11 +1,49 @@
 name: cvat2ultralytics test
 
 on:
-  push:
-    paths:
-      - 'src/**'
-      - 'tests/**'
-      - '.github/workflows/cvat2ultralytics.yml'
+  pull_request:
+    paths-ignore:
+      # docs and metadata
+      - 'README.md'
+      - 'LICENSE'
+      - 'CITATION.cff'
+      - 'mkdocs.yml'
+      - '.gitignore'
+      - '.zenodo.json'
+      - 'docs/**'
+      - 'cvat_templates/**'
+      - 'helper_scripts/**'
+      - 'utils/**'
+      - '.github/workflows/deploy-docs.yaml'
+      - '.github/workflows/validate-zenodo.yaml'
+      # sibling test workflows
+      - '.github/workflows/cvat2slowfast.yml'
+      - '.github/workflows/detector2cvat.yml'
+      - '.github/workflows/miniscene2behavior.yml'
+      - '.github/workflows/player.yml'
+      - '.github/workflows/tracks_extractor.yml'
+      # other tool source files
+      - 'src/kabr_tools/cvat2slowfast.py'
+      - 'src/kabr_tools/player.py'
+      - 'src/kabr_tools/detector2cvat.py'
+      - 'src/kabr_tools/miniscene2behavior.py'
+      - 'src/kabr_tools/tracks_extractor.py'
+      # utils
+      - 'src/kabr_tools/utils/yolo.py'
+      - 'src/kabr_tools/utils/slowfast/**'
+      # ethogram files
+      - 'ethogram/classes.json'
+      - 'ethogram/old2new.json'
+      - 'ethogram/yolo_labels.json'
+      - 'ethogram/yolo_equiv.json'
+      # other test files
+      - 'tests/test_cvat2slowfast.py'
+      - 'tests/test_player.py'
+      - 'tests/test_detector2cvat.py'
+      - 'tests/test_miniscene2behavior.py'
+      - 'tests/test_tracks_extractor.py'
+      - 'tests/test_yolo.py'
+      - 'tests/examples/**'
 
 jobs:
   build:
