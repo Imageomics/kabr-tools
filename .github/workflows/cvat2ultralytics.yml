@@ -8,7 +8,7 @@ on:
       - 'LICENSE'
       - 'CITATION.cff'
       - 'mkdocs.yml'
-      - 'config.yml'
+      - '.gitignore'
       - '.zenodo.json'
       - 'docs/**'
       - 'cvat_templates/**'
