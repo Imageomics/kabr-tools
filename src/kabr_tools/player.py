@@ -37,12 +37,13 @@ def on_slider_change(value: int) -> None:
     global index, vcs, current, trackbar_position, paused, updated
     index = value
 
-    if index >= len(metadata["tracks"][current]):
-        index = len(metadata["tracks"][current]) - 1
+    max_val = int(vcs[current].get(cv2.CAP_PROP_FRAME_COUNT)) - 1
+    if index > max_val:
+        index = max_val
         return
 
     if abs(trackbar_position - index) > 10:
-        vcs[current].set(cv2.CAP_PROP_POS_FRAMES, metadata["tracks"][current][index])
+        vcs[current].set(cv2.CAP_PROP_POS_FRAMES, index)
 
         if paused:
             updated = True
