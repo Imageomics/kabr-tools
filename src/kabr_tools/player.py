@@ -178,7 +178,7 @@ def player(folder: str, save: bool, show: bool) -> None:
     save - bool. Flag to save video.
     show - bool. Flag to display player's visualization.
     """
-    global index, vcs, vc, current, metadata, trackbar_position, paused, updated
+    global index, vcs, vc, current, name, metadata, trackbar_position, paused, updated
     name = Path(folder).name
 
     metadata_path = f"{folder}/metadata/{name}_metadata.json"
@@ -238,6 +238,7 @@ def player(folder: str, save: bool, show: bool) -> None:
             if metadata["tracks"][current][index] < 0:
                 current = "main"
                 vc = vcs[current]
+                update_trackbar(current)
                 vc.set(cv2.CAP_PROP_POS_FRAMES, metadata["tracks"][current][index])
 
         returned, frame = vc.read()
@@ -305,6 +306,7 @@ def player(folder: str, save: bool, show: bool) -> None:
             else:
                 current = "main"
                 vc = vcs[current]
+                update_trackbar(current)
                 vc.set(cv2.CAP_PROP_POS_FRAMES, metadata["tracks"][current][index])
 
     if save:
