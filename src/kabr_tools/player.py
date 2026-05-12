@@ -25,7 +25,7 @@ updated: bool = False
 
 def update_trackbar(track_name: str) -> None:
     global index, name
-    max_val = len(metadata["tracks"][track_name]) - 1
+    max_val = int(vcs[track_name].get(cv2.CAP_PROP_FRAME_COUNT)) - 1
     cv2.setTrackbarMax(name, "TrackPlayer", max_val)
 
     if index > max_val:
@@ -222,7 +222,7 @@ def player(folder: str, save: bool, show: bool) -> None:
 
     index = 0
     cv2.namedWindow("TrackPlayer")
-    cv2.createTrackbar(name, "TrackPlayer", index, len(metadata["tracks"]["main"]) - 1, on_slider_change)
+    cv2.createTrackbar(name, "TrackPlayer", index, int(vcs["main"].get(cv2.CAP_PROP_FRAME_COUNT)) - 1, on_slider_change)
     current = "main"
     vc = vcs[current]
     target_width = int(vc.get(cv2.CAP_PROP_FRAME_WIDTH))
