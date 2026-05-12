@@ -25,7 +25,10 @@ updated: bool = False
 
 def update_trackbar(track_name: str) -> None:
     global index, name
-    max_val = int(vcs[track_name].get(cv2.CAP_PROP_FRAME_COUNT)) - 1
+    frame_count = int(vcs[track_name].get(cv2.CAP_PROP_FRAME_COUNT))
+    if frame_count <= 0:
+        raise ValueError(f"Could not read frame count for '{track_name}'")
+    max_val = frame_count - 1
     cv2.setTrackbarMax(name, "TrackPlayer", max_val)
 
     if index > max_val:
@@ -218,7 +221,10 @@ def player(folder: str, save: bool, show: bool) -> None:
 
     index = 0
     cv2.namedWindow("TrackPlayer")
-    cv2.createTrackbar(name, "TrackPlayer", index, int(vcs["main"].get(cv2.CAP_PROP_FRAME_COUNT)) - 1, on_slider_change)
+    main_frame_count = int(vcs["main"].get(cv2.CAP_PROP_FRAME_COUNT))
+    if main_frame_count <= 0:
+        raise ValueError("Could not read frame count for main video")
+    cv2.createTrackbar(name, "TrackPlayer", index, main_frame_count - 1, on_slider_change)
     current = "main"
     vc = vcs[current]
     target_width = int(vc.get(cv2.CAP_PROP_FRAME_WIDTH))
