@@ -149,6 +149,7 @@ def hotkey(key: int) -> None:
     if mapped == "main":
         current = mapped
         vc = vcs[current]
+        update_trackbar(current)
         vc.set(cv2.CAP_PROP_POS_FRAMES, metadata["tracks"][current][index])
     elif mapped in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
                     "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"]:
@@ -156,11 +157,13 @@ def hotkey(key: int) -> None:
             if metadata["tracks"][mapped][index] != -1:
                 current = mapped
                 vc = vcs[current]
+                update_trackbar(current)
 
                 if index < len(metadata["tracks"][mapped]):
                     if metadata["tracks"][mapped][index] < 0:
                         current = "main"
                         vc = vcs[current]
+                        update_trackbar(current)
 
                     vc.set(cv2.CAP_PROP_POS_FRAMES, metadata["tracks"][current][index])
 
