@@ -17,14 +17,29 @@ letter2hotkey: dict = {13: "main", 48: "0", 49: "1", 50: "2", 51: "3",
                        36: "14", 37: "15", 94: "16", 38: "17",
                        42: "18", 40: "19"}
 current: str = "main"
+name: str = ""
 trackbar_position: int = 0
 paused: bool = False
 updated: bool = False
 
 
+def update_trackbar(track_name: str) -> None:
+    global index, name
+    max_val = len(metadata["tracks"][track_name]) - 1
+    cv2.setTrackbarMax(name, "TrackPlayer", max_val)
+
+    if index > max_val:
+        index = max_val
+        cv2.setTrackbarPos(name, "TrackPlayer", index)
+
+
 def on_slider_change(value: int) -> None:
     global index, vcs, current, trackbar_position, paused, updated
     index = value
+
+    if index >= len(metadata["tracks"][current]):
+        index = len(metadata["tracks"][current]) - 1
+        return
 
     if abs(trackbar_position - index) > 10:
         vcs[current].set(cv2.CAP_PROP_POS_FRAMES, metadata["tracks"][current][index])
