@@ -109,11 +109,11 @@ def draw_actions(current: str, index: int,
 
     if actions.get(current) is None:
         return image
-    elif actions[current].get(str(metadata["tracks"][current][index])) is None:
+    elif actions[current].get(str(index)) is None:
         return image
 
     color = metadata["colors"][current]
-    label = "|".join(actions[current][str(metadata["tracks"][current][index])].split(","))
+    label = "|".join(actions[current][str(index)].split(","))
     thickness_in = 4
     size = 1.5
     label_length = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, size, thickness_in)
@@ -230,13 +230,6 @@ def player(folder: str, save: bool, show: bool) -> None:
                              29.97, (target_width, target_height))
 
     while vc.isOpened():
-        if index < len(metadata["tracks"][current]):
-            if metadata["tracks"][current][index] < 0:
-                current = "main"
-                vc = vcs[current]
-                update_trackbar(current)
-                vc.set(cv2.CAP_PROP_POS_FRAMES, metadata["tracks"][current][index])
-
         returned, frame = vc.read()
 
         if returned:
@@ -282,9 +275,8 @@ def player(folder: str, save: bool, show: bool) -> None:
                         break
                     elif letter2hotkey.get(key) is not None:
                         if letter2hotkey[key] in vcs.keys():
-                            if metadata["tracks"][letter2hotkey[key]][index] >= 0:
-                                hotkey(key)
-                                break
+                            hotkey(key)
+                            break
                     elif updated:
                         break
 
@@ -292,8 +284,7 @@ def player(folder: str, save: bool, show: bool) -> None:
                     break
             elif letter2hotkey.get(key) is not None:
                 if letter2hotkey[key] in vcs.keys():
-                    if metadata["tracks"][letter2hotkey[key]][index] >= 0:
-                        hotkey(key)
+                    hotkey(key)
 
             index += 1
         else:
@@ -303,7 +294,8 @@ def player(folder: str, save: bool, show: bool) -> None:
                 current = "main"
                 vc = vcs[current]
                 update_trackbar(current)
-                vc.set(cv2.CAP_PROP_POS_FRAMES, metadata["tracks"][current][index])
+                index = int(vc.get(cv2.CAP_PROP_POS_FRAMES))
+                cv2.setTrackbarPos(name, "TrackPlayer", index)
 
     if save:
         vw.release()
