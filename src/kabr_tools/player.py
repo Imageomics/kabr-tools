@@ -143,7 +143,7 @@ def draw_info(image: MatLike, width: int) -> MatLike:
 
 
 def hotkey(key: int) -> None:
-    global current, metadata, vc, letter2hotkey
+    global current, index, metadata, vc, letter2hotkey
 
     mapped = letter2hotkey[key]
 
@@ -151,22 +151,17 @@ def hotkey(key: int) -> None:
         current = mapped
         vc = vcs[current]
         update_trackbar(current)
-        vc.set(cv2.CAP_PROP_POS_FRAMES, metadata["tracks"][current][index])
+        index = int(vc.get(cv2.CAP_PROP_POS_FRAMES))
+        cv2.setTrackbarPos(name, "TrackPlayer", index)
     elif mapped in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
                     "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"]:
         if metadata["tracks"].get(mapped) is not None:
-            if metadata["tracks"][mapped][index] != -1:
-                current = mapped
-                vc = vcs[current]
-                update_trackbar(current)
-
-                if index < len(metadata["tracks"][mapped]):
-                    if metadata["tracks"][mapped][index] < 0:
-                        current = "main"
-                        vc = vcs[current]
-                        update_trackbar(current)
-
-                    vc.set(cv2.CAP_PROP_POS_FRAMES, metadata["tracks"][current][index])
+            current = mapped
+            vc = vcs[current]
+            update_trackbar(current)
+            index = 0
+            cv2.setTrackbarPos(name, "TrackPlayer", 0)
+            vc.set(cv2.CAP_PROP_POS_FRAMES, 0)
 
 
 def player(folder: str, save: bool, show: bool) -> None:
