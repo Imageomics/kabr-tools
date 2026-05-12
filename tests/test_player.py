@@ -49,9 +49,10 @@ class TestPlayer(unittest.TestCase):
     @patch('kabr_tools.player.cv2.imshow')
     @patch('kabr_tools.player.cv2.namedWindow')
     @patch('kabr_tools.player.cv2.createTrackbar')
+    @patch('kabr_tools.player.cv2.setTrackbarMax')
     @patch('kabr_tools.player.cv2.setTrackbarPos')
     @patch('kabr_tools.player.cv2.getTrackbarPos')
-    def test_run(self, getTrackbarPos, setTrackbarPos, createTrackbar, namedWindow, imshow):
+    def test_run(self, getTrackbarPos, setTrackbarPos, setTrackbarMax, createTrackbar, namedWindow, imshow):
         # mock getTrackbarPos
         getTrackbarPos.return_value = 0
 
@@ -65,9 +66,10 @@ class TestPlayer(unittest.TestCase):
     @patch('kabr_tools.player.cv2.imshow')
     @patch('kabr_tools.player.cv2.namedWindow')
     @patch('kabr_tools.player.cv2.createTrackbar')
+    @patch('kabr_tools.player.cv2.setTrackbarMax')
     @patch('kabr_tools.player.cv2.setTrackbarPos')
     @patch('kabr_tools.player.cv2.getTrackbarPos')
-    def test_parse_arg_min(self, getTrackbarPos, setTrackbarPos, createTrackbar, namedWindow, imshow):
+    def test_parse_arg_min(self, getTrackbarPos, setTrackbarPos, setTrackbarMax, createTrackbar, namedWindow, imshow):
         # parse arguments
         sys.argv = [self.tool,
                     "--folder", self.folder]
@@ -86,9 +88,10 @@ class TestPlayer(unittest.TestCase):
     @patch('kabr_tools.player.cv2.imshow')
     @patch('kabr_tools.player.cv2.namedWindow')
     @patch('kabr_tools.player.cv2.createTrackbar')
+    @patch('kabr_tools.player.cv2.setTrackbarMax')
     @patch('kabr_tools.player.cv2.setTrackbarPos')
     @patch('kabr_tools.player.cv2.getTrackbarPos')
-    def test_parse_arg_full(self, getTrackbarPos, setTrackbarPos, createTrackbar, namedWindow, imshow):
+    def test_parse_arg_full(self, getTrackbarPos, setTrackbarPos, setTrackbarMax, createTrackbar, namedWindow, imshow):
         # parse arguments
         sys.argv = [self.tool,
                     "--folder", self.folder,
