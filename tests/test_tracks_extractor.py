@@ -67,8 +67,6 @@ class TestTracksExtractor(unittest.TestCase):
         self.assertTrue(dir_exists(f"mini-scenes/{mini_folder}"))
         self.assertTrue(dir_exists(f"mini-scenes/{mini_folder}/actions"))
         self.assertTrue(dir_exists(f"mini-scenes/{mini_folder}/metadata"))
-        self.assertTrue(file_exists(f"mini-scenes/{mini_folder}/0.mp4"))
-        self.assertTrue(file_exists(f"mini-scenes/{mini_folder}/1.mp4"))
         self.assertTrue(file_exists(
             f"mini-scenes/{mini_folder}/{video_name}.mp4"))
         self.assertTrue(file_exists(
@@ -90,6 +88,10 @@ class TestTracksExtractor(unittest.TestCase):
                 tracks[track_id].append(frame_id)
                 tracks["main"][frame_id] = frame_id
 
+        for track_id in tracks:
+            if track_id != "main":
+                self.assertTrue(file_exists(f"mini-scenes/{mini_folder}/{track_id}.mp4"))
+
         colors = list(Tracker.colors_table.values())
 
         with open(f"mini-scenes/{mini_folder}/metadata/{video_name}_metadata.json",
@@ -100,12 +102,10 @@ class TestTracksExtractor(unittest.TestCase):
             self.assertTrue("colors" in metadata)
             self.assertEqual(metadata["original"], self.video)
             self.assertEqual(metadata["tracks"]["main"], tracks["main"])
-            self.assertEqual(metadata["tracks"]["0"], tracks["0"])
-            self.assertEqual(metadata["tracks"]["1"], tracks["1"])
-            self.assertEqual(metadata["colors"]["0"],
-                             list(colors[0 % len(colors)]))
-            self.assertEqual(metadata["colors"]["1"],
-                             list(colors[1 % len(colors)]))
+            for i, track_id in enumerate(track_id for track_id in tracks if track_id != "main"):
+                self.assertEqual(metadata["tracks"][track_id], tracks[track_id])
+                self.assertEqual(metadata["colors"][track_id],
+                                 list(colors[i % len(colors)]))
 
         # check tracks.xml
         with open(f"mini-scenes/{mini_folder}/metadata/{video_name}_tracks.xml",
@@ -117,13 +117,12 @@ class TestTracksExtractor(unittest.TestCase):
 
         self.assertEqual(track, track_copy)
 
-        # check 0.mp4, 1.mp4
-        root = etree.parse(self.annotation).getroot()
+        # check track mp4s
         xml_tracks = {}
         for track in root.findall("track"):
             track_id = track.attrib["id"]
             xml_tracks[track_id] = track
-        self.assertEqual(xml_tracks.keys(), {"0", "1"})
+        self.assertEqual(xml_tracks.keys(), set(tracks.keys()) - {"main"})
 
         original = cv2.VideoCapture(self.video)
         self.assertTrue(original.isOpened())
