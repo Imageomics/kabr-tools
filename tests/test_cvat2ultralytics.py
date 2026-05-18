@@ -66,60 +66,67 @@ class TestCvat2Ultralytics(unittest.TestCase):
         self.assertTrue(dir_exists(f"{self.dataset}/labels/train"))
         self.assertTrue(dir_exists(f"{self.dataset}/labels/val"))
 
-        # check output
+        # check output — derive expected values from the annotation directly,
+        # mirroring cvat2ultralytics.py logic so the test works for any input.
+        from pathlib import Path as _Path
         annotations = etree.parse(TestCvat2Ultralytics.annotation).getroot()
-        tracks = [list(track.findall("box")) for track in annotations.findall("track")]
-        self.assertEqual(len(tracks[0]), 21)
-        self.assertEqual(len(tracks[0]), len(tracks[1]))
         original_size = annotations.find("meta").find("task").find("original_size")
         height = int(original_size.find("height").text)
         width = int(original_size.find("width").text)
-        for i in range(len(tracks[0])):
-            # check existence
-            if i < 16:
-                data_im = f"{self.dataset}/images/train/DJI_0068_{i}.jpg"
-                self.assertTrue(file_exists(data_im))
-                data_label = f"{self.dataset}/labels/train/DJI_0068_{i}.txt"
-                self.assertTrue(file_exists(data_label))
-            elif i < 18:
-                data_im = f"{self.dataset}/images/val/DJI_0068_{i}.jpg"
-                self.assertTrue(file_exists(data_im))
-                data_label = f"{self.dataset}/labels/val/DJI_0068_{i}.txt"
-                self.assertTrue(file_exists(data_label))
+
+        track2end = {}
+        for track in annotations.findall("track"):
+            tid = int(track.attrib["id"])
+            for box in track.findall("box"):
+                if int(box.attrib["keyframe"]) == 1:
+                    track2end[tid] = int(box.attrib["frame"])
+
+        annotated = {}
+        for track in annotations.findall("track"):
+            tid = int(track.attrib["id"])
+            for box in track.findall("box"):
+                fid = int(box.attrib["frame"])
+                if fid <= track2end[tid]:
+                    annotated.setdefault(fid, []).append(box)
+
+        skip = int(self.skip)
+        processed = sorted(f for f in annotated if f % skip == 0)
+        n = len(processed)
+        val_start = int(n * 0.8)
+        test_start = int(n * 0.87)
+        name = _Path(TestCvat2Ultralytics.video).stem
+
+        for i, frame_num in enumerate(processed):
+            if i < val_start:
+                folder = "train"
+            elif i < test_start:
+                folder = "val"
             else:
-                data_im = f"{self.dataset}/images/test/DJI_0068_{i}.jpg"
-                self.assertTrue(file_exists(data_im))
-                data_label = f"{self.dataset}/labels/test/DJI_0068_{i}.txt"
-                self.assertTrue(file_exists(data_label))
+                folder = "test"
 
-            # check image
-            data_im = cv2.imread(data_im)
-            self.assertEqual(data_im.shape, (height, width, 3))
+            im_path = f"{self.dataset}/images/{folder}/{name}_{frame_num}.jpg"
+            label_path = f"{self.dataset}/labels/{folder}/{name}_{frame_num}.txt"
+            self.assertTrue(file_exists(im_path))
+            self.assertTrue(file_exists(label_path))
 
-            # check label
-            data_label = pd.read_csv(data_label, sep = " ", header = None)
-            annotation_label = []
-            for track in tracks:
-                box = track[i]
-                x_start = float(box.attrib["xtl"])
-                y_start = float(box.attrib["ytl"])
-                x_end = float(box.attrib["xbr"])
-                y_end = float(box.attrib["ybr"])
-                x_center = (x_start + (x_end - x_start) / 2) / width
-                y_center = (y_start + (y_end - y_start) / 2) / height
-                w = (x_end - x_start) / width
-                h = (y_end - y_start) / height
-                annotation_label.append(
-                    [0, x_center, y_center, w, h]
-                )
-            self.assertEqual(len(data_label.index), len(annotation_label))
+            img = cv2.imread(im_path)
+            self.assertEqual(img.shape, (height, width, 3))
 
-            for j, row in data_label.iterrows():
-                self.assertEqual(row[0], annotation_label[j][0])
-                self.assertAlmostEqual(row[1], annotation_label[j][1], places=4)
-                self.assertAlmostEqual(row[2], annotation_label[j][2], places=4)
-                self.assertAlmostEqual(row[3], annotation_label[j][3], places=4)
-                self.assertAlmostEqual(row[4], annotation_label[j][4], places=4)
+            data_label = pd.read_csv(label_path, sep=" ", header=None)
+            expected_boxes = annotated[frame_num]
+            self.assertEqual(len(data_label.index), len(expected_boxes))
+
+            for j, box in enumerate(expected_boxes):
+                x_c = (float(box.attrib["xtl"]) + float(box.attrib["xbr"])) / 2 / width
+                y_c = (float(box.attrib["ytl"]) + float(box.attrib["ybr"])) / 2 / height
+                w = (float(box.attrib["xbr"]) - float(box.attrib["xtl"])) / width
+                h = (float(box.attrib["ybr"]) - float(box.attrib["ytl"])) / height
+                row = data_label.iloc[j]
+                self.assertEqual(row[0], 0)
+                self.assertAlmostEqual(row[1], x_c, places=4)
+                self.assertAlmostEqual(row[2], y_c, places=4)
+                self.assertAlmostEqual(row[3], w, places=4)
+                self.assertAlmostEqual(row[4], h, places=4)
 
 
     def test_parse_arg_min(self):

@@ -1,41 +1,68 @@
 import os
 import shutil
+import tempfile
 from pathlib import Path
 import pandas as pd
 from huggingface_hub import hf_hub_download
 
-DATA_HUB = "imageomics/kabr_testing"
 REPO_TYPE = "dataset"
 
-DETECTION_VIDEO = "DJI_0068/DJI_0068.mp4"
-DETECTION_ANNOTATION = "DJI_0068/DJI_0068.xml"
+BEHAVIOR_HUB = "imageomics/KABR-mini-scene-raw-videos"
+DETECTION_VIDEO_HUB = "imageomics/KABR-raw-videos"
+DETECTION_ANNOTATION_HUB = "imageomics/kabr-worked-examples"
 
-BEHAVIOR_VIDEO = "DJI_0001/DJI_0001.mp4"
-BEHAVIOR_MINISCENE = "DJI_0001/43.mp4"
-BEHAVIOR_ANNOTATION = "DJI_0001/actions/43.xml"
-BEHAVIOR_METADATA = "DJI_0001/metadata/DJI_0001_metadata.json"
+BEHAVIOR_VIDEO = "16_01_23_flight_1-DJI_0001/16_01_23-DJI_0001-trimmed.MP4"
+BEHAVIOR_MINISCENE = "16_01_23_flight_1-DJI_0001/43.mp4"
+BEHAVIOR_ANNOTATION = "16_01_23_flight_1-DJI_0001/actions/43.xml"
+BEHAVIOR_METADATA = "16_01_23_flight_1-DJI_0001/metadata/DJI_0001_metadata.json"
+
+DETECTION_VIDEO = "18_01_2023_session_7/DJI_0068_trimmed.mp4"
+DETECTION_ANNOTATION = "detections/18_01_2023_session_7-DJI_0068.xml"
 
 
 def get_hf(repo_id: str, filename: str, repo_type: str):
     return hf_hub_download(repo_id=repo_id, filename=filename, repo_type=repo_type)
 
 
-def get_cached_datafile(filename: str):
-    return get_hf(DATA_HUB, filename, REPO_TYPE)
-
-
 def get_behavior():
-    video = get_cached_datafile(BEHAVIOR_VIDEO)
-    miniscene = get_cached_datafile(BEHAVIOR_MINISCENE)
-    annotation = get_cached_datafile(BEHAVIOR_ANNOTATION)
-    metadata = get_cached_datafile(BEHAVIOR_METADATA)
-    return video, miniscene, annotation, metadata
+    video_hf = get_hf(BEHAVIOR_HUB, BEHAVIOR_VIDEO, REPO_TYPE)
+    miniscene_hf = get_hf(BEHAVIOR_HUB, BEHAVIOR_MINISCENE, REPO_TYPE)
+    annotation_hf = get_hf(BEHAVIOR_HUB, BEHAVIOR_ANNOTATION, REPO_TYPE)
+    metadata_hf = get_hf(BEHAVIOR_HUB, BEHAVIOR_METADATA, REPO_TYPE)
+
+    tmpdir = tempfile.mkdtemp()
+    base = Path(tmpdir) / "DJI_0001"
+    (base / "actions").mkdir(parents=True)
+    (base / "metadata").mkdir(parents=True)
+
+    video = base / "DJI_0001.mp4"
+    miniscene = base / "43.mp4"
+    annotation = base / "actions" / "43.xml"
+    metadata = base / "metadata" / "DJI_0001_metadata.json"
+
+    os.symlink(video_hf, video)
+    os.symlink(miniscene_hf, miniscene)
+    os.symlink(annotation_hf, annotation)
+    shutil.copy2(metadata_hf, metadata)
+
+    return str(video), str(miniscene), str(annotation), str(metadata)
 
 
 def get_detection():
-    video = get_cached_datafile(DETECTION_VIDEO)
-    annotation = get_cached_datafile(DETECTION_ANNOTATION)
-    return video, annotation
+    video_hf = get_hf(DETECTION_VIDEO_HUB, DETECTION_VIDEO, REPO_TYPE)
+    annotation_hf = get_hf(DETECTION_ANNOTATION_HUB, DETECTION_ANNOTATION, REPO_TYPE)
+
+    tmpdir = tempfile.mkdtemp()
+    base = Path(tmpdir) / "DJI_0068"
+    base.mkdir()
+
+    video = base / "DJI_0068.mp4"
+    annotation = base / "DJI_0068.xml"
+
+    os.symlink(video_hf, video)
+    shutil.copy2(annotation_hf, annotation)
+
+    return str(video), str(annotation)
 
 
 def clean_empty_dirs(path):
