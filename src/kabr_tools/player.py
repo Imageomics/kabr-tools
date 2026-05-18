@@ -17,17 +17,36 @@ letter2hotkey: dict = {13: "main", 48: "0", 49: "1", 50: "2", 51: "3",
                        36: "14", 37: "15", 94: "16", 38: "17",
                        42: "18", 40: "19"}
 current: str = "main"
+name: str = ""
 trackbar_position: int = 0
 paused: bool = False
 updated: bool = False
+
+
+def update_trackbar(track_name: str) -> None:
+    global index, name
+    frame_count = int(vcs[track_name].get(cv2.CAP_PROP_FRAME_COUNT))
+    if frame_count <= 0:
+        raise ValueError(f"Could not read frame count for '{track_name}'")
+    max_val = frame_count - 1
+    cv2.setTrackbarMax(name, "TrackPlayer", max_val)
+
+    if index > max_val:
+        index = max_val
+        cv2.setTrackbarPos(name, "TrackPlayer", index)
 
 
 def on_slider_change(value: int) -> None:
     global index, vcs, current, trackbar_position, paused, updated
     index = value
 
+    max_val = int(vcs[current].get(cv2.CAP_PROP_FRAME_COUNT)) - 1
+    if index > max_val:
+        index = max_val
+        return
+
     if abs(trackbar_position - index) > 10:
-        vcs[current].set(cv2.CAP_PROP_POS_FRAMES, metadata["tracks"][current][index])
+        vcs[current].set(cv2.CAP_PROP_POS_FRAMES, index)
 
         if paused:
             updated = True
@@ -93,11 +112,11 @@ def draw_actions(current: str, index: int,
 
     if actions.get(current) is None:
         return image
-    elif actions[current].get(str(metadata["tracks"][current][index])) is None:
+    elif actions[current].get(str(index)) is None:
         return image
 
     color = metadata["colors"][current]
-    label = "|".join(actions[current][str(metadata["tracks"][current][index])].split(","))
+    label = "|".join(actions[current][str(index)].split(","))
     thickness_in = 4
     size = 1.5
     label_length = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, size, thickness_in)
@@ -127,27 +146,25 @@ def draw_info(image: MatLike, width: int) -> MatLike:
 
 
 def hotkey(key: int) -> None:
-    global current, metadata, vc, letter2hotkey
+    global current, index, metadata, vc, letter2hotkey
 
     mapped = letter2hotkey[key]
 
     if mapped == "main":
         current = mapped
         vc = vcs[current]
-        vc.set(cv2.CAP_PROP_POS_FRAMES, metadata["tracks"][current][index])
+        update_trackbar(current)
+        index = int(vc.get(cv2.CAP_PROP_POS_FRAMES))
+        cv2.setTrackbarPos(name, "TrackPlayer", index)
     elif mapped in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
                     "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"]:
         if metadata["tracks"].get(mapped) is not None:
-            if metadata["tracks"][mapped][index] != -1:
-                current = mapped
-                vc = vcs[current]
-
-                if index < len(metadata["tracks"][mapped]):
-                    if metadata["tracks"][mapped][index] < 0:
-                        current = "main"
-                        vc = vcs[current]
-
-                    vc.set(cv2.CAP_PROP_POS_FRAMES, metadata["tracks"][current][index])
+            current = mapped
+            vc = vcs[current]
+            update_trackbar(current)
+            index = 0
+            cv2.setTrackbarPos(name, "TrackPlayer", 0)
+            vc.set(cv2.CAP_PROP_POS_FRAMES, 0)
 
 
 def player(folder: str, save: bool, show: bool) -> None:
@@ -160,7 +177,7 @@ def player(folder: str, save: bool, show: bool) -> None:
     save - bool. Flag to save video.
     show - bool. Flag to display player's visualization.
     """
-    global index, vcs, vc, current, metadata, trackbar_position, paused, updated
+    global index, vcs, vc, current, name, metadata, trackbar_position, paused, updated
     name = Path(folder).name
 
     metadata_path = f"{folder}/metadata/{name}_metadata.json"
@@ -204,7 +221,10 @@ def player(folder: str, save: bool, show: bool) -> None:
 
     index = 0
     cv2.namedWindow("TrackPlayer")
-    cv2.createTrackbar(name, "TrackPlayer", index, len(metadata["tracks"]["main"]) - 1, on_slider_change)
+    main_frame_count = int(vcs["main"].get(cv2.CAP_PROP_FRAME_COUNT))
+    if main_frame_count <= 0:
+        raise ValueError("Could not read frame count for main video")
+    cv2.createTrackbar(name, "TrackPlayer", index, main_frame_count - 1, on_slider_change)
     current = "main"
     vc = vcs[current]
     target_width = int(vc.get(cv2.CAP_PROP_FRAME_WIDTH))
@@ -216,12 +236,6 @@ def player(folder: str, save: bool, show: bool) -> None:
                              29.97, (target_width, target_height))
 
     while vc.isOpened():
-        if index < len(metadata["tracks"][current]):
-            if metadata["tracks"][current][index] < 0:
-                current = "main"
-                vc = vcs[current]
-                vc.set(cv2.CAP_PROP_POS_FRAMES, metadata["tracks"][current][index])
-
         returned, frame = vc.read()
 
         if returned:
@@ -267,9 +281,8 @@ def player(folder: str, save: bool, show: bool) -> None:
                         break
                     elif letter2hotkey.get(key) is not None:
                         if letter2hotkey[key] in vcs.keys():
-                            if metadata["tracks"][letter2hotkey[key]][index] >= 0:
-                                hotkey(key)
-                                break
+                            hotkey(key)
+                            break
                     elif updated:
                         break
 
@@ -277,8 +290,7 @@ def player(folder: str, save: bool, show: bool) -> None:
                     break
             elif letter2hotkey.get(key) is not None:
                 if letter2hotkey[key] in vcs.keys():
-                    if metadata["tracks"][letter2hotkey[key]][index] >= 0:
-                        hotkey(key)
+                    hotkey(key)
 
             index += 1
         else:
@@ -287,7 +299,9 @@ def player(folder: str, save: bool, show: bool) -> None:
             else:
                 current = "main"
                 vc = vcs[current]
-                vc.set(cv2.CAP_PROP_POS_FRAMES, metadata["tracks"][current][index])
+                update_trackbar(current)
+                index = int(vc.get(cv2.CAP_PROP_POS_FRAMES))
+                cv2.setTrackbarPos(name, "TrackPlayer", index)
 
     if save:
         vw.release()
