@@ -4,37 +4,39 @@ from pathlib import Path
 import pandas as pd
 from huggingface_hub import hf_hub_download
 
-DATA_HUB = "imageomics/kabr_testing"
-REPO_TYPE = "dataset"
+#DATA_HUB = "imageomics/kabr_testing"
+#REPO_TYPE = "dataset"
 
-DETECTION_VIDEO = "tests/dataset/DJI_0068/DJI_0068.mp4" #DJI 68 - mp4 
-DETECTION_ANNOTATION = "tests/dataset/DJI_0068/DJI_0068.xml" #DJI 68 - xml
+BASE = "kabr-tools/tests/dataset"
 
-BEHAVIOR_VIDEO = "tests/dataset/DJI_0001/DJI_0001.mp4" #DJI 1 - mp4 
-BEHAVIOR_MINISCENE = "tests/dataset/DJI_0001/43.mp4" #DJI 1 - 43 - mp4 
-BEHAVIOR_ANNOTATION = "tests/dataset/DJI_0001/actions/43.xml" #DJI 1 - 43 - xml 
-BEHAVIOR_METADATA = "tests/dataset/DJI_0001/metadata/DJI_0001_metadata.json" #DJI 1 - metadata - json 
+DETECTION_VIDEO = BASE + "/DJI_0068/DJI_0068.mp4" #DJI 68 - mp4 
+DETECTION_ANNOTATION = BASE + "/DJI_0068/DJI_0068.xml" #DJI 68 - xml
 
+BEHAVIOR_VIDEO = BASE + "/DJI_0001/DJI_0001.mp4" #DJI 1 - mp4 
+BEHAVIOR_MINISCENE = BASE + "/43/43.mp4" #DJI 1 - 43 - mp4 
+BEHAVIOR_ANNOTATION = BASE + "/43/43.xml" #DJI 1 - 43 - xml 
+BEHAVIOR_METADATA = BASE + "/DJI_0001/DJI_0001_metadata.json" #DJI 1 - metadata - json 
 
+'''
 def get_hf(repo_id: str, filename: str, repo_type: str):
     return hf_hub_download(repo_id=repo_id, filename=filename, repo_type=repo_type)
 
 
 def get_cached_datafile(filename: str):
     return get_hf(DATA_HUB, filename, REPO_TYPE)
-
+'''
 
 def get_behavior():
-    video = get_cached_datafile(BEHAVIOR_VIDEO)
-    miniscene = get_cached_datafile(BEHAVIOR_MINISCENE)
-    annotation = get_cached_datafile(BEHAVIOR_ANNOTATION)
-    metadata = get_cached_datafile(BEHAVIOR_METADATA)
+    video = BEHAVIOR_VIDEO
+    miniscene = BEHAVIOR_MINISCENE
+    annotation = BEHAVIOR_ANNOTATION
+    metadata = BEHAVIOR_METADATA
     return video, miniscene, annotation, metadata
 
 
 def get_detection():
-    video = get_cached_datafile(DETECTION_VIDEO)
-    annotation = get_cached_datafile(DETECTION_ANNOTATION)
+    video = DETECTION_VIDEO
+    annotation = DETECTION_ANNOTATION
     return video, annotation
 
 
