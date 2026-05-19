@@ -25,25 +25,12 @@ class TestPlayer(unittest.TestCase):
         cls.video, cls.miniscene, cls.annotation, cls.metadata = get_behavior()
         cls.dir = os.path.dirname(cls.video)
 
-    @classmethod
-    def tearDownClass(cls):
-        # delete data
-        del_file(cls.video)
-        del_file(cls.miniscene)
-        del_file(cls.annotation)
-        del_file(cls.metadata)
-        del_dir(cls.dir)
-
     def setUp(self):
         # set params
         self.tool = "player.py"
         self.folder = TestPlayer.dir
         self.video = Path(self.folder).name
 
-        # delete output
-        del_file(f"{self.folder}/{self.video}_demo.mp4")
-
-    def tearDown(self):
         # delete output
         del_file(f"{self.folder}/{self.video}_demo.mp4")
 

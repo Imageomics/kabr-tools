@@ -65,11 +65,7 @@ jobs:
         python -m pip install --no-build-isolation .
     - name: Running unit tests
       shell: bash
-      env:
-        HF_TOKEN: ${{ secrets.HF_TOKEN_TESTING }}
       run: |
-        mkdir /tmp/test
-        cd /tmp/test
-        python -m unittest discover -s "$GITHUB_WORKSPACE/tests" -p "test_detector2cvat.py" -t "$GITHUB_WORKSPACE"
-        python -m unittest discover -s "$GITHUB_WORKSPACE/tests" -p "test_yolo.py" -t "$GITHUB_WORKSPACE"
+        python -m unittest discover -s tests -p "test_detector2cvat.py"
+        python -m unittest discover -s tests -p "test_yolo.py"
 

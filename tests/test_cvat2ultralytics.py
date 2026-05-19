@@ -27,13 +27,7 @@ class TestCvat2Ultralytics(unittest.TestCase):
     def setUpClass(cls):
         # download data
         cls.video, cls.annotation = get_detection()
-        cls.dir = os.path.dirname(os.path.dirname(cls.video))
-
-    @classmethod
-    def tearDownClass(cls):
-        # delete data
-        del_file(cls.video)
-        del_file(cls.annotation)
+        cls.dir = os.path.dirname(cls.video)
 
     def setUp(self):
         self.tool = "cvat2ultralytics.py"
@@ -42,11 +36,6 @@ class TestCvat2Ultralytics(unittest.TestCase):
         self.dataset = os.path.join(TESTSDIR, "ultralytics")
         self.skip = "1"
         self.label2index = os.path.join(REPOROOT, "ethogram", "label2index.json")
-
-    def tearDown(self):
-        # delete outputs
-        del_dir(self.dataset)
-        del_file(f"{self.dataset}.yaml")
 
     def test_run(self):
         # run cvat2ultralytics
