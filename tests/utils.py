@@ -7,13 +7,13 @@ from huggingface_hub import hf_hub_download
 DATA_HUB = "imageomics/kabr_testing"
 REPO_TYPE = "dataset"
 
-DETECTION_VIDEO = "DJI_0068/DJI_0068.mp4"
-DETECTION_ANNOTATION = "DJI_0068/DJI_0068.xml"
+DETECTION_VIDEO = "tests/examples/DJI_0068/DJI_0068.mp4" #DJI 68 - mp4 
+DETECTION_ANNOTATION = "tests/examples/DJI_0068/DJI_0068.xml" #DJI 68 - xml
 
-BEHAVIOR_VIDEO = "DJI_0001/DJI_0001.mp4"
-BEHAVIOR_MINISCENE = "DJI_0001/43.mp4"
-BEHAVIOR_ANNOTATION = "DJI_0001/actions/43.xml"
-BEHAVIOR_METADATA = "DJI_0001/metadata/DJI_0001_metadata.json"
+BEHAVIOR_VIDEO = "tests/examples/DJI_0001/DJI_0001.mp4" #DJI 1 - mp4 
+BEHAVIOR_MINISCENE = "tests/examples/DJI_0001/43.mp4" #DJI 1 - 43 - mp4 
+BEHAVIOR_ANNOTATION = "tests/examples/DJI_0001/actions/43.xml" #DJI 1 - 43 - xml 
+BEHAVIOR_METADATA = "tests/examples/DJI_0001/metadata/DJI_0001_metadata.json" #DJI 1 - metadata - json 
 
 
 def get_hf(repo_id: str, filename: str, repo_type: str):
