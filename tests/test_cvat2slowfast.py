@@ -5,11 +5,11 @@ import json
 import pandas as pd
 import cv2
 from kabr_tools import cvat2slowfast
-from tests.test_tracks_extractor import (
+from test_tracks_extractor import (
     scene_width,
     scene_height
 )
-from tests.utils import (
+from utils import (
     del_dir,
     del_file,
     dir_exists,

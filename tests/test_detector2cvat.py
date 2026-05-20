@@ -8,7 +8,7 @@ import cv2
 import numpy as np
 from kabr_tools import detector2cvat
 from kabr_tools.utils.yolo import YOLOv8
-from tests.utils import (
+from utils import (
     del_dir,
     del_file,
     file_exists,

@@ -10,7 +10,7 @@ from kabr_tools import tracks_extractor
 from kabr_tools.utils.tracker import Tracker
 from kabr_tools.utils.detector import Detector
 from kabr_tools.utils.utils import get_scene
-from tests.utils import (
+from utils import (
     get_detection,
     dir_exists,
     file_exists,

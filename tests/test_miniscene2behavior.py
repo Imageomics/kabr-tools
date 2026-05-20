@@ -20,7 +20,7 @@ from kabr_tools.miniscene2behavior import (
     annotate_miniscene,
     extract_config
 )
-from tests.utils import (
+from utils import (
     clean_empty_dirs,
     del_file,
     del_dir,

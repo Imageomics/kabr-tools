@@ -5,7 +5,7 @@ from pathlib import Path
 import cv2 as real_cv2
 from unittest.mock import patch, MagicMock
 from kabr_tools import player
-from tests.utils import (
+from utils import (
     del_file,
     del_dir,
     file_exists,

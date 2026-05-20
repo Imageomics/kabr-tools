@@ -5,7 +5,7 @@ from lxml import etree
 import pandas as pd
 import cv2
 from kabr_tools import cvat2ultralytics
-from tests.utils import (
+from utils import (
     del_dir,
     del_file,
     get_detection,

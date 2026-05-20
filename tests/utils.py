@@ -7,7 +7,8 @@ from huggingface_hub import hf_hub_download
 #DATA_HUB = "imageomics/kabr_testing"
 #REPO_TYPE = "dataset"
 
-BASE = "kabr-tools/tests/dataset"
+# Change from hugging face to local test data
+BASE = "tests/dataset"
 
 DETECTION_VIDEO = BASE + "/DJI_0068/DJI_0068.mp4" #DJI 68 - mp4 
 DETECTION_ANNOTATION = BASE + "/DJI_0068/DJI_0068.xml" #DJI 68 - xml
