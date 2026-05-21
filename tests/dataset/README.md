@@ -10,7 +10,8 @@ dataset/
 |  ├─ 43.mp4
 |  └─ 43.xml
 ├─ DJI_0001/
-|  ├─ DJI_0001_metadata.json
+|  ├─ metadata/
+|  |  └─ DJI_0001_metadata.json
 |  ├─ DJI_0001_tracks.xml
 |  └─ DJI_0001.mp4
 ├─ DJI_0068/

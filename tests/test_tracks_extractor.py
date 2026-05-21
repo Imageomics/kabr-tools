@@ -32,13 +32,13 @@ class TestTracksExtractor(unittest.TestCase):
     def setUpClass(cls):
         # download data
         cls.video, cls.annotation = get_detection()
-
+    
     @classmethod
     def tearDownClass(cls):
         # delete data
         del_file(cls.video)
         del_file(cls.annotation)
-
+    
     def setUp(self):
         # set params
         self.tool = "tracks_extractor.py"
