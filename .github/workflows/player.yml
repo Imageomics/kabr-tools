@@ -66,7 +66,5 @@ jobs:
       env:
         HF_TOKEN: ${{ secrets.HF_TOKEN_TESTING }}
       run: |
-        mkdir /tmp/test
-        cd /tmp/test
-        python -m unittest discover -s "$GITHUB_WORKSPACE/tests" -p "test_player.py" -t "$GITHUB_WORKSPACE"
+        python -m unittest discover -s tests -p "test_tracks_extractor.py"
 
