@@ -66,5 +66,5 @@ jobs:
       env:
         HF_TOKEN: ${{ secrets.HF_TOKEN_TESTING }}
       run: |
-        python -m unittest discover -s tests -p "test_tracks_extractor.py"
+        python -m unittest discover -s tests -p "test_player.py"
 
