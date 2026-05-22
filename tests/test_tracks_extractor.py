@@ -10,7 +10,7 @@ from kabr_tools import tracks_extractor
 from kabr_tools.utils.tracker import Tracker
 from kabr_tools.utils.detector import Detector
 from kabr_tools.utils.utils import get_scene
-from tests.utils import (
+from utils import (
     get_detection,
     dir_exists,
     file_exists,
@@ -32,12 +32,15 @@ class TestTracksExtractor(unittest.TestCase):
     def setUpClass(cls):
         # download data
         cls.video, cls.annotation = get_detection()
+        print(cls.video)
+        print(cls.annotation)
     
     @classmethod
     def tearDownClass(cls):
         # delete data
-        del_file(cls.video)
-        del_file(cls.annotation)
+        if os.getenv("NO_DELETE") != "1":
+            del_file(cls.video)
+            del_file(cls.annotation)
     
     def setUp(self):
         # set params
@@ -47,11 +50,12 @@ class TestTracksExtractor(unittest.TestCase):
 
         # remove output directory
         del_dir("mini-scenes")
-
+    
     def tearDown(self):
         # remove output directory
-        del_dir("mini-scenes")
-
+        if os.getenv("NO_DELETE") != "1":
+            del_dir("mini-scenes")
+    
     def test_run(self):
         # run tracks_extractor
         sys.argv = [self.tool,
