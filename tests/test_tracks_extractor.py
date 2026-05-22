@@ -208,6 +208,3 @@ class TestTracksExtractor(unittest.TestCase):
 
         # run tracks_extractor
         run()
-
-if __name__ == "__main__":
-    unittest.main()
