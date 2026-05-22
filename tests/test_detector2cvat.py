@@ -8,7 +8,7 @@ import cv2
 import numpy as np
 from kabr_tools import detector2cvat
 from kabr_tools.utils.yolo import YOLOv8
-from utils import (
+from tests.utils import (
     del_dir,
     del_file,
     file_exists,
@@ -76,14 +76,14 @@ class TestDetector2Cvat(unittest.TestCase):
         # download data
         cls.video, cls.annotation = get_detection()
         cls.dir = os.path.dirname(cls.video)
-
+    '''
     @classmethod
     def tearDownClass(cls):
         # delete data
         del_file(cls.video)
         del_file(cls.annotation)
         del_dir(cls.dir)
-
+    '''
     def setUp(self):
         # set params
         self.tool = "detector2cvat.py"
@@ -93,11 +93,11 @@ class TestDetector2Cvat(unittest.TestCase):
         self.label_map = os.path.join(REPOROOT, "ethogram", "yolo_equiv.json")
         self.yolo = "yolov5s.pt"
         self.dir = "/".join(Path(self.video).parts[-2:])
-
+    '''
     def tearDown(self):
         # delete outputs
         del_dir(self.save)
-
+    '''
     def test_run(self):
         # check if tool runs on real data
         save = f"{self.save}/run"

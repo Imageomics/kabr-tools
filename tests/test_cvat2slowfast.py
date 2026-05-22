@@ -9,7 +9,7 @@ from test_tracks_extractor import (
     scene_width,
     scene_height
 )
-from utils import (
+from tests.utils import (
     del_dir,
     del_file,
     dir_exists,
@@ -31,8 +31,8 @@ class TestCvat2Slowfast(unittest.TestCase):
     def setUpClass(cls):
         # download data
         cls.video, cls.miniscene, cls.annotation, cls.metadata = get_behavior()
-        cls.dir = os.path.dirname(os.path.dirname(cls.video))
-
+        cls.dir = os.path.dirname(cls.video)
+    '''
     @classmethod
     def tearDownClass(cls):
         # delete data
@@ -41,23 +41,24 @@ class TestCvat2Slowfast(unittest.TestCase):
         del_file(cls.annotation)
         del_file(cls.metadata)
         del_dir(cls.dir)
-
+    '''
     def setUp(self):
         # set params
         self.tool = "cvat2slowfast.py"
-        self.miniscene = TestCvat2Slowfast.dir
+        self.miniscene = TestCvat2Slowfast.miniscene
         self.dataset = os.path.join(TESTSDIR, "slowfast")
         self.classes = os.path.join(REPOROOT, "ethogram", "classes.json")
         self.old2new = os.path.join(REPOROOT, "ethogram", "old2new.json")
-
+    '''
     def tearDown(self):
         # delete outputs
         del_dir(self.dataset)
-
+    '''
     def test_run(self):
         # run cvat2slowfast
         sys.argv = [self.tool,
                     "--miniscene", self.miniscene,
+                    "--annotation", self.annotation,
                     "--dataset", self.dataset,
                     "--classes", self.classes]
         run()
@@ -87,7 +88,7 @@ class TestCvat2Slowfast(unittest.TestCase):
             self.assertEqual(row["frame_id"], i+1)
             self.assertEqual(row["path"], f"Z{video_id:04d}/{i+1}.jpg")
             self.assertEqual(row["labels"], 1)
-        self.assertEqual(i, 90)
+            self.assertEqual(i, 90)
 
         # check dataset
         for i in range(1, 92):

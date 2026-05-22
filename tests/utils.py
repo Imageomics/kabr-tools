@@ -14,9 +14,9 @@ DETECTION_VIDEO = BASE + "/DJI_0068/DJI_0068.mp4" #DJI 68 - mp4
 DETECTION_ANNOTATION = BASE + "/DJI_0068/DJI_0068.xml" #DJI 68 - xml
 
 BEHAVIOR_VIDEO = BASE + "/DJI_0001/DJI_0001.mp4" #DJI 1 - mp4 
-BEHAVIOR_MINISCENE = BASE + "/43/43.mp4" #DJI 1 - 43 - mp4 
-BEHAVIOR_ANNOTATION = BASE + "/43/43.xml" #DJI 1 - 43 - xml 
-BEHAVIOR_METADATA = BASE + "/DJI_0001/DJI_0001_metadata.json" #DJI 1 - metadata - json 
+BEHAVIOR_MINISCENE = BASE + "/DJI_0001/43.mp4" #DJI 1 - 43 - mp4 
+BEHAVIOR_ANNOTATION = BASE + "/DJI_0001/actions/43.xml" #DJI 1 - 43 - xml 
+BEHAVIOR_METADATA = BASE + "/DJI_0001/metadata/DJI_0001_metadata.json" #DJI 1 - metadata - json 
 
 '''
 def get_hf(repo_id: str, filename: str, repo_type: str):

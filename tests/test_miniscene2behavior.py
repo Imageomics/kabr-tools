@@ -20,7 +20,7 @@ from kabr_tools.miniscene2behavior import (
     annotate_miniscene,
     extract_config
 )
-from utils import (
+from tests.utils import (
     clean_empty_dirs,
     del_file,
     del_dir,
@@ -85,7 +85,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
                 cls.model_output = f"{yaml.load(cfg)['OUTPUT_DIR']}/checkpoints"
             except Exception:
                 pass
-
+    '''
     @classmethod
     def tearDownClass(cls):
         # remove model files after tests
@@ -98,7 +98,7 @@ class TestMiniscene2Behavior(unittest.TestCase):
         del_file(cls.video)
         del_file(cls.annotation)
         del_dir(cls.miniscene)
-
+    '''
     def setUp(self):
         self.tool = "miniscene2behavior.py"
         self.hub = "imageomics/x3d-kabr-kinetics"
@@ -112,11 +112,11 @@ class TestMiniscene2Behavior(unittest.TestCase):
         self.output = "DJI_0068.csv"
         self.example = EXAMPLESDIR
         self.patch_index = [1]
-
+    '''
     def tearDown(self):
         # delete output
         del_file(self.output)
-
+    '''
 # load model + run
 
     @patch("kabr_tools.miniscene2behavior.create_model")
