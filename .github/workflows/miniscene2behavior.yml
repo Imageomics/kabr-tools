@@ -59,7 +59,5 @@ jobs:
         python -m pip install --no-build-isolation .
     - name: Running unit tests
       shell: bash
-      env:
-        HF_TOKEN: ${{ secrets.HF_TOKEN_TESTING }}
       run: |
         python -m unittest discover -s tests -p "test_miniscene2behavior.py"
