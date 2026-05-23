@@ -2,12 +2,7 @@ import os
 import shutil
 from pathlib import Path
 import pandas as pd
-from huggingface_hub import hf_hub_download
 
-#DATA_HUB = "imageomics/kabr_testing"
-#REPO_TYPE = "dataset"
-
-# Change from hugging face to local test data
 BASE = "tests/dataset"
 
 DETECTION_VIDEO = BASE + "/DJI_0068/DJI_0068.mp4" #DJI 68 - mp4 
@@ -17,15 +12,6 @@ BEHAVIOR_VIDEO = BASE + "/DJI_0001/DJI_0001.mp4" #DJI 1 - mp4
 BEHAVIOR_MINISCENE = BASE + "/DJI_0001/43.mp4" #DJI 1 - 43 - mp4 
 BEHAVIOR_ANNOTATION = BASE + "/DJI_0001/actions/43.xml" #DJI 1 - 43 - xml 
 BEHAVIOR_METADATA = BASE + "/DJI_0001/metadata/DJI_0001_metadata.json" #DJI 1 - metadata - json 
-
-'''
-def get_hf(repo_id: str, filename: str, repo_type: str):
-    return hf_hub_download(repo_id=repo_id, filename=filename, repo_type=repo_type)
-
-
-def get_cached_datafile(filename: str):
-    return get_hf(DATA_HUB, filename, REPO_TYPE)
-'''
 
 def get_behavior():
     video = BEHAVIOR_VIDEO
