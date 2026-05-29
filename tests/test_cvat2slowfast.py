@@ -32,16 +32,7 @@ class TestCvat2Slowfast(unittest.TestCase):
         # download data
         cls.video, cls.miniscene, cls.annotation, cls.metadata = get_behavior()
         cls.dir = os.path.dirname(os.path.dirname(cls.video))
-    '''
-    @classmethod
-    def tearDownClass(cls):
-        # delete data
-        del_file(cls.video)
-        del_file(cls.miniscene)
-        del_file(cls.annotation)
-        del_file(cls.metadata)
-        del_dir(cls.dir)
-    '''
+
     def setUp(self):
         # set params
         self.tool = "cvat2slowfast.py"
@@ -49,11 +40,7 @@ class TestCvat2Slowfast(unittest.TestCase):
         self.dataset = os.path.join(TESTSDIR, "slowfast")
         self.classes = os.path.join(REPOROOT, "ethogram", "classes.json")
         self.old2new = os.path.join(REPOROOT, "ethogram", "old2new.json")
-    '''
-    def tearDown(self):
-        # delete outputs
-        del_dir(self.dataset)
-    '''
+
     def test_run(self):
         # run cvat2slowfast
         sys.argv = [self.tool,
