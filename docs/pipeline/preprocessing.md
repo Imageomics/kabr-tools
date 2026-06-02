@@ -6,7 +6,7 @@ In order to automatically label the animal videos with behavior, we must first c
 
 ![Mini-scenes](../images/im_mini-scenes.jpg)
 
-**Figure:** A mini-scene is a sub-image cropped from the drone video footage centered on and surrounding a single animal. Mini-scenes simulate the camera as well-aligned with each animal in the frame, compensating for the drone's movement by focusing on just the animal and its immediate surroundings. The KABR dataset consists of mini-scenes and their frame-by-frame behavior annotation.
+**Figure:** A mini-scene is a sub-image cropped from the video footage centered on and surrounding a single animal. Mini-scenes simulate the camera as well-aligned with each animal in the frame, compensating for the drone's movement by focusing on just the animal and its immediate surroundings. 
 
 ## Resources
 
@@ -52,7 +52,7 @@ tracks_extractor --video path_to_videos --annotation path_to_annotations [--trac
 
 ### detector2cvat
 
-[Source: src/kabr_tools/detector2cvat.py](https://github.com/Imageomics/kabr-tools/blob/main/src/kabr_tools/detector2cvat.pyy)
+[Source: src/kabr_tools/detector2cvat.py](https://github.com/Imageomics/kabr-tools/blob/main/src/kabr_tools/detector2cvat.py)
 
 Detect objects with Ultralytics YOLO detections, apply SORT tracking and convert tracks to CVAT format.
 

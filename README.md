@@ -1,22 +1,22 @@
-# kabr-tools  [![DOI](https://zenodo.org/badge/805519058.svg)](https://zenodo.org/doi/10.5281/zenodo.11288083)
+# kabr-tools  [![DOI]()]()
+<!-- need new DOI for this release -->
 
-#### This repository contains tools to perform animal behavioral analysis from drone videos.
+#### This repository contains tools to analyze *in situ* animal behavior from video.
 
-The modular pipeline processes drone video through object detection, individual tracking, and machine learning-based behavioral classification to generate ecological metrics including time budgets, behavioral transitions, land use and habitat, social interactions, and demographic data. Framework design enables integration of novel ML models and adaptation across species and study systems.
+The modular pipeline processes video through object detection, individual tracking, and machine learning-based behavioral classification to generate ecological metrics including time budgets, behavioral transitions, land use and habitat, social interactions, and demographic data. Framework design enables integration of novel ML models and adaptation across species and study systems.
 
 <details>
   <summary>Click to expand detailed description</summary>
 
-Understanding community-level ecological patterns requires scalable methods to process multi-dimensional behavioral data. Traditional field observations are limited in scope, making it difficult to assess behavioral responses across landscapes. To address this, we present Kenyan Animal Behavior Recognition, kabr-tools. This open-source computational ecology framework integrates drone-based video with machine learning to automatically extract behavioral, social, and spatial metrics from wildlife footage.
+Understanding community-level ecological patterns requires scalable methods to process multi-modal and multi-scalar behavioral data. Traditional field observations are limited in scope, making it difficult to assess behavioral responses across landscapes. To address this, we present Kenyan Animal Behavior Recognition, kabr-tools. This open-source computational ecology framework integrates camera-trap and drone video with machine learning to automatically extract behavioral, social, and spatial metrics from wildlife footage.
 
-Our pipeline processes multi-species drone data using object detection, tracking, and behavioral classification to generate five key metrics: time budgets, behavioral transitions, social interactions, habitat associations, and group composition dynamics. Validated on three African species, our system achieved 65 - 70% behavioral classification accuracy, with >95%.
-
+Our pipeline processes multi-species camera trap and drone data using object detection, tracking, and behavioral classification to generate five key metrics: time budgets, behavioral transitions, social interactions, habitat associations, and group composition dynamics. The modular design allows for integration of novel machine learning models and adaptation across species and study systems. We demonstrate the utility of kabr-tools through case studies on zebra time budgets, mixed-species social interactions, and African wild dog individual identification. By automating behavioral monitoring, kabr-tools enables scalable ecological research and conservation applications across diverse ecosystems.
 </details>
 
 
 ## Overview
 
-![](docs/images/visual_abstract.png)
+![](https://imageomics.github.io/kabr-tools/images/kabr-tools-visual-abstract.png)
 **Figure 1:** kabr-tools computational framework for automated wildlife behavioral monitoring. 
 
 ### 🔧 Installation
@@ -57,7 +57,7 @@ pip install -e .
 
 The KABR tools pipeline consists of:
 
-1. **Drone-based video collection**
+1. **Video collection using drones and/or camera traps**
 2. **Annotation and tracking using CVAT**
 3. **Mini-scene extraction**
 4. **Behavior classification**
@@ -79,13 +79,14 @@ Each script can be run via command-line (`<tool-name> -h`) or imported as a modu
 - Scan sampling
 - Drone-based video analysis
 
-#### See [Case Studies](https://imageomics.github.io/kabr-tools/case_studies/overview/) for case studies demonstrating the application of kabr-tools in various ecological contexts, including:
+#### See [Case Studies](https://imageomics.github.io/kabr-tools/case_studies/overview/) for examples demonstrating the application of kabr-tools in various ecological contexts, including:
 - Grevy's zebra time budgets
 - Mixed-species social interactions
+- African wild dog individual behavioral monitoring
 
 #### Example time budget analysis output comparing behavior granularity collected from drone videos versus traditional field observations.
 
-![graph displaying the time budget comparison between drone-based behavior classification and manual field focal observations, demonstrates how drones allow for observations of more behaviors](docs/images/timebuget_drone_manual.png)
+![graph displaying the time budget comparison between drone-based behavior classification and manual field focal observations, demonstrates how drones allow for observations of more behaviors](https://imageomics.github.io/kabr-tools/images/timebuget_drone_manual.png)
 **Figure 2:** Time budget comparison between drone-based behavior classification (bottom) and manual field focal observations (top). 
 
 ## Related Papers
@@ -133,6 +134,6 @@ Open issues on [GitHub](https://github.com/Imageomics/kabr-tools/issues).
 
 ## 🔗 License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [MIT License](https://github.com/Imageomics/kabr-tools/blob/main/LICENSE).
 
-![](docs/images/zebras_boxes.webp)
+![](https://imageomics.github.io/kabr-tools/images/zebras_boxes.webp)

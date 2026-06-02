@@ -1,15 +1,15 @@
 # Pipeline Overview
 
-![Pipeline Diagram](../images/videopipeline.png)
+![Pipeline Diagram](../images/etho-tools-pipeline.png)
 
-**Figure:** KABR tools pipeline for processing drone videos. The pipeline consists of four main steps: video data collection, data pre-processing, behavior labeling, and ecological analysis. Each step is modular and can be adapted to different species and study systems.
+**Figure:** KABR tools pipeline for processing video footage of animal behavior. The pipeline consists of four main steps: video data collection, data pre-processing, behavior labeling, and ecological analysis. Each step is modular and can be adapted to different species and study systems.
 
 ## Pipeline Steps
 
 The KABR tools pipeline consists of four main sequential steps:
 
 ### 1. [Video Data Collection](data-collection.md)
-Collection of drone video footage following best practices for wildlife observation while minimizing disturbance to animals.
+Collect of video footage, using drones and/or cameras, following best practices for wildlife observation while minimizing disturbance to animals.
 
 ### 2. [Data Pre-processing with CVAT](preprocessing.md)  
 Creation of mini-scenes focused on individual animals using detection and tracking, either manual or automated approaches.

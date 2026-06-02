@@ -17,10 +17,10 @@ authors:
 cff-version: 1.2.0
 date-released: "2025-12-03"
 identifiers:
-  - description: "The GitHub release URL of tag v3.0.0."
+  - description: "The GitHub release URL of tag v3.1.0."
     type: url
-    value: "https://github.com/Imageomics/kabr-tools/releases/tag/v3.0.0"
-  - description: "The GitHub URL of the commit tagged with v3.0.0."
+    value: "https://github.com/Imageomics/kabr-tools/releases/tag/v3.1.0"
+  - description: "The GitHub URL of the commit tagged with v3.1.0."
     type: url
     value: "https://github.com/Imageomics/kabr-tools/tree/<commit-hash>" # Update on release
 keywords:
@@ -29,6 +29,8 @@ keywords:
   - giraffe
   - "plains zebra"
   - "Grevy's zebra"
+  - "African wild dog"
+  - "The Wilds"
   - video
   - "animal behavior"
   - "behavior recognition"
@@ -46,6 +48,6 @@ license: MIT
 message: "If you use this software, please cite it using these metadata and also cite the associated KABR tools paper."
 repository-code: "https://github.com/Imageomics/kabr-tools"
 title: "KABR Tools"
-version: 3.0.0
-doi: 10.5281/zenodo.11288083
+version: 3.1.0
+doi: 
 type: software

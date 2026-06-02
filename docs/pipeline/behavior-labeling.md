@@ -46,6 +46,7 @@ miniscene2behavior --config config.yml --checkpoint checkpoint_epoch_00075.pyth 
 ## Resources
 
 - [Pre-trained KABR model](https://huggingface.co/imageomics/x3d-kabr-kinetics) on Hugging Face.
+- [Pre-trained African wild dog model](https://huggingface.co/imageomics/african_wild_dog_behaviors) on Hugging Face.
 - [Ethogram definitions](https://github.com/Imageomics/kabr-tools/tree/main/ethogram) - Behavior classification system used for zebra videos.
 - [Example annotated outputs](https://huggingface.co/imageomics/x3d-kabr-kinetics/tree/main/data/mini_scene_behavior_annotations) on Hugging Face.
 

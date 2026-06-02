@@ -212,3 +212,5 @@ scratchpad*
 /kabr-tools/*
 
 .python-version
+
+/kabr-tools/docs/case_studies/04_individual_behavior/data/frame_annotations.csv

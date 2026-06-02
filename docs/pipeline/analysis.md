@@ -3,56 +3,18 @@
 ## Overview
 
 After labeling mini-scenes with behaviors, you can perform various ecological analyses to generate insights from your behavioral data. The KABR tools framework supports multiple types of analysis including time budgets, social interactions, and behavioral transitions.
-
-## Time Budget Analysis
-
-Time budget analysis shows how animals allocate their time across different behaviors during observation periods.
-
-### Example Analysis
-
-<div style="display: flex; justify-content: space-between;">
-  <img src="https://github.com/Imageomics/kabr-tools/blob/main/docs/images/01_18_session_7_flightpath.png" alt="drone_telemetry" style="width: 48%;">
-  <img src="https://github.com/Imageomics/kabr-tools/blob/main/docs/images/grevys.png" alt="grevys" style="width: 48%;">
-</div>
-
-**Figure 1:** Example flight path and video clip from KABR dataset: two male Grevy's zebras observed for 10 minutes on 01/18/23.
-
-![Time Budget](../images/timebudget.png)
-
-**Figure 2:** Overall time budget for duration of 10 minute observation.
-
-![Timeline 1](../images/timeline0.png)
-![Timeline 2](../images/timeline1.png)
-
-**Figure 3:** Gantt chart for each zebra (3 minute duration).
-
-### Implementation
-
-See the [time budgets notebook](../case_studies/0_time_budget/time_budget.ipynb) for the code to create these visualizations.
-
-## Social Interactions
-
-Social interaction analysis examines how different species and individuals interact within the same environment, including proximity patterns and mixed-species associations.
-
-### Implementation
-
-See the [social interactions notebook](../case_studies/3_mixed_species_social/mixed_species_overlap.ipynb) for the code to create these visualizations.
-
-## Behavior Transitions
-
-Behavioral transition analysis reveals patterns in how animals move between different behavioral states over time, providing insights into behavioral sequences and decision-making processes.
-
-### Implementation
-
-See the [behavior transitions notebook](../case_studies/2_zebra_transition/behaviortransitionsheatmap.ipynb) for the code to create these visualizations.
+- **Time budget analysis** shows how animals allocate their time across different behaviors during observation periods. See the [worked example](worked-example.md) for code to create time budget visualizations.
+- **Social interaction** analysis examines how different species and individuals interact within the same environment, including proximity patterns and mixed-species associations. See the [social interactions notebook](../case_studies/3_mixed_species_social/mixed_species_overlap.ipynb) for the code to create these visualizations.
+- **Behavioral transition** analysis reveals patterns in how animals move between different behavioral states over time, providing insights into behavioral sequences and decision-making processes. See the [behavior transitions notebook](../case_studies/2_zebra_transition/behaviortransitionsheatmap.ipynb) for the code to create these visualizations.
 
 ## Case Studies
 
 Explore real-world applications in the case studies directory:
 
 - **[Grevy's Landscape Analysis](../case_studies/overview.md#case-study-1-grevys-landscape-of-fear)** - Landscape-scale behavioral analysis.
-- **[Mixed Species Social](../case_studies/overview.md#case-study-2-zebra-state-transitions)** - Multi-species interaction analysis.
-- **[Zebra Behavior Transitions](../case_studies/overview.md#case-study-3-mixed-species-social-interactions)** - Behavioral transition patterns.
+- **[Zebra Behavior Transitions](../case_studies/overview.md#case-study-2-zebra-state-transitions)** - Behavioral transition patterns.
+- **[Mixed Species Social](../case_studies/overview.md#case-study-3-mixed-species-social-interactions)** - Multi-species interaction analysis.
+- **[African Wild Dog Individual Monitoring](../case_studies/overview.md#case-study-4-african-wild-dog-individual-behavioral-monitoring)** - Individual-level behavioral monitoring from camera trap videos.
 
 ## Key Metrics Generated
 

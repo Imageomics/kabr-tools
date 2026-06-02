@@ -98,18 +98,18 @@ nav:
   - Methodology Comparisons:
     - Overview: methodology_comparison/overview.md
     - KABR Dataset Analysis: methodology_comparison/kabr_dataset/data_analysis.ipynb
+    - Scan Sampling vs Focal:
+      - By Species: methodology_comparison/scanvsfocal/analysis/cm-scan-vs-focal-by-species.ipynb
     - Focal Sampling vs Drone:
       - Comparison: methodology_comparison/focalvsdrone/analysis/cm-focal-vs-drone.ipynb
       - Gantt Charts: methodology_comparison/focalvsdrone/analysis/gantt_chart.ipynb
-      - By Species: methodology_comparison/scanvsfocal/analysis/cm-scan-vs-focal-by-species.ipynb
   - Case Studies:
     - Overview: case_studies/overview.md
     - "0: Time Budget Analysis": case_studies/0_time_budget/time_budget.ipynb
-    - "1: Grevy's Landscape of Fear":
-      - "Visualizations": case_studies/1_grevys_landscape/grevys_landscape_graphs.ipynb
-      - "Linear Regression": case_studies/1_grevys_landscape/grevys_landscape_lr.ipynb
+    - "1: Grevy's Landscape of Fear": case_studies/1_grevys_landscape/grevys_landscape.ipynb
     - "2: Zebra Behavior Transitions": case_studies/2_zebra_transition/behaviortransitionsheatmap.ipynb
     - "3: Mixed Species Social": case_studies/3_mixed_species_social/mixed_species_overlap.ipynb
+    - "4: African Wild Dog": case_studies/04_individual_behavior/individual_time_budgets.ipynb
   - Acknowledgements: acknowledgements.md
 
 extra:
