@@ -1,0 +1,32 @@
+abstract: "Tools for working with data for annotating animal behavior. These were specifically designed during construction of the KABR mini-scene dataset and have since been generalized and improved."
+authors:
+- name: "Anonymous"
+cff-version: 1.2.0
+date-released: "2025-12-03"
+keywords:
+  - zebra
+  - giraffe
+  - "plains zebra"
+  - "Grevy's zebra"
+  - "African wild dog"
+  - "The Wilds"
+  - video
+  - "animal behavior"
+  - "behavior recognition"
+  - annotation
+  - "annotated video"
+  - conservation
+  - drone
+  - UAV
+  - imbalanced
+  - Kenya
+  - "Mpala Research Centre"
+  - CVAT
+  - SlowFast
+license: MIT
+message: "If you use this software, please cite it using these metadata and also cite the associated Etho tools paper."
+repository-code: "https://github.com/anonymous/etho-tools"
+title: "Etho Tools"
+version: 3.1.0
+doi: 
+type: software

@@ -1,0 +1,3 @@
+Download the African wild dog dataset from [African Wild Dogs](https://huggingface.co/datasets/imageomics/african_wild_dogs). This dataset contains videos and annotations of African wild dogs in The Wilds, located in southeastern Ohio, collected using drones and camera traps. The dataset includes:
+- Raw videos of African wild dogs in their enclosure, captured using drones and camera traps.
+- Annotations of individual wild dogs, including bounding boxes and associate individual identifications and behavior labels, created using CVAT.

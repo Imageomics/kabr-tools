@@ -1,0 +1,10 @@
+{
+    "Walk": 0,
+    "Graze": 1,
+    "Browse": 2,
+    "Head Up": 3,
+    "Auto-Groom": 4,
+    "Trot": 5,
+    "Run": 6,
+    "Occluded": 7
+}

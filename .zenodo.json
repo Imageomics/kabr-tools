@@ -1,0 +1,32 @@
+{
+    "creators": [
+      {
+          "name": "Anonymous"
+      }
+    ],
+    "description": "Tools for working with data for annotating animal behavior. These were specifically designed during construction of the KABR mini-scene dataset and have since been generalized and improved.",
+    "notes": "<p>If you use this software, please cite both the article and the software itself.</p>\n<p>&nbsp;</p>\n<p>Article citation:</p>\n<p><code>@article{anonymous2025ethotools,</code><br><code>&nbsp; title = {etho-tools: Automated Framework for Multi-Species Behavioral Monitoring},&nbsp;</code><br><code>&nbsp; author = {Anonymous},</code><br><code>&nbsp; year = {2025},</code><br><code>}</code></p>",
+    "keywords": [
+      "zebra",
+      "giraffe",
+      "plains zebra",
+      "Grevy's zebra",
+      "video",
+      "animal behavior",
+      "behavior recognition",
+      "annotation",
+      "annotated video",
+      "conservation",
+      "drone",
+      "UAV",
+      "imbalanced",
+      "Kenya",
+      "Mpala Research Centre",
+      "CVAT",
+      "SlowFast"
+    ],
+    "title": "Etho Tools",
+    "version": "3.0.0",
+    "license": "MIT",
+    "publication_date": "2025-12-03"
+}

@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<annotations>
+  <track id="0" label="Grevy" source="manual">
+    <box frame="0" outside="0" occluded="0" keyframe="1" xtl="2011.00" ytl="1883.00" xbr="2133.00" ybr="1978.00" z_order="0"/>
+    <box frame="1" outside="0" occluded="0" keyframe="0" xtl="2011.00" ytl="1883.00" xbr="2133.00" ybr="1978.00" z_order="0"/>
+    <box frame="2" outside="0" occluded="0" keyframe="0" xtl="2011.00" ytl="1883.00" xbr="2133.00" ybr="1978.00" z_order="0"/>
+    <box frame="3" outside="0" occluded="0" keyframe="0" xtl="2011.00" ytl="1883.00" xbr="2133.00" ybr="1978.00" z_order="0"/>
+    <box frame="4" outside="0" occluded="0" keyframe="0" xtl="2011.00" ytl="1883.00" xbr="2134.00" ybr="1978.00" z_order="0"/>
+    <box frame="5" outside="0" occluded="0" keyframe="0" xtl="2011.00" ytl="1883.00" xbr="2134.00" ybr="1978.00" z_order="0"/>
+    <box frame="6" outside="0" occluded="0" keyframe="0" xtl="2011.00" ytl="1883.00" xbr="2134.00" ybr="1978.00" z_order="0"/>
+    <box frame="7" outside="0" occluded="0" keyframe="0" xtl="2012.00" ytl="1883.00" xbr="2134.00" ybr="1978.00" z_order="0"/>
+    <box frame="8" outside="0" occluded="0" keyframe="0" xtl="2012.00" ytl="1883.00" xbr="2134.00" ybr="1978.00" z_order="0"/>
+    <box frame="9" outside="0" occluded="0" keyframe="0" xtl="2012.00" ytl="1883.00" xbr="2134.00" ybr="1978.00" z_order="0"/>
+    <box frame="10" outside="0" occluded="0" keyframe="0" xtl="2012.00" ytl="1882.00" xbr="2134.00" ybr="1978.00" z_order="0"/>
+  </track>
+  <track id="1" label="Grevy" source="manual">
+    <box frame="40" outside="0" occluded="0" keyframe="1" xtl="2513.00" ytl="1921.00" xbr="2615.00" ybr="1991.00" z_order="0"/>
+    <box frame="41" outside="0" occluded="0" keyframe="0" xtl="2513.00" ytl="1921.00" xbr="2615.00" ybr="1991.00" z_order="0"/>
+    <box frame="42" outside="0" occluded="0" keyframe="0" xtl="2512.00" ytl="1921.00" xbr="2614.00" ybr="1991.00" z_order="0"/>
+    <box frame="43" outside="0" occluded="0" keyframe="0" xtl="2512.00" ytl="1921.00" xbr="2613.00" ybr="1991.00" z_order="0"/>
+    <box frame="44" outside="0" occluded="0" keyframe="0" xtl="2511.00" ytl="1921.00" xbr="2613.00" ybr="1991.00" z_order="0"/>
+    <box frame="45" outside="0" occluded="0" keyframe="0" xtl="2510.00" ytl="1921.00" xbr="2612.00" ybr="1991.00" z_order="0"/>
+    <box frame="46" outside="0" occluded="0" keyframe="0" xtl="2510.00" ytl="1921.00" xbr="2612.00" ybr="1991.00" z_order="0"/>
+    <box frame="47" outside="0" occluded="0" keyframe="0" xtl="2509.00" ytl="1921.00" xbr="2611.00" ybr="1991.00" z_order="0"/>
+    <box frame="48" outside="0" occluded="0" keyframe="0" xtl="2508.00" ytl="1921.00" xbr="2610.00" ybr="1991.00" z_order="0"/>
+    <box frame="49" outside="0" occluded="0" keyframe="0" xtl="2508.00" ytl="1921.00" xbr="2610.00" ybr="1991.00" z_order="0"/>
+    <box frame="50" outside="0" occluded="0" keyframe="0" xtl="2507.00" ytl="1921.00" xbr="2609.00" ybr="1991.00" z_order="0"/>
+  </track>
+</annotations>
